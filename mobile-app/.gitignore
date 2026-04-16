@@ -1,0 +1,19 @@
+# Expo
+.expo/
+expo-env.d.ts
+
+# Native build outputs
+android/
+ios/
+*.apk
+*.aab
+*.ipa
+
+# Dependencies
+node_modules/
+
+# EAS
+.eas/
+
+# app.json branding fields are GENERATED (partial) by apply-branding
+# Track the file but never manually edit branding fields.

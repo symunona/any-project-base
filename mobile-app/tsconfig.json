@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@any-project-base/commons": ["../commons/index.ts"],
+      "@any-project-base/commons/*": ["../commons/*"]
+    }
+  }
+}
