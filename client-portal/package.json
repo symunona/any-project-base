@@ -1,0 +1,14 @@
+{
+  "name": "client-portal",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@any-project-base/commons": "workspace:*"
+  }
+}
