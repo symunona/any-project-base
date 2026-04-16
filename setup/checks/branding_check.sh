@@ -19,7 +19,7 @@ PRIMARY=$(grep '^primary:' "$COLORS_YAML" | awk '{print $2}' | tr -d '"')
 # globals.css must have --color-primary matching
 CSS_FILE="$ROOT_DIR/commons/styles/globals.css"
 if [ -f "$CSS_FILE" ]; then
-  CSS_PRIMARY=$(grep -oP '(?<=--color-primary:\s)#[0-9a-fA-F]+' "$CSS_FILE" | head -1)
+  CSS_PRIMARY=$(grep -F -- '--color-primary' "$CSS_FILE" | grep -oP '#[0-9a-fA-F]+' | head -1)
   if [ "$CSS_PRIMARY" != "$PRIMARY" ] && [ -n "$PRIMARY" ] && [ -n "$CSS_PRIMARY" ]; then
     echo "FAIL color mismatch: colors.yaml=$PRIMARY but globals.css=$CSS_PRIMARY"
     FAIL=1

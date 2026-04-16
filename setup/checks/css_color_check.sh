@@ -12,9 +12,16 @@ while IFS= read -r -d '' file; do
     */globals.css|*/colors.yaml|*/palette.js|*/palette-template.html|*/node_modules/*|*/.git/*) continue ;;
   esac
 
-  # Check for hardcoded colors in CSS files
+  # Check for hardcoded brand colors in CSS files.
+  # Allow: #fff #000 #ffffff #000000 and rgba/rgb with only 0 or 255 channels
+  # (structural overlay colors — not brand colors).
   if [[ "$file" == *.css ]]; then
-    if grep -nP '(#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\()' "$file" 2>/dev/null; then
+    HITS=$(grep -nP '(#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\()' "$file" 2>/dev/null \
+      | grep -vP '#(fff|000|ffffff|000000)\b' \
+      | grep -vP 'rgba?\(\s*(0|255)\s*,\s*(0|255)\s*,\s*(0|255)' \
+      || true)
+    if [ -n "$HITS" ]; then
+      echo "$HITS"
       VIOLATIONS+=("$file")
     fi
   fi

@@ -19,12 +19,12 @@ fi
 FAIL=0
 
 # Check each locale file has same keys as en.ts
-EN_KEYS=$(grep -oP "^\s+\K\w+(?=:)" "$EN_FILE" | sort)
+EN_KEYS=$(grep -oP "^\s+['\"]?\K[\w.]+(?=['\"]?\s*:)" "$EN_FILE" | sort)
 
 for locale_file in "$MESSAGES_DIR"/*.ts; do
   [ "$locale_file" = "$EN_FILE" ] && continue
   LOCALE=$(basename "$locale_file" .ts)
-  LOCALE_KEYS=$(grep -oP "^\s+\K\w+(?=:)" "$locale_file" | sort)
+  LOCALE_KEYS=$(grep -oP "^\s+['\"]?\K[\w.]+(?=['\"]?\s*:)" "$locale_file" | sort)
 
   MISSING=$(comm -23 <(echo "$EN_KEYS") <(echo "$LOCALE_KEYS"))
   EXTRA=$(comm -13 <(echo "$EN_KEYS") <(echo "$LOCALE_KEYS"))
