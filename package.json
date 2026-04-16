@@ -1,0 +1,43 @@
+{
+  "name": "any-project-base",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "just dev",
+    "check": "just check",
+    "build": "pnpm -r build"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.2",
+    "@typescript-eslint/eslint-plugin": "8.32.0",
+    "@typescript-eslint/parser": "8.32.0",
+    "eslint": "9.26.0",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "eslint-plugin-security": "3.0.1",
+    "knip": "5.55.0",
+    "typescript": "5.8.3",
+    "vite": "6.3.3",
+    "@vitejs/plugin-react": "4.4.1",
+    "tailwindcss": "4.1.5",
+    "@tailwindcss/vite": "4.1.5",
+    "vite-plugin-pwa": "0.21.1"
+  },
+  "dependencies": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-router": "7.5.3",
+    "@tanstack/react-query": "5.74.4",
+    "lucide-react": "0.511.0",
+    "@supabase/supabase-js": "2.49.4",
+    "@supabase/ssr": "0.6.1",
+    "hono": "4.7.7",
+    "zod": "3.24.4"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}

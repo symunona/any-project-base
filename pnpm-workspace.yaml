@@ -1,0 +1,5 @@
+packages:
+  - 'commons'
+  - 'client-portal'
+  - 'admin-portal'
+  - 'landing'

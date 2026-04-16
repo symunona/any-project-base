@@ -1,0 +1,38 @@
+# ── Identity ──────────────────────────────────────────
+name: any-project-base
+domain: any-project-base.com
+tagline: "Your tagline here"
+git_url: ""
+
+# ── Agent ─────────────────────────────────────────────
+agent: claude
+agent_flags: "--model claude-sonnet-4-6"
+
+# ── Branding ──────────────────────────────────────────
+# Source of truth is branding/colors.yaml — this block synced by apply-branding
+theme_colors:
+  primary:   "#6366f1"
+  secondary: "#8b5cf6"
+  accent:    "#06b6d4"
+  success:   "#10b981"
+  danger:    "#ef4444"
+
+# ── Deployment ────────────────────────────────────────
+static_host: cloudflare                # vercel | cloudflare | netlify
+
+# ── Features ──────────────────────────────────────────
+pricing_model: none                    # none | credits | subscription_credits | tiers
+analytics: none                        # none | posthog
+error_monitoring: none                 # none | sentry
+push_notifications: none               # none | firebase
+
+# ── Auth ──────────────────────────────────────────────
+auth_providers:
+  - email                              # always included
+
+# ── Locales ───────────────────────────────────────────
+default_locale: en
+supported_locales: [en]
+
+# ── Environments ──────────────────────────────────────
+envs: [local, test, prod]
