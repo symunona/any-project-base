@@ -1,0 +1,139 @@
+/* Landing-specific styles. Only use var(--color-*) for colors — never hardcode. */
+/* Checker: setup/checks/css_color_check.sh */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Video background ─────────────────────────────── */
+.video-bg-container {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+.video-bg-container iframe {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100vw; min-height: 100vh;
+  width: calc(100vh * 16 / 9); height: calc(100vw * 9 / 16);
+  pointer-events: none;
+}
+.video-bg-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: -1;
+}
+
+/* ── Nav ──────────────────────────────────────────── */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  position: relative;
+  z-index: 10;
+}
+.nav-logo { font-size: 1.2rem; font-weight: 700; color: #fff; text-decoration: none; }
+.lang-selector { display: flex; gap: 8px; }
+.lang-selector a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.lang-selector a:hover, .lang-selector a.active {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+/* ── Hero ─────────────────────────────────────────── */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  text-align: center;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 10;
+}
+.hero h1 {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(255,255,255,0.8);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.hero-cta:hover { opacity: 0.9; }
+
+/* ── Features ─────────────────────────────────────── */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  position: relative;
+  z-index: 10;
+}
+.feature-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 28px 24px;
+  backdrop-filter: blur(10px);
+}
+.feature-card h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.feature-card p  { font-size: 0.875rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 24px;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* ── App store badges ─────────────────────────────── */
+.store-badges { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+.store-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 8px;
+  font-size: 0.875rem; font-weight: 600; transition: background 0.15s;
+}
+.store-badge:hover { background: rgba(255,255,255,0.2); }
