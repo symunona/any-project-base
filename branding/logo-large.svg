@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 48" fill="none">
+  <!-- Placeholder: replace with project logo. Run: just setup-branding -->
+  <rect x="4" y="8" width="32" height="32" rx="8" fill="#6366f1"/>
+  <text x="20" y="29" font-family="system-ui, sans-serif" font-size="18" font-weight="700"
+        text-anchor="middle" fill="white">A</text>
+  <text x="52" y="30" font-family="system-ui, sans-serif" font-size="18" font-weight="700"
+        fill="#1a1a2e">any-project-base</text>
+</svg>

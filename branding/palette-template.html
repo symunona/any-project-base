@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Branding Palette Preview</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f8f8f8; padding: 24px; }
+    h1 { font-size: 18px; font-weight: 700; margin-bottom: 24px; color: #333; }
+    .palettes { display: flex; gap: 24px; flex-wrap: wrap; }
+    .palette { background: white; border-radius: 12px; padding: 20px; min-width: 220px;
+               box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 2px solid transparent; }
+    .palette.selected { border-color: #6366f1; }
+    .palette-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .palette-id { font-size: 12px; color: #888; margin-bottom: 12px; }
+    .logos { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .logo-large svg { height: 40px; }
+    .logo-small svg { height: 32px; }
+    .logo-favicon svg { height: 24px; }
+    .swatches { display: flex; gap: 8px; margin-bottom: 16px; }
+    .swatch { flex: 1; height: 40px; border-radius: 6px; position: relative; cursor: pointer; }
+    .swatch::after { content: attr(data-name); position: absolute; bottom: -18px;
+                     left: 50%; transform: translateX(-50%); font-size: 10px; color: #555;
+                     white-space: nowrap; }
+    .ui-preview { margin-top: 24px; }
+    .ui-preview .nav { padding: 10px 16px; border-radius: 8px; font-size: 14px;
+                       font-weight: 600; color: white; margin-bottom: 8px; }
+    .ui-preview .btn { display: inline-block; padding: 8px 16px; border-radius: 6px;
+                       font-size: 13px; font-weight: 600; color: white; margin-right: 8px;
+                       margin-bottom: 8px; cursor: pointer; }
+    .ui-preview .badge { display: inline-block; padding: 3px 10px; border-radius: 99px;
+                         font-size: 11px; font-weight: 700; margin-right: 6px; }
+    .footer { margin-top: 48px; text-align: center; font-size: 14px; color: #888; }
+    [data-theme="dark"] body { background: #0f0f14; color: #e0e0e0; }
+    [data-theme="dark"] .palette { background: #1a1a2e; }
+    .dark-toggle { position: fixed; top: 16px; right: 16px; cursor: pointer;
+                   background: #333; color: white; border: none; padding: 8px 14px;
+                   border-radius: 6px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <button class="dark-toggle" onclick="document.documentElement.toggleAttribute('data-theme') || document.documentElement.setAttribute('data-theme','dark') || document.documentElement.removeAttribute('data-theme')">
+    Toggle dark
+  </button>
+  <h1>Branding Palette Preview</h1>
+  <div id="root" class="palettes">Loading palette.js...</div>
+  <div class="footer">Type your choice (1–5) in the terminal</div>
+
+  <script>
+    function renderPalettes() {
+      if (typeof palettes === 'undefined') {
+        document.getElementById('root').innerHTML = '<p style="color:#c00">palette.js not found. Run: just setup-branding</p>';
+        return;
+      }
+      const root = document.getElementById('root');
+      root.innerHTML = '';
+      palettes.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'palette' + (p.id === selectedPalette ? ' selected' : '');
+        div.innerHTML = `
+          <div class="palette-name">${p.name}</div>
+          <div class="palette-id">Palette ${p.id}</div>
+          <div class="logos">
+            <div class="logo-large">${p.logos.large}</div>
+            <div class="logo-small">${p.logos.small}</div>
+            <div class="logo-favicon">${p.logos.favicon}</div>
+          </div>
+          <div class="swatches" style="margin-bottom: 24px;">
+            ${Object.entries(p.colors).map(([name, hex]) => `
+              <div class="swatch" style="background:${hex}" data-name="${name}" title="${name}: ${hex}"></div>
+            `).join('')}
+          </div>
+          <div class="ui-preview">
+            <div class="nav" style="background:${p.colors.primary}">${p.name}</div>
+            <div>
+              <span class="btn" style="background:${p.colors.primary}">Primary</span>
+              <span class="btn" style="background:${p.colors.secondary}">Secondary</span>
+              <span class="btn" style="background:${p.colors.danger}">Danger</span>
+            </div>
+            <div>
+              <span class="badge" style="background:${p.colors.success}22; color:${p.colors.success}">success</span>
+              <span class="badge" style="background:${p.colors.danger}22; color:${p.colors.danger}">danger</span>
+              <span class="badge" style="background:${p.colors.accent}22; color:${p.colors.accent}">accent</span>
+            </div>
+          </div>
+        `;
+        root.appendChild(div);
+      });
+    }
+    // Poll for palette.js changes
+    setInterval(() => { renderPalettes(); }, 1500);
+    renderPalettes();
+  </script>
+  <!-- palette.js loaded after page, so it can be swapped without reload -->
+  <script src="palette.js" onerror="void 0"></script>
+</body>
+</html>
