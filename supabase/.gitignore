@@ -1,0 +1,5 @@
+# Supabase local runtime state
+.branches/
+.temp/
+# Generated env files from supabase CLI
+.env

@@ -1,0 +1,50 @@
+import { z } from 'https://deno.land/x/zod@v3.24.4/mod.ts'
+
+// Paging — all list endpoints use this schema. No exceptions.
+export const PageQuerySchema = z.object({
+  limit:  z.coerce.number().min(1).max(100).default(20),
+  offset: z.coerce.number().min(0).default(0),
+  order:  z.string().default('created_at'),
+  dir:    z.enum(['asc', 'desc']).default('desc'),
+  search: z.string().optional(),
+})
+
+// User settings — must match commons/schemas/user-settings.ts exactly.
+// Checker: setup/checks/schema_drift_check.sh diffs these.
+export const NotificationSettingsSchema = z.object({
+  email: z.object({
+    support_reply:    z.boolean().default(true),
+    credit_depletion: z.boolean().default(true),
+    payment_failed:   z.boolean().default(true),
+  }).default({}),
+  push: z.object({
+    support_reply: z.boolean().default(true),
+  }).default({}),
+}).default({})
+
+export const UserSettingsSchema = z.object({
+  onboarding_step:       z.number().int().min(0).default(0),
+  dark_mode:             z.boolean().default(false),
+  notification_settings: NotificationSettingsSchema,
+})
+
+export const UpdateUserSettingsSchema = UserSettingsSchema.partial()
+
+// Support
+export const CreateConversationSchema = z.object({
+  subject: z.string().min(1).max(255).optional(),
+  body:    z.string().min(1).max(10000),
+})
+
+export const SendMessageSchema = z.object({
+  body: z.string().min(1).max(10000),
+})
+
+export const UpdateConversationStatusSchema = z.object({
+  status: z.enum(['new', 'open', 'waiting_on_customer', 'closed']),
+})
+
+// LLM chat
+export const LlmChatSchema = z.object({
+  message: z.string().min(1).max(4000),
+})
