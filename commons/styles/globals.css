@@ -1,0 +1,42 @@
+/* GENERATED — do not edit. Source: setup/branding/apply-branding.sh. Re-generate: just setup-apply-branding. */
+
+@import "tailwindcss";
+
+:root {
+  /* Color palette — edit branding/colors.yaml, then run: just setup-apply-branding */
+  --color-primary:   #6366f1;
+  --color-secondary: #8b5cf6;
+  --color-accent:    #06b6d4;
+  --color-success:   #10b981;
+  --color-danger:    #ef4444;
+  --color-warning:   #f59e0b;
+
+  /* Semantic surface + text */
+  --color-bg:          #f8f9fa;
+  --color-surface:     #ffffff;
+  --color-surface-2:   #f3f4f6;
+  --color-border:      #e5e7eb;
+  --color-text:        #111827;
+  --color-text-muted:  #6b7280;
+}
+
+[data-theme="dark"] {
+  --color-bg:          #0f0f14;
+  --color-surface:     #1a1a2e;
+  --color-surface-2:   #16213e;
+  --color-border:      #2d2d44;
+  --color-text:        #e0e0e0;
+  --color-text-muted:  #9ca3af;
+}
+
+/* Base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

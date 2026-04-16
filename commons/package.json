@@ -1,0 +1,21 @@
+{
+  "name": "@any-project-base/commons",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./styles": "./styles/globals.css",
+    "./api/client": "./api/client.ts",
+    "./api/fetchApi": "./api/fetchApi.ts",
+    "./types": "./types/index.ts",
+    "./hooks": "./hooks/index.ts",
+    "./components": "./components/index.ts",
+    "./i18n": "./i18n/index.ts",
+    "./lib/*": "./lib/*.ts",
+    "./schemas/*": "./schemas/*.ts",
+    "./config": "./config.ts",
+    "./constants": "./constants.ts"
+  }
+}

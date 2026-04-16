@@ -1,0 +1,33 @@
+import type { Messages } from './en'
+
+// Must match en.ts structure exactly. Checker: setup/checks/i18n_check.sh
+export const messages: Messages = {
+  'Common.save':    'Guardar',
+  'Common.cancel':  'Cancelar',
+  'Common.delete':  'Eliminar',
+  'Common.confirm': 'Confirmar',
+  'Common.loading': 'Cargando…',
+  'Common.saved':   'Guardado',
+  'Common.error':   'Algo salió mal',
+  'Errors.generic':       'Algo salió mal. Por favor, inténtelo de nuevo.',
+  'Errors.unauthorized':  'No tiene autorización para hacer esto.',
+  'Errors.notFound':      'No encontrado.',
+  'Errors.credits':       'Sin créditos. Mejore su plan.',
+  'Auth.signIn':          'Iniciar sesión',
+  'Auth.signOut':         'Cerrar sesión',
+  'Auth.email':           'Correo electrónico',
+  'Auth.password':        'Contraseña',
+  'Auth.forgotPassword':  '¿Olvidó su contraseña?',
+  'Nav.dashboard':        'Panel',
+  'Nav.settings':         'Ajustes',
+  'Nav.billing':          'Facturación',
+  'Nav.support':          'Soporte',
+  'Dashboard.title':      'Panel',
+  'Profile.title':        'Perfil',
+  'Profile.name':         'Nombre',
+  'Profile.email':        'Correo electrónico',
+  'Billing.title':        'Facturación',
+  'Support.title':        'Soporte',
+  'Support.newMessage':   'Nuevo mensaje',
+  'Support.send':         'Enviar',
+}

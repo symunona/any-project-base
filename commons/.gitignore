@@ -1,0 +1,3 @@
+dist/
+*.tsbuildinfo
+# types/db.types.ts is GENERATED — tracked but never edit manually

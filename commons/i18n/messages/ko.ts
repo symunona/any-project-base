@@ -1,0 +1,33 @@
+import type { Messages } from './en'
+
+// Must match en.ts structure exactly. Checker: setup/checks/i18n_check.sh
+export const messages: Messages = {
+  'Common.save':    '저장',
+  'Common.cancel':  '취소',
+  'Common.delete':  '삭제',
+  'Common.confirm': '확인',
+  'Common.loading': '로딩 중…',
+  'Common.saved':   '저장됨',
+  'Common.error':   '오류가 발생했습니다',
+  'Errors.generic':       '오류가 발생했습니다. 다시 시도해 주세요.',
+  'Errors.unauthorized':  '이 작업을 수행할 권한이 없습니다.',
+  'Errors.notFound':      '찾을 수 없습니다.',
+  'Errors.credits':       '크레딧이 부족합니다. 플랜을 업그레이드하세요.',
+  'Auth.signIn':          '로그인',
+  'Auth.signOut':         '로그아웃',
+  'Auth.email':           '이메일',
+  'Auth.password':        '비밀번호',
+  'Auth.forgotPassword':  '비밀번호를 잊으셨나요?',
+  'Nav.dashboard':        '대시보드',
+  'Nav.settings':         '설정',
+  'Nav.billing':          '요금제',
+  'Nav.support':          '지원',
+  'Dashboard.title':      '대시보드',
+  'Profile.title':        '프로필',
+  'Profile.name':         '이름',
+  'Profile.email':        '이메일',
+  'Billing.title':        '요금제',
+  'Support.title':        '지원',
+  'Support.newMessage':   '새 메시지',
+  'Support.send':         '보내기',
+}
