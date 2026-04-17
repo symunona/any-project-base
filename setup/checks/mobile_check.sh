@@ -41,11 +41,15 @@ for platform_file in "$MOBILE_DIR/src/platform/"*.ts; do
   fi
 done
 
-# expo export --platform web
-info "Running expo export --platform web..."
-if ! (cd "$MOBILE_DIR" && npx expo export --platform web > /dev/null 2>&1); then
-  echo "FAIL expo export --platform web failed (native leak or build error)"
-  FAIL=1
+# expo export --platform web — requires node_modules
+if [ ! -d "$MOBILE_DIR/node_modules" ]; then
+  echo "SKIP expo export skipped — run pnpm install first" >&2
+else
+  echo "  Running expo export --platform web..." >&2
+  if ! (cd "$MOBILE_DIR" && npx expo export --platform web > /dev/null 2>&1); then
+    echo "FAIL expo export --platform web failed (native leak or build error)"
+    FAIL=1
+  fi
 fi
 
 if [ "$FAIL" -eq 1 ]; then exit 1; fi

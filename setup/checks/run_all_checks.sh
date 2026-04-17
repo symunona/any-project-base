@@ -8,18 +8,45 @@ source "$(dirname "$CHECKS_DIR")/lib/ui.sh"
 header "JUST CHECK"
 
 CHECKS=(
-  "generated_files_check.sh"
-  "css_color_check.sh"
+  # ── Security ──────────────────────────────────────────
+  "secret_leak_check.sh"
+  "service_role_check.sh"
+  "rls_check.sh"
+  "gitignore_check.sh"
+
+  # ── Architecture invariants ───────────────────────────
   "fetch_check.sh"
-  "i18n_check.sh"
+  "sdk_imports_check.sh"
+  "env_access_check.sh"
+  "browser_api_check.sh"
+  "apptype_check.sh"
+  "commons_check.sh"
+  "mobile_check.sh"
+
+  # ── Contract / correctness ────────────────────────────
   "paging_check.sh"
   "schema_drift_check.sh"
-  "branding_check.sh"
+  "billing_guard_check.sh"
   "auth_check.sh"
-  "project_yaml_check.sh"
-  "mobile_check.sh"
+  "seed_check.sh"
+  "migration_order_check.sh"
+
+  # ── Code quality ──────────────────────────────────────
+  "console_log_check.sh"
   "complexity_check.sh"
-  "commons_check.sh"
+  "pinning_check.sh"
+  "tsc_check.sh"
+
+  # ── Config / environment ──────────────────────────────
+  "env_parity_check.sh"
+  "workspace_check.sh"
+  "project_yaml_check.sh"
+
+  # ── Branding / generated files ────────────────────────
+  "generated_files_check.sh"
+  "css_color_check.sh"
+  "i18n_check.sh"
+  "branding_check.sh"
 )
 
 FAIL=0
