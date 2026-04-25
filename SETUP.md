@@ -2,27 +2,22 @@
 
 ## 1. Prerequisites
 
-Install these once on your machine:
+Only two things needed before `just install` can run:
 
-| Tool | Version | Install |
-|------|---------|---------|
-| Node.js | >= 20 | https://nodejs.org or `nvm install 20` |
-| pnpm | >= 10 | `npm install -g pnpm` |
-| Docker | any | https://docker.com/products/docker-desktop |
-| just | any | `brew install just` / `cargo install just` / `snap install --edge just` |
-| Supabase CLI | any | `brew install supabase/tap/supabase` / `npm install -g supabase` |
+| Tool | Install |
+|------|---------|
+| Node.js >= 20 | https://nodejs.org or `nvm install 20` |
+| Docker | https://docker.com/products/docker-desktop |
 
-Or run the tooling check which installs most of them:
+Everything else (pnpm, just, supabase CLI) is installed automatically by the next step.
 
-```bash
-just setup-step tooling
-```
-
-## 2. Install dependencies
+## 2. Install everything
 
 ```bash
 just install
 ```
+
+Installs: pnpm, supabase CLI, just, node dependencies, runs supply chain audit.
 
 ## 3. Start local Supabase
 

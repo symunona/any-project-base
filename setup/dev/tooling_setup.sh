@@ -48,14 +48,16 @@ check_or_install "just" "just --version" "cargo install just 2>/dev/null || brew
 # Supabase CLI
 check_or_install "supabase" "supabase --version" "brew install supabase/tap/supabase 2>/dev/null || npm install -g supabase"
 
-# EAS CLI (optional)
+# EAS CLI (optional — mobile builds only, skip in non-interactive installs)
 if eas --version > /dev/null 2>&1; then
   success "EAS CLI: $(eas --version)"
-else
+elif [ -t 0 ]; then
   info "EAS CLI not found (optional — for app store builds)"
   if confirm "Install EAS CLI?"; then
     npm install -g eas-cli && success "EAS CLI installed" || warn "EAS CLI install failed"
   fi
+else
+  info "EAS CLI not installed (optional — run 'just setup-step tooling' to install)"
 fi
 
 echo ""

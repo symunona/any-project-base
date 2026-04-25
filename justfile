@@ -28,13 +28,16 @@ dev:
 build:
     pnpm -r build
 
-# Install all dependencies (runs supply chain checks after)
+# Install everything: system tools (supabase CLI, Docker, just) + node deps + supply chain check
 [group: 'All']
 install:
     #!/bin/bash
     set -e
+    echo "→ Checking system tools..."
+    bash setup/dev/tooling_setup.sh
+    echo "→ Installing node dependencies..."
     pnpm install
-    echo "Running supply chain checks..."
+    echo "→ Running supply chain checks..."
     bash setup/checks/supply_chain_audit.sh
     echo "Run 'just security-autofix' to auto-patch patchable issues."
 
