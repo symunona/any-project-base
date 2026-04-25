@@ -2,9 +2,10 @@
 # Install just: https://github.com/casey/just
 # Run `just` to list all commands.
 
-# ── Dev ───────────────────────────────────────────────────────────────────────
+# ── All ───────────────────────────────────────────────────────────────────────
 
 # Start all services (supabase + all frontends)
+[group: 'All']
 dev:
     #!/bin/bash
     echo "Starting supabase..."
@@ -17,88 +18,121 @@ dev:
     pnpm --filter landing dev &
     wait
 
-# Start only supabase local stack
-dev-db:
-    supabase start
-
-# Start only client-portal
-dev-client:
-    pnpm --filter client-portal dev
-
-# Start only admin-portal
-dev-admin:
-    pnpm --filter admin-portal dev
-
-# Start only landing
-dev-landing:
-    pnpm --filter landing dev
-
-# ── Build ─────────────────────────────────────────────────────────────────────
-
 # Build all frontend projects
+[group: 'All']
 build:
     pnpm -r build
 
+# Install all dependencies (runs supply chain checks after)
+[group: 'All']
+install:
+    #!/bin/bash
+    set -e
+    pnpm install
+    echo "Running supply chain checks..."
+    pnpm audit --audit-level=high || true
+    @echo "Supply chain check done. Run GlassWorm manually for deep scan."
+
+# ── Client Portal ─────────────────────────────────────────────────────────────
+
+# Start only client-portal
+[group: 'Client Portal']
+dev-client:
+    pnpm --filter client-portal dev
+
 # Build client-portal only
+[group: 'Client Portal']
 build-client:
     pnpm --filter client-portal build
 
+# ── Admin Portal ──────────────────────────────────────────────────────────────
+
+# Start only admin-portal
+[group: 'Admin Portal']
+dev-admin:
+    pnpm --filter admin-portal dev
+
 # Build admin-portal only
+[group: 'Admin Portal']
 build-admin:
     pnpm --filter admin-portal build
 
+# ── Landing ───────────────────────────────────────────────────────────────────
+
+# Start only landing
+[group: 'Landing']
+dev-landing:
+    pnpm --filter landing dev
+
 # Build landing only
+[group: 'Landing']
 build-landing:
     pnpm --filter landing build
 
 # ── Mobile ────────────────────────────────────────────────────────────────────
 
 # Start Expo (QR code → Expo Go on device)
+[group: 'Mobile']
 mobile-dev:
     cd mobile-app && expo start
 
 # Start Expo web target (for Playwright testing)
+[group: 'Mobile']
 mobile-web:
     cd mobile-app && expo start --web
 
 # Install APK on connected Android device via ADB
+[group: 'Mobile']
 mobile-install:
     cd mobile-app && expo run:android
 
 # Build release APK locally
+[group: 'Mobile']
 mobile-build:
     cd mobile-app && eas build --platform android --local
 
 # EAS cloud build
+[group: 'Mobile']
 mobile-eas-build:
     cd mobile-app && eas build --platform android
 
 # Export for web (must succeed in CI — catches native leaks)
+[group: 'Mobile']
 mobile-export:
     cd mobile-app && expo export --platform web
 
-# ── Supabase ──────────────────────────────────────────────────────────────────
+# ── Database ──────────────────────────────────────────────────────────────────
+
+# Start only supabase local stack
+[group: 'Database']
+dev-db:
+    supabase start
 
 # Reset DB: apply all migrations + seed
+[group: 'Database']
 db-reset:
     supabase db reset
 
 # Regenerate TypeScript types from local DB schema
+[group: 'Database']
 db-types:
     supabase gen types typescript --local > commons/types/db.types.ts
     @echo "Regenerated commons/types/db.types.ts"
 
 # Start edge functions server
+[group: 'Database']
 db-functions:
     supabase functions serve
 
 # Forward Stripe webhooks to local edge function
+[group: 'Database']
 db-stripe-listen:
     stripe listen --forward-to localhost:54321/functions/v1/stripe-webhook
 
 # ── Checks ────────────────────────────────────────────────────────────────────
 
 # Run all quality checkers (tsc, eslint, shell checks)
+[group: 'Checks']
 check:
     #!/bin/bash
     set -e
@@ -127,6 +161,7 @@ check:
     echo "✓ All checks passed"
 
 # Run only frontend checks
+[group: 'Checks']
 check-frontend:
     #!/bin/bash
     set -e
@@ -137,54 +172,118 @@ check-frontend:
     bash setup/checks/i18n_check.sh
 
 # Run only supabase checks
+[group: 'Checks']
 check-db:
     bash setup/checks/supabase_check.sh
 
 # Run complexity baseline update
+[group: 'Checks']
 check-complexity-baseline:
     bash setup/checks/complexity_check.sh --update-baseline
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
 
 # Run full guided setup (first-run)
+[group: 'Setup']
 setup:
     bash setup/install.sh
 
 # Run a specific setup step
+[group: 'Setup']
 setup-step step:
     bash setup/install.sh --step {{step}}
 
 # Show health status of all platforms
+[group: 'Setup']
 setup-health:
     bash setup/install.sh --health
 
 # Show setup report
+[group: 'Setup']
 setup-report:
     bash setup/install.sh --report
 
+# Configure agent selection
+[group: 'Setup']
+setup-agent:
+    bash setup/init/agent.sh
+
 # Apply branding everywhere (from branding/colors.yaml + SVGs)
+[group: 'Setup: Branding']
 setup-apply-branding:
     bash setup/branding/apply-branding.sh
 
 # Run branding setup step (agent generates palette)
+[group: 'Setup: Branding']
 setup-branding:
     bash setup/branding/branding.sh
 
-# Configure agent selection
-setup-agent:
-    bash setup/init/agent.sh
-
 # Walk through missing env vars interactively
+[group: 'Setup: Env']
 setup-env:
     bash setup/env/env_setup.sh
 
 # Check env vars, show implications of missing ones
+[group: 'Setup: Env']
 setup-env-check:
     bash setup/env/env_check.sh
 
-# ── Deploy ────────────────────────────────────────────────────────────────────
+# ── Setup: Platforms ──────────────────────────────────────────────────────────
+
+# Configure Stripe (payments)
+[group: 'Setup: Platforms']
+setup-stripe:
+    bash setup/platform/stripe_setup.sh
+
+# Check Stripe config
+[group: 'Setup: Platforms']
+setup-stripe-check:
+    bash setup/platform/stripe_check.sh
+
+# Configure Firebase (auth/storage)
+[group: 'Setup: Platforms']
+setup-firebase:
+    bash setup/platform/firebase_setup.sh
+
+# Check Firebase config
+[group: 'Setup: Platforms']
+setup-firebase-check:
+    bash setup/platform/firebase_check.sh
+
+# Configure PostHog (analytics)
+[group: 'Setup: Platforms']
+setup-posthog:
+    bash setup/platform/posthog_setup.sh
+
+# Check PostHog config
+[group: 'Setup: Platforms']
+setup-posthog-check:
+    bash setup/platform/posthog_check.sh
+
+# Configure DNS
+[group: 'Setup: Platforms']
+setup-dns:
+    bash setup/platform/dns_setup.sh
+
+# Check DNS config
+[group: 'Setup: Platforms']
+setup-dns-check:
+    bash setup/platform/dns_check.sh
+
+# Configure Supabase (database)
+[group: 'Setup: Platforms']
+setup-supabase:
+    bash setup/platform/supabase_setup.sh
+
+# Check Supabase config
+[group: 'Setup: Platforms']
+setup-supabase-check:
+    bash setup/platform/supabase_check.sh
+
+# ── Deploy & Release ──────────────────────────────────────────────────────────
 
 # Deploy to environment: just deploy prod | just deploy test
+[group: 'Deploy & Release']
 deploy env:
     #!/bin/bash
     set -e
@@ -196,9 +295,8 @@ deploy env:
     BRANCH=$(git rev-parse --abbrev-ref HEAD)
     echo "Recording deployment: $SHA on $BRANCH → {{env}}"
 
-# ── Release ───────────────────────────────────────────────────────────────────
-
 # Cut a pre-release (bumps version, tags, generates release notes)
+[group: 'Deploy & Release']
 pre-release:
     #!/bin/bash
     set -e
@@ -212,6 +310,7 @@ pre-release:
     echo "Tagged v$VERSION — push with: git push && git push --tags"
 
 # Cut a release (bumps version, tags, generates release notes)
+[group: 'Deploy & Release']
 release:
     #!/bin/bash
     set -e
@@ -224,19 +323,9 @@ release:
     git tag "v$VERSION"
     echo "Tagged v$VERSION — push with: git push && git push --tags"
 
-# ── Installs ──────────────────────────────────────────────────────────────────
-
-# Install all dependencies (runs supply chain checks after)
-install:
-    #!/bin/bash
-    set -e
-    pnpm install
-    echo "Running supply chain checks..."
-    pnpm audit --audit-level=high || true
-    @echo "Supply chain check done. Run GlassWorm manually for deep scan."
-
 # ── Utilities ─────────────────────────────────────────────────────────────────
 
 # List all available commands
+[group: 'Utilities']
 list:
-    @just --list
+    @just --list --color always | sed 's/\x1b\[34m/\x1b[36m/g; s/\x1b\[01;34m/\x1b[01;36m/g'
