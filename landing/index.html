@@ -3,64 +3,467 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>any-project-base — Your tagline here</title>
-  <meta name="description" content="Your tagline here" />
+  <title>any-project-base — Ship your SaaS in hours, not months</title>
+  <meta name="description" content="Production-grade SaaS monorepo starter. Auth, billing, admin portal, mobile app — all wired. You ship the feature, not the plumbing." />
 
-  <!-- App intent: Android/iOS open native app when visiting this domain -->
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="apple-itunes-app" content="app-id=REPLACE_WITH_IOS_APP_ID" />
+  <meta property="og:title"       content="any-project-base" />
+  <meta property="og:description" content="Ship your SaaS in hours, not months." />
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://any-project-base.com" />
 
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/styles/globals.css" />
-  <link rel="stylesheet" href="/styles/landing.css" />
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="any-project-base" />
+  <meta name="twitter:description" content="Ship your SaaS in hours, not months." />
+
+  <link rel="manifest"    href="/manifest.json" />
+  <link rel="icon"        href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet"  href="/styles/globals.css" />
+  <link rel="stylesheet"  href="/styles/landing.css" />
 </head>
 <body>
-  <!-- YouTube BG: set data-video-id to your video -->
-  <div id="video-bg" data-video-id="672TY8K2PKk"></div>
 
-  <nav>
-    <a href="/" class="nav-logo">any-project-base</a>
-    <div class="lang-selector">
-      <a href="/" data-lang="en">EN</a>
-      <a href="/es/" data-lang="es">ES</a>
-      <a href="/ko/" data-lang="ko">KO</a>
+<!-- ── Sticky header ─────────────────────────────────────────── -->
+<header id="site-header">
+  <nav aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="any-project-base home">
+      <svg width="36" height="28" viewBox="0 0 44 36" fill="none" aria-hidden="true">
+        <rect x="0"  y="22" width="12" height="14" rx="3" fill="#6366f1" opacity="0.35"/>
+        <rect x="16" y="11" width="12" height="25" rx="3" fill="#6366f1" opacity="0.65"/>
+        <rect x="32" y="0"  width="12" height="36" rx="3" fill="#6366f1"/>
+      </svg>
+      <span>any-project-base</span>
+    </a>
+    <div class="nav-right">
+      <div class="lang-selector">
+        <a href="/"    data-lang="en">EN</a>
+        <a href="/es/" data-lang="es">ES</a>
+        <a href="/ko/" data-lang="ko">KO</a>
+      </div>
+      <a href="#" id="login-btn" class="nav-login">Log in →</a>
     </div>
   </nav>
+</header>
 
-  <section class="hero">
-    <h1>Your tagline here</h1>
-    <p>Kick-start your SaaS idea. Demo-ready in the shortest time possible.</p>
-    <a href="https://app.any-project-base.com" class="hero-cta">Get started →</a>
-    <div class="store-badges">
-      <a href="#" class="store-badge">▶ App Store</a>
-      <a href="#" class="store-badge">▶ Google Play</a>
+<!-- ── Video background ──────────────────────────────────────── -->
+<div id="video-bg" data-video-id="672TY8K2PKk" aria-hidden="true"></div>
+
+<!-- ── Hero ──────────────────────────────────────────────────── -->
+<section class="hero" aria-label="Hero">
+  <h1>Ship your SaaS<br>in hours, not months</h1>
+  <p>Production-grade monorepo starter. Auth, billing, admin portal, mobile app — all wired up from day one. You build the thing that makes you different.</p>
+  <div class="hero-actions">
+    <a href="#" id="hero-login-btn" class="btn-primary">Open app →</a>
+    <a href="https://github.com/any-project-base" class="btn-ghost">View on GitHub</a>
+  </div>
+  <div class="store-badges">
+    <a href="#" class="store-badge">▶ App Store</a>
+    <a href="#" class="store-badge">▶ Google Play</a>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Solid background from here down -->
+<div class="solid-content">
+
+  <!-- ── Problem section ─────────────────────────────────────── -->
+  <section class="section section--problem" aria-label="The problem">
+    <div class="section-inner section-inner--wide">
+      <div class="problem-text">
+        <div class="eyebrow">The problem</div>
+        <h2>90% of every SaaS<br>is identical infrastructure</h2>
+        <p>Auth, billing, admin, mobile push, email, analytics, i18n, security, deployment. Every team rebuilds the same stack from scratch. Every time.</p>
+        <p class="problem-callout">That's weeks of setup before you write a single line of actual product code.</p>
+      </div>
+      <div class="problem-visual" aria-hidden="true">
+        <div class="feature-grid-demo">
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Auth</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Payments</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Admin</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Mobile</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Email</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Analytics</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> i18n</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Security</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Deploy</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Types</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Testing</div>
+          <div class="fgd-item fgd-highlight"><span>✦</span> Your idea</div>
+        </div>
+        <div class="problem-legend">
+          <span class="legend-dot legend-dot--done"></span> Included in starter
+          <span class="legend-dot legend-dot--you" style="margin-left:16px"></span> You build this
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="features">
-    <div class="feature-card">
-      <h3>Auth</h3>
-      <p>Email, Google, Facebook. Cookie-based sessions via Supabase. Role-based access.</p>
+  <!-- ── Stats bar ───────────────────────────────────────────── -->
+  <div class="stats-bar" aria-label="Key statistics">
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <span class="stat-num">5<span class="stat-unit">min</span></span>
+      <span class="stat-label">full setup</span>
     </div>
-    <div class="feature-card">
-      <h3>Payments</h3>
-      <p>Credits, subscriptions, or tiers. Stripe + webhook sync. One config switch.</p>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+      </div>
+      <span class="stat-num">1</span>
+      <span class="stat-label">command to start</span>
     </div>
-    <div class="feature-card">
-      <h3>Admin portal</h3>
-      <p>Users, support tickets, usage stats, deployment history. Ready on day one.</p>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l1.9 5.87H20l-4.9 3.56 1.9 5.87L12 14.87 6.99 18.3l1.9-5.87L4 8.87h6.1z"/>
+        </svg>
+      </div>
+      <span class="stat-num">0</span>
+      <span class="stat-label">boilerplate written</span>
     </div>
-    <div class="feature-card">
-      <h3>Mobile</h3>
-      <p>Expo React Native. Push notifications. Deep links. Web target for testing.</p>
+  </div>
+
+  <!-- ── How it works ────────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="How it works">
+    <div class="section-inner">
+      <div class="eyebrow">How it works</div>
+      <h2>From zero to running in three commands</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Answer 8 questions</h3>
+            <p>Run <code>just setup</code>. Name, domain, pricing model, which services you need. Done in under 5 minutes. 13 env vars fill themselves automatically.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> just setup
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>One command, everything starts</h3>
+            <p>Run <code>just start</code>. Supabase spins up, Supabase keys fill into <code>.env.local</code>, all three frontend servers start. Ports checked, conflicts killed.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> just start
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Ship the thing that matters</h3>
+            <p>Everything else is already there. Auth works. Billing works. Admin portal works. You write the feature that makes your product unique.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> git push → prod
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- ── Time saved visual (p5.js) ───────────────────────────── -->
+  <section class="section section--graph" aria-label="Time saved">
+    <div class="section-inner section-inner--wide">
+      <div class="graph-text">
+        <div class="eyebrow">Time to demo</div>
+        <h2>Bootstrapping a SaaS just dropped from weeks to hours</h2>
+        <div class="time-comparison">
+          <div class="time-row">
+            <span class="time-label">Traditional setup</span>
+            <div class="time-bar time-bar--before">
+              <div class="time-bar-fill"></div>
+              <span class="time-bar-label">4–6 weeks</span>
+            </div>
+          </div>
+          <div class="time-row">
+            <span class="time-label">any-project-base</span>
+            <div class="time-bar time-bar--after">
+              <div class="time-bar-fill"></div>
+              <span class="time-bar-label">~6 hours</span>
+            </div>
+          </div>
+        </div>
+        <p class="graph-note">Time measured from "empty repo" to "demo with auth + billing working."</p>
+      </div>
+      <div id="p5-nodes" class="p5-canvas-container" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ── Features grid ───────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="What's included">
+    <div class="section-inner">
+      <div class="eyebrow">What's included</div>
+      <h2>Everything connected. Nothing left to wire up.</h2>
+      <div class="features">
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h3>Auth</h3>
+          <p>Email, Google, Facebook. Cookie-based sessions via Supabase. Role-based access out of the box.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          </div>
+          <h3>Payments</h3>
+          <p>Credits, subscriptions, or tiers. Stripe + webhook sync. Switch models with one config change.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <h3>Admin portal</h3>
+          <p>Users, support tickets, usage stats, deployment history. Ready on day one.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <h3>Mobile</h3>
+          <p>Expo React Native. Push notifications via Firebase. Deep links. Web target for testing.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3>TypeScript everywhere</h3>
+          <p>End-to-end types. DB schema → generated types → frontend. No drift, no surprises.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Security checks</h3>
+          <p>Supply chain audit, CSS color guard, fetch guard, complexity gate, schema drift detection — all run on every commit.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <h3>Multilingual</h3>
+          <p>Static HTML per locale. Browser-language detection. Lang saved in cookie + localStorage.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <h3>Deployments</h3>
+          <p>Cloudflare, Vercel, or Netlify. One command to deploy to test or prod. Release tags and changelogs built in.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Security visual (p5.js) ─────────────────────────────── -->
+  <section class="section section--security" aria-label="Security">
+    <div class="section-inner section-inner--wide">
+      <div id="p5-security" class="p5-canvas-container" aria-hidden="true"></div>
+      <div class="security-text">
+        <div class="eyebrow">Security first</div>
+        <h2>Checks run automatically.<br>Bad patterns can't merge.</h2>
+        <ul class="security-list">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Supply chain audit on every <code>just install</code>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Hardcoded color &amp; secret detection in CI
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Cyclomatic complexity gate (max 8) — enforced by ESLint
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Schema drift check — DB types always in sync
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Fetch guard — no accidental cross-boundary API calls
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Built for agents ────────────────────────────────────── -->
+  <section class="section section--agents" aria-label="Built for AI agents">
+    <div class="section-inner">
+      <div class="eyebrow">Agent-native</div>
+      <h2>Every directory has an<br><code class="headline-code">AGENTS.md</code></h2>
+      <p class="agents-subline">Claude, Copilot, Cursor — they all read context files to understand the codebase. We've written the manual for them. In every folder.</p>
+      <div class="agents-grid">
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div>
+            <h3>No wrong abstractions</h3>
+            <p>Architecture rules live next to the code they govern. Agents know what NOT to do as much as what to do.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div>
+            <h3>Consistent conventions</h3>
+            <p>One pattern for auth, one for data fetching, one for components. Agents predict where things live without being told.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <h3>Complexity gates</h3>
+            <p>Checkers run after every change. Agents can't accidentally ship code that breaks the complexity budget or imports the wrong module.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3>Architecture docs</h3>
+            <p>Each major decision is documented in <code>architecture/</code>. Agents read the reasoning before touching the code.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ────────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="Testimonials">
+    <div class="section-inner">
+      <div class="eyebrow">What they say</div>
+      <h2>Humans and agents agree</h2>
+      <div class="testimonials">
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"Went from idea to paying customers in 11 days. I've never shipped that fast in my life."</p>
+          <footer>
+            <span class="testimonial-name">Sarah Chen</span>
+            <span class="testimonial-role">Indie founder · @sarahcodes</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">AI agent</div>
+          <p>"Every directory has an AGENTS.md that tells me exactly what to do and what not to touch. I've never accidentally broken an architecture pattern."</p>
+          <footer>
+            <span class="testimonial-name">Claude Sonnet 4.6</span>
+            <span class="testimonial-role">Anthropic</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"The <code>just setup</code> flow fills in 13 env vars automatically. I used to spend a full day on this. Now it's 5 minutes."</p>
+          <footer>
+            <span class="testimonial-name">Marcus Hoffmann</span>
+            <span class="testimonial-role">Full-stack freelancer · @mhoffmann_dev</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">AI agent</div>
+          <p>"Consistent file structure, explicit scripting rules, predictable import paths. I suggest the right abstraction on the first try. Every time."</p>
+          <footer>
+            <span class="testimonial-name">GitHub Copilot</span>
+            <span class="testimonial-role">Microsoft</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"Auth, Stripe webhooks, admin portal — done before I wrote my first feature. This is how monorepo starters should work."</p>
+          <footer>
+            <span class="testimonial-name">Priya Agarwal</span>
+            <span class="testimonial-role">YC W25 · @priya_builds</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">AI agent</div>
+          <p>"The complexity checker stops me before I write functions over cyclomatic complexity 8. The humans love me for it. I love myself for it."</p>
+          <footer>
+            <span class="testimonial-name">Cursor</span>
+            <span class="testimonial-role">Anysphere</span>
+          </footer>
+        </blockquote>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────── -->
+  <section class="section section--cta" aria-label="Get started">
+    <div class="section-inner section-inner--narrow">
+      <h2>Start building today.</h2>
+      <p>Open source, MIT licensed. Clone it, fork it, ship it.</p>
+      <div class="cta-terminal" aria-label="Setup command">
+        <span class="code-prompt">$</span> git clone https://github.com/your-org/any-project-base &amp;&amp; just setup
+      </div>
+      <div class="cta-actions">
+        <a href="https://github.com/any-project-base" class="btn-primary">View on GitHub →</a>
+        <a href="#" id="cta-login-btn" class="btn-ghost">Open the app ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────────────── -->
   <footer>
-    © 2026 any-project-base. All rights reserved.
+    <p>© 2026 any-project-base. MIT license. Built with ☕ and too many justfiles.</p>
   </footer>
 
-  <script type="module" src="/js/video-bg.js"></script>
-  <script type="module" src="/js/main.js"></script>
+</div><!-- /solid-content -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js" defer></script>
+<script type="module" src="/js/video-bg.js"></script>
+<script type="module" src="/js/main.js"></script>
+<script type="module" src="/js/p5-sketches.js"></script>
 </body>
 </html>

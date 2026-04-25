@@ -1,13 +1,11 @@
-// Landing page — lang detection, lang pref save, dark mode, shared interactivity.
+// Landing page — lang detection, lang pref save, scroll effects, login resolver.
 
 const SUPPORTED_LOCALES = ['en', 'es', 'ko']
 const DEFAULT_LOCALE = 'en'
 
 function detectLocale() {
-  // Check cookie/localStorage first
   const saved = localStorage.getItem('lang') || getCookie('lang')
   if (saved && SUPPORTED_LOCALES.includes(saved)) return saved
-  // Browser language
   const browser = (navigator.language || '').split('-')[0]
   return SUPPORTED_LOCALES.includes(browser) ? browser : DEFAULT_LOCALE
 }
@@ -26,7 +24,6 @@ function redirectToLocale() {
   const locale = detectLocale()
   const path = window.location.pathname
 
-  // Already on a locale page — mark active, save pref
   const match = path.match(/^\/(en|es|ko)(\/|$)/)
   if (match) {
     saveLangPref(match[1])
@@ -34,7 +31,6 @@ function redirectToLocale() {
     return
   }
 
-  // On root — redirect if non-default locale
   if (path === '/' && locale !== DEFAULT_LOCALE) {
     window.location.replace(`/${locale}/`)
     return
@@ -50,10 +46,24 @@ function markActiveLang(lang) {
   })
 }
 
-// Lang selector click handler
+// Resolves the client portal URL based on current environment.
+// localhost / 127.0.0.1       → http://localhost:5173 (direct Vite port)
+// [project].localhost         → portal.[project].localhost (Caddy subdomain)
+// [domain].tld                → portal.[domain].tld (production)
+function resolvePortalUrl() {
+  const { hostname, protocol } = window.location
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:5173'
+  }
+  // Caddy localdev:  any-project-base.localhost → portal.any-project-base.localhost
+  // Production:      myapp.com                  → portal.myapp.com
+  return `${protocol}//portal.${hostname}`
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   redirectToLocale()
 
+  // ── Lang selector ──
   document.querySelectorAll('.lang-selector a').forEach(a => {
     a.addEventListener('click', (e) => {
       e.preventDefault()
@@ -61,5 +71,21 @@ document.addEventListener('DOMContentLoaded', () => {
       saveLangPref(lang)
       window.location.href = lang === DEFAULT_LOCALE ? '/' : `/${lang}/`
     })
+  })
+
+  // ── Sticky header scroll effect ──
+  const header = document.getElementById('site-header')
+  if (header) {
+    const onScroll = () => {
+      header.classList.toggle('scrolled', window.scrollY > 40)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll() // apply immediately in case page loads scrolled
+  }
+
+  // ── Login button URL resolution ──
+  const portalUrl = resolvePortalUrl()
+  document.querySelectorAll('#login-btn, #hero-login-btn, #cta-login-btn').forEach(btn => {
+    btn.href = portalUrl
   })
 })

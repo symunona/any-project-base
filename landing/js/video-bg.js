@@ -13,7 +13,7 @@ function initVideoBg() {
   container.className = 'video-bg-container'
 
   const iframe = document.createElement('iframe')
-  iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1`
+  iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&disablekb=1&fs=0&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&cc_load_policy=0`
   iframe.allow = 'autoplay; encrypted-media'
   iframe.setAttribute('allowfullscreen', '')
   iframe.setAttribute('frameborder', '0')

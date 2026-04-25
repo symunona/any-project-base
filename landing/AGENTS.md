@@ -49,8 +49,9 @@ landing/
 
 ## YouTube background
 
-`video-bg.js` embeds YouTube video as muted autoplay background behind header.
-Video ID configured in landing HTML. Fallback: solid `var(--color-primary)` bg.
+`video-bg.js` embeds YouTube video as muted autoplay background behind hero.
+Video ID configured on `<div id="video-bg" data-video-id="...">` in HTML.
+Fallback: solid `var(--color-primary)` bg if iframe blocked or video ID missing.
 
 ## App intent (deep link)
 
@@ -66,4 +67,154 @@ Allows Android/iOS to intercept links to `[domain]` and open the native app.
 
 - No hardcoded colors in `landing.css` or inline styles (same grep checker)
 - All language files exist for each locale in `project.yaml: supported_locales`
-- `globals.css` has GENERATED header
+- `globals.css` has GENERATED header — never edit it directly
+
+---
+
+## Landing page best practices
+
+### Page structure
+
+One screen of video hero, then solid background. Never float body copy over video.
+
+```
+[nav]              ← minimal, always visible
+[hero — 88vh]      ← video bg, single H1, one CTA
+─── solid bg ──────────────────────────────────────
+[features]         ← icons + short copy, 1→2→4 col (mobile-first)
+[footer]           ← one line
+```
+
+The `.solid-content` wrapper has `background: var(--color-bg)` and a soft
+`box-shadow` toward the hero, creating a clean visual separation as you scroll.
+
+### Mobile-first CSS
+
+Write the base rule for the smallest screen, expand with `min-width`:
+
+```css
+/* ✓ correct */
+.features { grid-template-columns: 1fr; }
+@media (min-width: 480px) { .features { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .features { grid-template-columns: repeat(4, 1fr); } }
+
+/* ✗ wrong — desktop-first */
+.features { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) { ... }
+```
+
+### Feature cards: always use icons
+
+Every feature card needs an icon. Use inline SVG — no external library.
+
+Rules:
+- `viewBox="0 0 24 24"`, `width`/`height` 28px
+- `stroke="currentColor"` — never hardcode colors in SVG
+- `fill="none"` unless it's a filled icon
+- Wrapper div has `aria-hidden="true"` (decorative)
+- Wrap in `.feature-icon` with tinted background square
+
+```html
+<div class="feature-icon" aria-hidden="true">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="1.75"
+       stroke-linecap="round" stroke-linejoin="round">
+    <!-- copy path from lucide.dev -->
+  </svg>
+</div>
+```
+
+Reference: https://lucide.dev — copy SVG paths directly, never import the package.
+
+### SEO: required meta tags
+
+```html
+<!-- Primary -->
+<title>[Project] — [Tagline, ≤60 chars total]</title>
+<meta name="description" content="[Benefit sentence, 120–155 chars]" />
+
+<!-- Open Graph — WhatsApp, Slack, iMessage, LinkedIn previews -->
+<meta property="og:title"       content="[Project]" />
+<meta property="og:description" content="[Tagline]" />
+<meta property="og:type"        content="website" />
+<meta property="og:url"         content="https://[domain]" />
+<meta property="og:image"       content="https://[domain]/assets/og-image.png" />
+
+<!-- Twitter/X card -->
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content="[Project]" />
+<meta name="twitter:description" content="[Tagline]" />
+```
+
+### SEO: semantic HTML
+
+- **One `<h1>` per page** — the tagline. Not the product name.
+- Section titles → `<h2>`. Card titles → `<h3>`. Never skip levels.
+- `<nav aria-label="Main navigation">` wraps all navigation.
+- `<section aria-label="Features">` etc. for landmark regions.
+- `<footer>` for footer. `<main>` for primary content if needed.
+- Decorative video iframe → `aria-hidden="true"`, `tabindex="-1"`.
+- Every `<img>` needs `alt`. Empty `alt=""` for purely decorative images.
+- `lang` attribute on `<html>` must match the page's actual language.
+
+### SEO: copy
+
+| Element | Rule |
+|---------|------|
+| `<h1>` | What the product does, keyword-rich. Not "Welcome" or brand name. |
+| Meta description | One clear benefit sentence. No superlatives. 120–155 chars. |
+| Feature `<h3>` | Noun phrase: "Auth", "Payments", "Mobile". Short. |
+| Feature `<p>` | One concrete sentence of what it does. No filler adjectives. |
+| CTA button | Action verb: "Get started", "Try free". Never "Learn more". |
+
+### Video background: rules
+
+- Always `muted + autoplay + loop`. Never expose controls.
+- `pointer-events: none` on the iframe — never user-interactive.
+- Size iframe to 115% of viewport — crops YouTube chrome without gaps.
+- Gradient overlay (heavier at top + bottom) masks remaining YouTube UI.
+- Provide solid-color fallback for iframe-blocked environments.
+
+Required YouTube embed params:
+```
+autoplay=1&mute=1&loop=1&playlist=[VIDEO_ID]
+controls=0&disablekb=1&fs=0
+rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&cc_load_policy=0
+```
+
+### Colors
+
+Only use CSS variables. Never hardcode hex or rgb values.
+
+```css
+/* ✓ */
+color: var(--color-text);
+background: var(--color-primary);
+border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+
+/* ✗ */
+color: #e0e0e0;
+background: #6366f1;
+```
+
+### Performance
+
+- No external fonts — `system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
+- No JS frameworks
+- No icon libraries — inline SVG only
+- `<img loading="lazy">` for everything below the fold
+- CSS-first: no JS for layout, transitions, or hover states
+- Target: Lighthouse mobile score ≥ 95
+
+### Accessibility
+
+- Focus rings must be visible. Never `outline: none` without a visible replacement.
+- Text/bg contrast ≥ 4.5:1 (WCAG AA). Check in Chrome DevTools → Accessibility.
+- All interactive elements keyboard-reachable (Tab order makes sense).
+- `prefers-reduced-motion`: respect it for any CSS animations.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+```
