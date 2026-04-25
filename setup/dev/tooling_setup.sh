@@ -4,6 +4,17 @@ set -euo pipefail
 SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SETUP_DIR/lib/ui.sh"
 
+STATE_FILE="$SETUP_DIR/.tooling-state"
+
+# Record install state: track=pre-existing if already installed, track=<method> if we installed it
+track() {
+  local key=$1 value=$2
+  # Only write if not already recorded (don't overwrite pre-existing on re-run)
+  if ! grep -q "^${key}=" "$STATE_FILE" 2>/dev/null; then
+    echo "${key}=${value}" >> "$STATE_FILE"
+  fi
+}
+
 header "DEV TOOLING"
 info "Installing required development tools."
 echo ""
@@ -20,9 +31,11 @@ fi
 # ── pnpm ──────────────────────────────────────────────────────────────────────
 if pnpm --version > /dev/null 2>&1; then
   success "pnpm: already installed"
+  track "pnpm" "pre-existing"
 else
   info "Installing pnpm..."
   npm install -g pnpm && success "pnpm installed" || { fail "pnpm install failed"; exit 1; }
+  track "pnpm" "npm"
 fi
 
 # ── Docker ────────────────────────────────────────────────────────────────────
@@ -36,14 +49,18 @@ fi
 # ── just ──────────────────────────────────────────────────────────────────────
 if just --version > /dev/null 2>&1; then
   success "just: already installed"
+  track "just" "pre-existing"
 else
   info "Installing just..."
   if brew install just 2>/dev/null; then
     success "just installed via brew"
+    track "just" "brew"
   elif snap install --edge just 2>/dev/null; then
     success "just installed via snap"
+    track "just" "snap"
   elif cargo install just 2>/dev/null; then
     success "just installed via cargo"
+    track "just" "cargo"
   else
     fail "just install failed — install manually: https://github.com/casey/just"
   fi
@@ -89,16 +106,17 @@ install_supabase_linux() {
 
 if supabase --version > /dev/null 2>&1; then
   success "supabase: already installed ($(supabase --version))"
+  track "supabase" "pre-existing"
 else
   info "Installing supabase CLI..."
   OS="$(uname -s)"
   if [ "$OS" = "Darwin" ] && brew --version > /dev/null 2>&1; then
     brew install supabase/tap/supabase \
-      && success "supabase installed via brew" \
+      && success "supabase installed via brew" && track "supabase" "brew" \
       || fail "supabase brew install failed — see https://github.com/supabase/cli#install-the-cli"
   elif [ "$OS" = "Linux" ]; then
     install_supabase_linux \
-      && success "supabase installed to ~/.local/bin" \
+      && success "supabase installed to ~/.local/bin" && track "supabase" "linux-binary" \
       || fail "supabase install failed — see https://github.com/supabase/cli#install-the-cli"
   else
     fail "supabase auto-install not supported on $OS — see https://github.com/supabase/cli#install-the-cli"

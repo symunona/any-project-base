@@ -47,6 +47,11 @@ dev:
 build:
     pnpm -r build
 
+# Remove tools installed by this project (skips pre-existing). Asks for confirmation.
+[group: 'All']
+cleanup-env:
+    bash setup/dev/tooling_cleanup.sh
+
 # Install everything: system tools (supabase CLI, Docker, just) + node deps + supply chain check
 [group: 'All']
 install:
