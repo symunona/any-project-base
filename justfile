@@ -30,10 +30,8 @@ install:
     set -e
     pnpm install
     echo "Running supply chain checks..."
-    pnpm audit --audit-level=high || true
-    echo "Running GlassWorm supply chain scan..."
-    glassworm-hunter scan --npm-scan --quiet || true
-    echo "Supply chain check done."
+    bash setup/checks/supply_chain_audit.sh
+    echo "Run 'just security-autofix' to auto-patch patchable issues."
 
 # ── Client Portal ─────────────────────────────────────────────────────────────
 
@@ -181,6 +179,18 @@ check-complexity:
 check-db:
     bash setup/checks/supabase_check.sh
 
+
+# ── Security ──────────────────────────────────────────────────────────────────
+
+# Summarise pnpm audit + glassworm scan (clean output, no wall of text)
+[group: 'Security']
+security-audit:
+    bash setup/checks/supply_chain_audit.sh
+
+# Auto-fix patchable vulnerabilities: bumps direct deps + adds pnpm.overrides for transitive
+[group: 'Security']
+security-autofix:
+    bash setup/checks/supply_chain_autofix.sh
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
 

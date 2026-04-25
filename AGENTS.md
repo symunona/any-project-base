@@ -63,6 +63,23 @@ Rule: if the script would be clearer or more correct by importing a real type or
 See `Any Project Base.md` → "Generated files convention" for full table and rules.
 Never edit files with `GENERATED —` header comment.
 
+## Supply chain security
+
+| Command | What it does |
+|---------|-------------|
+| `just security-audit` | Clean summary: pnpm audit counts + high/critical detail + glassworm scan |
+| `just security-autofix` | Auto-fix patchable vulns: bumps direct deps (non-major only), adds `pnpm.overrides` for transitive |
+
+**Autofix rules:**
+- Direct deps: bumps version in `package.json` only if patched version is same major (no breaking change)
+- Transitive deps: adds/updates `pnpm.overrides` in `package.json`
+- Skips anything requiring a major version bump — those need manual review
+- Always runs `pnpm install` after patching
+
+**Scripts:** `setup/checks/supply_chain_audit.sh`, `setup/checks/supply_chain_autofix.sh`
+
+**glassworm-hunter** must be installed: `pip3 install glassworm-hunter --break-system-packages`
+
 ## Module map
 
 | Dir | Purpose |
