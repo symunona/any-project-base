@@ -31,7 +31,7 @@ install:
     pnpm install
     echo "Running supply chain checks..."
     pnpm audit --audit-level=high || true
-    @echo "Supply chain check done. Run GlassWorm manually for deep scan."
+    echo "Supply chain check done. Run GlassWorm manually for deep scan."
 
 # ── Client Portal ─────────────────────────────────────────────────────────────
 
@@ -150,8 +150,6 @@ check:
     bash setup/checks/paging_check.sh
     echo "→ schema drift..."
     bash setup/checks/schema_drift_check.sh
-    echo "→ complexity..."
-    bash setup/checks/complexity_check.sh
     echo "→ generated files..."
     bash setup/checks/generated_files_check.sh
     echo "→ branding..."
@@ -171,15 +169,16 @@ check-frontend:
     bash setup/checks/fetch_check.sh
     bash setup/checks/i18n_check.sh
 
+# Check cyclomatic complexity (threshold: 8, matches AGENTS.md rule)
+[group: 'Checks']
+check-complexity:
+    pnpm eslint . --rule 'complexity: ["error", 8]'
+
 # Run only supabase checks
 [group: 'Checks']
 check-db:
     bash setup/checks/supabase_check.sh
 
-# Run complexity baseline update
-[group: 'Checks']
-check-complexity-baseline:
-    bash setup/checks/complexity_check.sh --update-baseline
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
 

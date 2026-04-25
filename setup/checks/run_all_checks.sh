@@ -33,7 +33,6 @@ CHECKS=(
 
   # ── Code quality ──────────────────────────────────────
   "console_log_check.sh"
-  "complexity_check.sh"
   "pinning_check.sh"
   "tsc_check.sh"
 

@@ -11,7 +11,7 @@
     "export-web": "expo export --platform web"
   },
   "dependencies": {
-    "@any-project-base/commons": "*",
+    "@any-project-base/commons": "workspace:*",
     "expo":                  "~53.0.0",
     "expo-router":           "~4.0.0",
     "expo-status-bar":       "~2.0.0",

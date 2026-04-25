@@ -49,6 +49,15 @@ Read the AGENTS.md in the subfolder you're working in.
 - End every plan with assessment table: architectural change | complexity | certainty | impact
 - Happy path first — no speculative error handling
 
+## Scripting language policy
+
+| Use | Language |
+|-----|----------|
+| Install scripts, CLI wrappers, pattern greps | **Bash** |
+| Logic that imports project code, diffs schemas, or crosses module boundaries | **TS** (run with `tsx`) |
+
+Rule: if the script would be clearer or more correct by importing a real type or schema, use TS. If it's just calling CLIs or grepping strings, bash is fine. Never rewrite a working bash script to TS just for consistency.
+
 ## Generated files
 
 See `Any Project Base.md` → "Generated files convention" for full table and rules.
