@@ -8,24 +8,7 @@ header "DEV TOOLING"
 info "Installing required development tools."
 echo ""
 
-check_or_install() {
-  local name=$1 check_cmd=$2 install_cmd=$3
-  if eval "$check_cmd" > /dev/null 2>&1; then
-    success "$name: already installed"
-  else
-    info "Installing $name..."
-    if eval "$install_cmd"; then
-      success "$name installed"
-    else
-      fail "$name installation failed — install manually"
-    fi
-  fi
-}
-
-# pnpm
-check_or_install "pnpm" "pnpm --version" "npm install -g pnpm@9"
-
-# Node.js >= 20
+# ── Node.js ───────────────────────────────────────────────────────────────────
 NODE_VERSION=$(node --version 2>/dev/null | tr -d 'v' | cut -d. -f1)
 if [ "${NODE_VERSION:-0}" -ge 20 ]; then
   success "Node.js: $(node --version)"
@@ -34,32 +17,100 @@ else
   arrow "Install: https://nodejs.org or use nvm: nvm install 20"
 fi
 
-# Docker
+# ── pnpm ──────────────────────────────────────────────────────────────────────
+if pnpm --version > /dev/null 2>&1; then
+  success "pnpm: already installed"
+else
+  info "Installing pnpm..."
+  npm install -g pnpm && success "pnpm installed" || { fail "pnpm install failed"; exit 1; }
+fi
+
+# ── Docker ────────────────────────────────────────────────────────────────────
 if docker --version > /dev/null 2>&1; then
   success "Docker: $(docker --version | cut -d' ' -f3 | tr -d ',')"
 else
-  warn "Docker not found."
+  warn "Docker not found — required for local Supabase."
   arrow "Install Docker Desktop: https://www.docker.com/products/docker-desktop"
 fi
 
-# just (command runner)
-check_or_install "just" "just --version" "cargo install just 2>/dev/null || brew install just 2>/dev/null || snap install --edge just"
+# ── just ──────────────────────────────────────────────────────────────────────
+if just --version > /dev/null 2>&1; then
+  success "just: already installed"
+else
+  info "Installing just..."
+  if brew install just 2>/dev/null; then
+    success "just installed via brew"
+  elif snap install --edge just 2>/dev/null; then
+    success "just installed via snap"
+  elif cargo install just 2>/dev/null; then
+    success "just installed via cargo"
+  else
+    fail "just install failed — install manually: https://github.com/casey/just"
+  fi
+fi
 
-# Supabase CLI
-check_or_install "supabase" "supabase --version" "brew install supabase/tap/supabase 2>/dev/null || npm install -g supabase"
+# ── Supabase CLI ──────────────────────────────────────────────────────────────
+install_supabase_linux() {
+  local tmp latest arch url bin_dir
+  tmp=$(mktemp -d)
 
-# EAS CLI (optional — mobile builds only, skip in non-interactive installs)
+  latest=$(curl -sf "https://api.github.com/repos/supabase/cli/releases/latest" \
+    | grep -oP '"tag_name":"\Kv[^"]+' || echo "")
+  if [ -z "$latest" ]; then
+    rm -rf "$tmp"
+    fail "Could not fetch supabase CLI version from GitHub"
+    return 1
+  fi
+
+  arch=$(uname -m)
+  [ "$arch" = "x86_64" ] && arch="amd64" || arch="arm64"
+
+  url="https://github.com/supabase/cli/releases/download/${latest}/supabase_linux_${arch}.tar.gz"
+  info "Downloading supabase CLI ${latest} (linux/${arch})..."
+
+  if ! curl -sL "$url" | tar xz -C "$tmp"; then
+    rm -rf "$tmp"
+    fail "Download or extraction failed"
+    return 1
+  fi
+
+  # Install to ~/.local/bin — no sudo needed
+  bin_dir="$HOME/.local/bin"
+  mkdir -p "$bin_dir"
+  mv "$tmp/supabase" "$bin_dir/supabase"
+  chmod +x "$bin_dir/supabase"
+  rm -rf "$tmp"
+
+  if ! echo "$PATH" | grep -q "$HOME/.local/bin"; then
+    warn "~/.local/bin not in PATH. Add to your shell profile:"
+    arrow 'export PATH="$HOME/.local/bin:$PATH"'
+  fi
+}
+
+if supabase --version > /dev/null 2>&1; then
+  success "supabase: already installed ($(supabase --version))"
+else
+  info "Installing supabase CLI..."
+  OS="$(uname -s)"
+  if [ "$OS" = "Darwin" ] && brew --version > /dev/null 2>&1; then
+    brew install supabase/tap/supabase \
+      && success "supabase installed via brew" \
+      || fail "supabase brew install failed — see https://github.com/supabase/cli#install-the-cli"
+  elif [ "$OS" = "Linux" ]; then
+    install_supabase_linux \
+      && success "supabase installed to ~/.local/bin" \
+      || fail "supabase install failed — see https://github.com/supabase/cli#install-the-cli"
+  else
+    fail "supabase auto-install not supported on $OS — see https://github.com/supabase/cli#install-the-cli"
+  fi
+fi
+
+# ── EAS CLI (optional — mobile only) ─────────────────────────────────────────
 if eas --version > /dev/null 2>&1; then
   success "EAS CLI: $(eas --version)"
-elif [ -t 0 ]; then
-  info "EAS CLI not found (optional — for app store builds)"
-  if confirm "Install EAS CLI?"; then
-    npm install -g eas-cli && success "EAS CLI installed" || warn "EAS CLI install failed"
-  fi
 else
-  info "EAS CLI not installed (optional — run 'just setup-step tooling' to install)"
+  info "EAS CLI not installed (optional — mobile app store builds only)"
 fi
 
 echo ""
 success "Dev tooling check complete."
-write_state() { true; }
