@@ -51,8 +51,5 @@ enable_signup = false
 enroll_enabled = false
 verify_enabled = false
 
-[functions]
-verify_jwt = true
-
 [analytics]
 enabled = false

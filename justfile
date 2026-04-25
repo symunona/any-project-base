@@ -4,10 +4,29 @@
 
 # ── All ───────────────────────────────────────────────────────────────────────
 
-# Start local Supabase (Postgres + Auth + Edge Functions via Docker)
+# Start local Supabase — installs missing tools, creates .env.local, fills keys automatically
 [group: 'All']
 start:
+    #!/bin/bash
+    set -e
+
+    # Auto-install if supabase CLI missing
+    if ! supabase --version > /dev/null 2>&1; then
+      echo "supabase not found — running just install first..."
+      just install
+    fi
+
+    # Create .env.local from example if missing
+    if [ ! -f .env.local ]; then
+      cp .env.local.example .env.local
+      echo "Created .env.local from .env.local.example"
+    fi
+
+    # Start Supabase
     supabase start
+
+    # Auto-fill Supabase keys + project.yaml values into .env.local
+    just env-generate
 
 # Start all services (supabase + all frontends)
 [group: 'All']
@@ -241,6 +260,11 @@ setup-apply-branding:
 [group: 'Setup: Branding']
 setup-branding:
     bash setup/branding/branding.sh
+
+# Auto-fill env vars from project.yaml + supabase status (safe to re-run)
+[group: 'Setup: Env']
+env-generate:
+    bash setup/env/env_generate.sh
 
 # Walk through missing env vars interactively
 [group: 'Setup: Env']
