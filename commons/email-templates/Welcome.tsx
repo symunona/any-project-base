@@ -10,7 +10,7 @@ type WelcomeProps = {
 
 export function WelcomeEmail({ projectName, userName, loginUrl, unsubscribeUrl, customFooter }: WelcomeProps) {
   return (
-    <EmailLayout projectName={projectName} unsubscribeUrl={unsubscribeUrl} customFooter={customFooter}>
+    <EmailLayout projectName={projectName} unsubscribeUrl={unsubscribeUrl} customFooter={customFooter ?? null}>
       <h2 style={{ marginTop: 0 }}>Welcome{userName ? `, ${userName}` : ''}!</h2>
       <p>Your account is ready. Click below to get started.</p>
       <p>

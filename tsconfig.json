@@ -17,5 +17,5 @@
     "verbatimModuleSyntax": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
-  "exclude": ["node_modules", "dist", ".cache"]
+  "exclude": ["node_modules", "dist", ".cache", "supabase/**/*"]
 }

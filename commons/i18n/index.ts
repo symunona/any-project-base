@@ -82,4 +82,26 @@ export const msg = {
     password:      { id: 'Auth.password',      message: 'Password' },
     forgotPassword:{ id: 'Auth.forgotPassword',message: 'Forgot password?' },
   },
+  Nav: {
+    dashboard: { id: 'Nav.dashboard', message: 'Dashboard' },
+    settings:  { id: 'Nav.settings',  message: 'Settings' },
+    billing:   { id: 'Nav.billing',   message: 'Billing' },
+    support:   { id: 'Nav.support',   message: 'Support' },
+  },
+  Dashboard: {
+    title: { id: 'Dashboard.title', message: 'Dashboard' },
+  },
+  Profile: {
+    title: { id: 'Profile.title', message: 'Profile' },
+    name:  { id: 'Profile.name',  message: 'Name' },
+    email: { id: 'Profile.email', message: 'Email' },
+  },
+  Billing: {
+    title: { id: 'Billing.title', message: 'Billing' },
+  },
+  Support: {
+    title:      { id: 'Support.title',      message: 'Support' },
+    newMessage: { id: 'Support.newMessage', message: 'New message' },
+    send:       { id: 'Support.send',       message: 'Send' },
+  },
 }

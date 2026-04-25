@@ -10,7 +10,7 @@ type SupportReplyProps = {
 
 export function SupportReplyEmail({ projectName, replyBody, conversationUrl, unsubscribeUrl, customFooter }: SupportReplyProps) {
   return (
-    <EmailLayout projectName={projectName} unsubscribeUrl={unsubscribeUrl} customFooter={customFooter}>
+    <EmailLayout projectName={projectName} unsubscribeUrl={unsubscribeUrl} customFooter={customFooter ?? null}>
       <h2 style={{ marginTop: 0 }}>New reply to your support request</h2>
       <blockquote style={{ borderLeft: '3px solid #6366f1', paddingLeft: 16, color: '#374151' }}>
         {replyBody}

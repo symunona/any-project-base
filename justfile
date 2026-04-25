@@ -204,6 +204,11 @@ setup:
 setup-step step:
     bash setup/install.sh --step {{step}}
 
+# Show status of all platforms and env vars at a glance
+[group: 'Setup']
+status:
+    bash setup/status.sh
+
 # Show health status of all platforms
 [group: 'Setup']
 setup-health:

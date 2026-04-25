@@ -23,7 +23,7 @@ ICON_CURSOR="▶"
 
 WIDTH=50  # divider width
 
-divider() { printf '%*s\n' "$WIDTH" '' | tr ' ' '━'; }
+divider() { printf '━%.0s' $(seq 1 $WIDTH); printf '\n'; }
 
 header() {
   echo ""
@@ -81,7 +81,7 @@ status_row() {
     fail)    icon="${RED}${ICON_FAIL}${RESET}" ;;
     *)       icon="  " ;;
   esac
-  printf "  %b  %-22s %s\n" "$icon" "$name" "${DIM}${note}${RESET}"
+  printf "  %b  %-22s %b\n" "$icon" "$name" "${DIM}${note}${RESET}"
 }
 
 read_key() {

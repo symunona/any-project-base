@@ -26,7 +26,7 @@ export async function complete(
   const msg = await client.messages.create({
     model,
     max_tokens: maxTokens,
-    system,
+    ...(system !== undefined ? { system } : {}),
     messages: [{ role: 'user', content: prompt }],
   })
 

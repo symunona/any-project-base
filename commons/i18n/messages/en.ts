@@ -1,5 +1,6 @@
 // Source of truth — all keys defined here. Other locale files must match this structure exactly.
-export type Messages = typeof messages
+// Record<keyof ..., string> keeps key checking but allows translated (non-English) string values.
+export type Messages = Record<keyof typeof messages, string>
 
 export const messages = {
   'Common.save':    'Save',

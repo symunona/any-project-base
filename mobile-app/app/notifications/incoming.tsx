@@ -11,7 +11,7 @@ export default function IncomingNotificationScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>{title ?? 'Notification'}</Text>
       <Text style={styles.body}>{body ?? ''}</Text>
-      {parsed['url'] && typeof parsed['url'] === 'string' && (
+      {typeof parsed['url'] === 'string' && (
         <TouchableOpacity style={styles.btn} onPress={() => { router.push(parsed['url'] as never) }}>
           <Text style={styles.btnText}>Open</Text>
         </TouchableOpacity>

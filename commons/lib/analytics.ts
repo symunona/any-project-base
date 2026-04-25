@@ -4,7 +4,14 @@ import { config } from '../config'
 
 type EventProperties = Record<string, string | number | boolean | null | undefined>
 
-let posthog: typeof import('posthog-js').default | null = null
+type PostHog = {
+  init(key: string, opts?: Record<string, unknown>): void
+  capture(event: string, props?: Record<string, unknown>): void
+  identify(id: string, props?: Record<string, unknown>): void
+  reset(): void
+}
+
+let posthog: PostHog | null = null
 
 export const analytics = {
   initialize(): void {
@@ -12,10 +19,10 @@ export const analytics = {
     if (!import.meta.env['VITE_POSTHOG_KEY']) return
     import('posthog-js').then(({ default: ph }) => {
       ph.init(import.meta.env['VITE_POSTHOG_KEY'] as string, {
-        api_host: import.meta.env['VITE_POSTHOG_HOST'] as string | undefined ?? 'https://app.posthog.com',
+        api_host: import.meta.env['VITE_POSTHOG_HOST'] as string ?? 'https://app.posthog.com',
         session_recording: { maskAllInputs: true },
-        loaded: (p) => { posthog = p },
       })
+      posthog = ph
     }).catch(() => {/* PostHog not installed — analytics disabled */})
   },
 

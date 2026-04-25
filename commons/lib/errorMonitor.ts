@@ -16,17 +16,17 @@ if ((config as { error_monitoring?: string }).error_monitoring === 'sentry' &&
 export const errorMonitor = {
   capture(error: unknown, context?: ErrorContext): void {
     if (sentry) {
-      sentry.captureException(error, { extra: context })
+      sentry.captureException(error, context ? { extra: context } : undefined)
     } else {
       console.error('[errorMonitor]', error, context)
     }
   },
 
   setUser(id: string, email?: string): void {
-    sentry?.setUser({ id, email })
+    sentry?.setUser(email !== undefined ? { id, email } : { id })
   },
 
   addBreadcrumb(message: string, data?: ErrorContext): void {
-    sentry?.addBreadcrumb({ message, data })
+    sentry?.addBreadcrumb(data !== undefined ? { message, data } : { message })
   },
 }

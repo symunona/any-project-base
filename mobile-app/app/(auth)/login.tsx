@@ -65,7 +65,7 @@ function DevLoginNative() {
     const { url } = await fetchApi<{ url: string }>(`${config.apiUrl}/dev-login`, {
       method: 'POST', body: JSON.stringify({ email }),
     })
-    const { Linking } = await import('expo-linking')
+    const Linking = (await import('expo-linking')).default
     await Linking.openURL(url)
   }
 

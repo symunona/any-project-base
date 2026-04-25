@@ -9,7 +9,7 @@ type PasswordResetProps = {
 
 export function PasswordResetEmail({ projectName, resetUrl, unsubscribeUrl, customFooter }: PasswordResetProps) {
   return (
-    <EmailLayout projectName={projectName} unsubscribeUrl={unsubscribeUrl} customFooter={customFooter}>
+    <EmailLayout projectName={projectName} unsubscribeUrl={unsubscribeUrl} customFooter={customFooter ?? null}>
       <h2 style={{ marginTop: 0 }}>Reset your password</h2>
       <p>Click the link below to reset your password. This link expires in 1 hour.</p>
       <p>

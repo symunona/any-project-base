@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import type { PagedResponse } from '../types/api.types'
 import { fetchApi } from '../api/fetchApi'
-import { config, PAGE_SIZE } from '../config'
+import { config } from '../config'
 import { PAGE_SIZE as PAGE_SIZE_CONST } from '../constants'
 
 export function useInfinite<T>(

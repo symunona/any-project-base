@@ -9,7 +9,7 @@ type MagicLinkProps = {
 
 export function MagicLinkEmail({ projectName, loginUrl, unsubscribeUrl, customFooter }: MagicLinkProps) {
   return (
-    <EmailLayout projectName={projectName} unsubscribeUrl={unsubscribeUrl} customFooter={customFooter}>
+    <EmailLayout projectName={projectName} unsubscribeUrl={unsubscribeUrl} customFooter={customFooter ?? null}>
       <h2 style={{ marginTop: 0 }}>Your login link</h2>
       <p>Click below to sign in. This link can only be used once and expires in 1 hour.</p>
       <p>
