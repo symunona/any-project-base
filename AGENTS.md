@@ -95,6 +95,21 @@ Never edit files with `GENERATED —` header comment.
 
 **glassworm-hunter** must be installed: `pip3 install glassworm-hunter --break-system-packages`
 
+## Recommended Claude Code plugins
+
+Install once per dev machine: `just plugin-install`
+
+| Plugin | What it adds | How installed |
+|--------|-------------|---------------|
+| `context7` | Up-to-date library docs pulled into context on demand | via `just plugin-install` — MCP server, auto-active (`.mcp.json` in repo root) |
+| `caveman` | Terse response mode — cuts filler, keeps technical substance | via `just plugin-install` — use `/caveman` to activate |
+
+`context7` is **MCP-based** — no activation needed, just use `use context7` in a prompt and it fetches live docs for any library. The `.mcp.json` in this repo root wires it up automatically when Claude Code opens this project.
+
+`caveman` is a **skill** — persistent across the session once activated. Recommended for experienced devs who want shorter responses.
+
+To add more: `claude plugin install <name>` or `claude plugin search`.
+
 ## Module map
 
 | Dir | Purpose |

@@ -49,6 +49,13 @@ SUPPORTED_LOCALES=$(grep '^supported_locales:' "$PROJECT_YAML" \
   | sed 's/supported_locales:[[:space:]]*//' | tr -d '[]' | tr -d ' ')
 set_env "VITE_SUPPORTED_LOCALES" "$SUPPORTED_LOCALES"
 
+# ── App URLs ──────────────────────────────────────────
+echo ""
+printf "  ${BOLD}App URLs${RESET}\n"
+PROJECT=$(read_yaml name)
+set_env "SITE_URL"      "http://portal.${PROJECT}.localhost"
+set_env "VITE_APP_URL"  "http://portal.${PROJECT}.localhost"
+
 # ── Supabase static defaults ──────────────────────────
 echo ""
 printf "  ${BOLD}Supabase (static)${RESET}\n"

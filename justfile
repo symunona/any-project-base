@@ -10,6 +10,39 @@ start:
     #!/bin/bash
     set -e
 
+    # Bail if the stack is running as a managed system service
+    PROJECT=$(grep '^name:' project.yaml | awk '{print $2}')
+    if systemctl is-active --quiet "${PROJECT}-dev" 2>/dev/null; then
+      echo ""
+      echo "  ⚠  '${PROJECT}-dev' is running as a system service."
+      echo "  ⚠  Starting Vite dev servers alongside it will conflict."
+      echo "  ⚠  To redeploy: just deploy-local-service"
+      echo "  ⚠  To stop the service: sudo systemctl stop ${PROJECT}-dev"
+      exit 1
+    fi
+
+    # Warn if nginx localdev is configured — dev stack is reachable on the network
+    LOCALDEV_CONFIG="setup/dev/.localdev-config"
+    if [ -f "$LOCALDEV_CONFIG" ] && systemctl is-active --quiet nginx 2>/dev/null; then
+      _IP=$(grep "^IP=" "$LOCALDEV_CONFIG" | cut -d= -f2)
+      _PORTAL=$(grep "^URL_PORTAL=" "$LOCALDEV_CONFIG" | cut -d= -f2)
+      _ADMIN=$(grep "^URL_ADMIN=" "$LOCALDEV_CONFIG" | cut -d= -f2)
+      _API=$(grep "^URL_API=" "$LOCALDEV_CONFIG" | cut -d= -f2)
+      _TS_IP=$(ip addr show tailscale0 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d/ -f1 || true)
+      _TS_HOST=$(tailscale status 2>/dev/null | grep -E "^\s*${_TS_IP}" | awk '{print $2}' || true)
+      echo ""
+      echo "  ⚠  ⚠  ⚠  NGINX LOCALDEV IS ACTIVE  ⚠  ⚠  ⚠"
+      echo "  ⚠  Your dev stack is LIVE on the network (IP: ${_IP})"
+      echo "  ⚠  ${_PORTAL}"
+      echo "  ⚠  ${_ADMIN}"
+      echo "  ⚠  ${_API}  ← Supabase API + keys exposed"
+      if [ -n "$_TS_IP" ]; then
+        echo "  ⚠  Tailscale: ${_TS_IP}${_TS_HOST:+ (${_TS_HOST})} — visible to your Tailnet"
+      fi
+      echo "  ⚠  Run 'sudo nginx -s stop' to take it offline."
+      echo ""
+    fi
+
     # Auto-install if tools missing
     if ! supabase --version > /dev/null 2>&1 || ! caddy version > /dev/null 2>&1; then
       echo "Required tools missing — running just install first..."
@@ -40,6 +73,52 @@ start:
 
     # Start Caddy reverse proxy (*.localhost subdomains → Vite ports)
     bash setup/dev/caddy_start.sh
+
+    # Show remote URLs if nginx localdev is configured
+    if [ -f "setup/dev/.localdev-config" ] && systemctl is-active --quiet nginx 2>/dev/null; then
+      _LD=$(grep "^URL_LANDING=" setup/dev/.localdev-config | cut -d= -f2)
+      _PO=$(grep "^URL_PORTAL="  setup/dev/.localdev-config | cut -d= -f2)
+      _AD=$(grep "^URL_ADMIN="   setup/dev/.localdev-config | cut -d= -f2)
+      _AP=$(grep "^URL_API="     setup/dev/.localdev-config | cut -d= -f2)
+      _TS=$(ip addr show tailscale0 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d/ -f1 || true)
+      _W1=14; _W2=$(( ${#_AP} + 2 )); [ $_W2 -lt 44 ] && _W2=44
+      _S1=$(printf '─%.0s' $(seq 1 $((_W1 + 2))))
+      _S2=$(printf '─%.0s' $(seq 1 $((_W2 + 1))))
+      echo ""
+      printf "  \033[1mRemote (Nginx)\033[0m\n"
+      printf "╭%s┬%s╮\n" "$_S1" "$_S2"
+      printf "│ %-${_W1}s │ %-${_W2}s│\n" "Landing"       "$_LD"
+      printf "│ %-${_W1}s │ %-${_W2}s│\n" "Client Portal" "$_PO"
+      printf "│ %-${_W1}s │ %-${_W2}s│\n" "Admin Portal"  "$_AD"
+      printf "│ %-${_W1}s │ %-${_W2}s│\n" "Supabase API"  "$_AP"
+      printf "╰%s┴%s╯\n" "$_S1" "$_S2"
+      [ -n "$_TS" ] && printf "  \033[2mTailscale: %s\033[0m\n" "$_TS"
+    fi
+
+    # Show nip.io quicklinks when Tailscale is detected
+    _TS_NIP=$(ip addr show tailscale0 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d/ -f1 || true)
+    if [ -n "$_TS_NIP" ]; then
+      _NB="${_TS_NIP}.nip.io"
+      _NIP_LD="http://${_NB}"
+      _NIP_PO="http://portal.${_NB}"
+      _NIP_AD="http://admin.${_NB}"
+      _NIP_AP="http://api.${_NB}"
+      _NW2=$(( ${#_NIP_AP} + 2 )); [ $_NW2 -lt 44 ] && _NW2=44
+      _NS1=$(printf '─%.0s' $(seq 1 16))
+      _NS2=$(printf '─%.0s' $(seq 1 $((_NW2 + 1))))
+      echo ""
+      if systemctl is-active --quiet nginx 2>/dev/null; then
+        printf "  \033[1mTailscale / nip.io\033[0m\n"
+      else
+        printf "  \033[1mTailscale / nip.io\033[0m  \033[2m(needs: just setup-nginx-localdev)\033[0m\n"
+      fi
+      printf "╭%s┬%s╮\n" "$_NS1" "$_NS2"
+      printf "│ %-14s │ %-${_NW2}s│\n" "Landing"       "$_NIP_LD"
+      printf "│ %-14s │ %-${_NW2}s│\n" "Client Portal" "$_NIP_PO"
+      printf "│ %-14s │ %-${_NW2}s│\n" "Admin Portal"  "$_NIP_AD"
+      printf "│ %-14s │ %-${_NW2}s│\n" "Supabase API"  "$_NIP_AP"
+      printf "╰%s┴%s╯\n" "$_NS1" "$_NS2"
+    fi
 
     # Ctrl+C kills Vite + Caddy but leaves Supabase (Docker — slow to restart)
     trap '
@@ -289,10 +368,39 @@ setup-report:
 setup-agent:
     bash setup/init/agent.sh
 
+# Install recommended Claude Code plugins for this repo (context7, caveman)
+[group: 'Setup']
+plugin-install:
+    #!/bin/bash
+    set -e
+    echo "Installing recommended Claude Code plugins..."
+    if ! command -v claude &>/dev/null; then
+      echo "claude CLI not found — install Claude Code first: https://claude.ai/code"
+      exit 1
+    fi
+    claude plugin install context7
+    claude plugin install caveman
+    echo "Done. Add more anytime: claude plugin install <name>"
+
 # Generate Caddyfile from project.yaml and start/reload Caddy (*.localhost subdomains)
 [group: 'Setup']
 setup-caddy:
     bash setup/dev/caddy_start.sh
+
+# Set up Nginx reverse proxy for VPS/remote dev access via nip.io subdomains (dev mode)
+[group: 'Setup']
+setup-nginx-localdev:
+    bash setup/dev/nginx_localdev.sh dev
+
+# Set up Nginx + systemd service for persistent VPS deployment (serves built dist/)
+[group: 'Setup']
+setup-service-localdev:
+    bash setup/dev/service_localdev.sh
+
+# Build all apps and reload the local service (use after code changes on VPS)
+[group: 'Deploy & Release']
+deploy-local-service:
+    bash setup/dev/deploy_local_service.sh
 
 # Apply branding everywhere (from branding/colors.yaml + SVGs)
 [group: 'Setup: Branding']

@@ -27,10 +27,14 @@ file_size_limit = "50MiB"
 
 [auth]
 enabled = true
-site_url = "http://localhost:5173"
+site_url = "env(SITE_URL)"
 additional_redirect_urls = [
+  "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:5175",
+  "http://any-project-base.localhost",
+  "http://portal.any-project-base.localhost",
+  "http://admin.any-project-base.localhost",
 ]
 jwt_expiry = 3600
 enable_refresh_token_rotation = true
