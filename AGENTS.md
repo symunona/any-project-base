@@ -30,6 +30,17 @@ Before implementing anything non-trivial: read the relevant architecture doc.
 
 See `SETUP.md` for prerequisites, env setup, and how to start the stack.
 
+## justfile is the interface
+
+All dev tasks live in `justfile`. Never instruct a dev (or agent) to run raw CLI commands (`supabase`, `pnpm`, `expo`, etc.) when a `just` target exists or should exist.
+
+- Need to start something? → `just start` / `just dev` / `just mobile-dev`
+- Need to run a check? → `just check` / `just check-db` / `just check-frontend`
+- Need to deploy? → `just deploy <env>`
+- Missing a task? → add it to `justfile` first, then use it
+
+If a raw CLI invocation is needed that has no `just` wrapper yet, add the wrapper before using it. `just` is the contract between devs, agents, and CI.
+
 ## Before every task
 
 ```bash

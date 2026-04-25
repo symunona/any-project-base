@@ -8,7 +8,7 @@ See **[SETUP.md](SETUP.md)** for full local setup steps.
 
 ```bash
 just install      # install dependencies
-supabase start    # start local DB + auth (Docker required)
+just start        # start local DB + auth (Docker required)
 just db-reset     # apply migrations + seed
 just dev          # start all services
 ```

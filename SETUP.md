@@ -27,10 +27,10 @@ just install
 ## 3. Start local Supabase
 
 ```bash
-supabase start
+just start
 ```
 
-This starts Postgres + Auth + Edge Functions locally in Docker.
+Starts Postgres + Auth + Edge Functions locally in Docker.
 First run takes a few minutes to pull images.
 
 Local dashboard: http://localhost:54323

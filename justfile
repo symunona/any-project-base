@@ -4,6 +4,11 @@
 
 # ── All ───────────────────────────────────────────────────────────────────────
 
+# Start local Supabase (Postgres + Auth + Edge Functions via Docker)
+[group: 'All']
+start:
+    supabase start
+
 # Start all services (supabase + all frontends)
 [group: 'All']
 dev:
