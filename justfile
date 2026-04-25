@@ -41,14 +41,10 @@ start:
     # Start Caddy reverse proxy (*.localhost subdomains → Vite ports)
     bash setup/dev/caddy_start.sh
 
-    # Start all frontend dev servers
-    PROJECT=$(grep '^name:' project.yaml | awk '{print $2}')
-    echo "→ Starting portal.${PROJECT}.localhost → :5173 (client portal)..."
-    pnpm --filter client-portal dev &
-    echo "→ Starting admin.${PROJECT}.localhost  → :5174 (admin portal)..."
-    pnpm --filter admin-portal dev &
-    echo "→ Starting ${PROJECT}.localhost         → :5175 (landing)..."
-    pnpm --filter landing dev &
+    # Start all frontend dev servers (CADDY=1 suppresses Vite's localhost banner)
+    CADDY=1 pnpm --filter client-portal dev &
+    CADDY=1 pnpm --filter admin-portal dev &
+    CADDY=1 pnpm --filter landing dev &
     wait
 
 # Check all dev ports are free

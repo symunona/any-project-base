@@ -123,6 +123,82 @@ else
   fi
 fi
 
+# ── Caddy (local reverse proxy for *.localhost subdomains) ───────────────────
+install_caddy_linux() {
+  local tmp latest arch version url redirect_url
+  tmp=$(mktemp -d)
+
+  # Try GitHub API first; fall back to following the /releases/latest redirect
+  latest=$(curl -sf "https://api.github.com/repos/caddyserver/caddy/releases/latest" \
+    | grep -oP '"tag_name":"\Kv[^"]+' || true)
+  if [ -z "$latest" ]; then
+    redirect_url=$(curl -sI "https://github.com/caddyserver/caddy/releases/latest" \
+      | grep -i '^location:' | awk '{print $2}' | tr -d '\r' || true)
+    latest=$(basename "$redirect_url")
+  fi
+  if [ -z "$latest" ]; then
+    rm -rf "$tmp"
+    fail "Could not determine Caddy version — check network connectivity"
+    return 1
+  fi
+
+  arch=$(uname -m)
+  [ "$arch" = "x86_64" ] && arch="amd64" || arch="arm64"
+  version="${latest#v}"
+  url="https://github.com/caddyserver/caddy/releases/download/${latest}/caddy_${version}_linux_${arch}.tar.gz"
+  info "Downloading Caddy ${latest} (linux/${arch})..."
+
+  if ! curl -sL "$url" | tar xz -C "$tmp"; then
+    rm -rf "$tmp"
+    fail "Caddy download or extraction failed"
+    return 1
+  fi
+
+  local bin_dir="$HOME/.local/bin"
+  mkdir -p "$bin_dir"
+  mv "$tmp/caddy" "$bin_dir/caddy"
+  chmod +x "$bin_dir/caddy"
+  rm -rf "$tmp"
+}
+
+if caddy version > /dev/null 2>&1; then
+  success "caddy: already installed ($(caddy version 2>/dev/null | head -1))"
+  track "caddy" "pre-existing"
+else
+  info "Installing Caddy (local reverse proxy for *.localhost subdomains)..."
+  OS="$(uname -s)"
+  if [ "$OS" = "Darwin" ] && brew --version > /dev/null 2>&1; then
+    brew install caddy \
+      && success "caddy installed via brew" && track "caddy" "brew" \
+      || fail "caddy install failed — see https://caddyserver.com/docs/install"
+  elif [ "$OS" = "Linux" ]; then
+    if snap install caddy 2>/dev/null; then
+      success "caddy installed via snap" && track "caddy" "snap"
+    else
+      install_caddy_linux \
+        && success "caddy installed to ~/.local/bin" && track "caddy" "linux-binary" \
+        || fail "caddy install failed — see https://caddyserver.com/docs/install"
+    fi
+  else
+    fail "caddy auto-install not supported on $OS — see https://caddyserver.com/docs/install"
+  fi
+fi
+
+# Linux only: grant Caddy port-80 binding via setcap (one-time sudo — permanent after)
+if [ "$(uname -s)" = "Linux" ] && caddy version > /dev/null 2>&1; then
+  CADDY_BIN=$(which caddy 2>/dev/null || echo "$HOME/.local/bin/caddy")
+  if ! getcap "$CADDY_BIN" 2>/dev/null | grep -q cap_net_bind_service; then
+    info "Granting Caddy permission to bind port 80 (requires sudo — one time only)."
+    arrow "Why: Linux restricts ports < 1024 to root by default. setcap lets Caddy"
+    arrow "bind port 80 permanently as your user — no sudo ever again after this."
+    sudo setcap cap_net_bind_service=+ep "$CADDY_BIN" \
+      && success "setcap done — Caddy can now bind port 80 without sudo" \
+      || warn "setcap failed — 'just start' may prompt for sudo when starting Caddy"
+  else
+    success "caddy: port-80 setcap already granted"
+  fi
+fi
+
 # ── EAS CLI (optional — mobile only) ─────────────────────────────────────────
 if eas --version > /dev/null 2>&1; then
   success "EAS CLI: $(eas --version)"

@@ -12,7 +12,12 @@ const commitDate = (() => {
 })()
 
 export default defineConfig({
+  clearScreen: false,
   plugins: [
+    process.env.CADDY === '1' && {
+      name: 'suppress-banner',
+      configureServer(server: { printUrls: () => void }) { server.printUrls = () => {} },
+    },
     react(),
     tailwindcss(),
     VitePWA({
@@ -33,6 +38,11 @@ export default defineConfig({
   define: {
     'import.meta.env.VITE_COMMIT_SHA': JSON.stringify(commitSha),
     'import.meta.env.VITE_COMMIT_DATE': JSON.stringify(commitDate),
+  },
+  server: {
+    port: 5174,
+    host: true,
+    allowedHosts: true,
   },
   resolve: {
     alias: { '@any-project-base/commons': '../commons' },

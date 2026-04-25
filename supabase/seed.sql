@@ -2,40 +2,36 @@
 -- Never modify existing users — add new ones for new states.
 -- Maintained in sync with DevLogin.tsx seed users list.
 
--- NOTE: Supabase local dev uses the auth admin API to create users.
--- This seed creates auth.users rows + public.users rows for each.
+-- NOTE: auth.create_user(jsonb) was removed in newer Supabase CLI versions.
+-- We insert directly into auth.users using crypt() from pgcrypto (enabled by default).
+-- Password for all dev users: 'devpassword'
 -- Run via: supabase db reset
 
--- Insert auth users (password: 'devpassword' for all)
-select auth.create_user(jsonb_build_object(
-  'email', 'admin@dev.local',
-  'password', 'devpassword',
-  'email_confirmed_at', now()
-)) where not exists (select 1 from auth.users where email = 'admin@dev.local');
-
-select auth.create_user(jsonb_build_object(
-  'email', 'support@dev.local',
-  'password', 'devpassword',
-  'email_confirmed_at', now()
-)) where not exists (select 1 from auth.users where email = 'support@dev.local');
-
-select auth.create_user(jsonb_build_object(
-  'email', 'user@dev.local',
-  'password', 'devpassword',
-  'email_confirmed_at', now()
-)) where not exists (select 1 from auth.users where email = 'user@dev.local');
-
-select auth.create_user(jsonb_build_object(
-  'email', 'user-nocredits@dev.local',
-  'password', 'devpassword',
-  'email_confirmed_at', now()
-)) where not exists (select 1 from auth.users where email = 'user-nocredits@dev.local');
-
-select auth.create_user(jsonb_build_object(
-  'email', 'user-sub@dev.local',
-  'password', 'devpassword',
-  'email_confirmed_at', now()
-)) where not exists (select 1 from auth.users where email = 'user-sub@dev.local');
+insert into auth.users (
+  id, instance_id, email, encrypted_password,
+  email_confirmed_at, created_at, updated_at,
+  raw_app_meta_data, raw_user_meta_data,
+  is_super_admin, role, aud
+)
+select
+  gen_random_uuid(),
+  '00000000-0000-0000-0000-000000000000',
+  u.email,
+  crypt('devpassword', gen_salt('bf')),
+  now(), now(), now(),
+  '{"provider":"email","providers":["email"]}'::jsonb,
+  '{}'::jsonb,
+  false,
+  'authenticated',
+  'authenticated'
+from (values
+  ('admin@dev.local'),
+  ('support@dev.local'),
+  ('user@dev.local'),
+  ('user-nocredits@dev.local'),
+  ('user-sub@dev.local')
+) as u(email)
+where not exists (select 1 from auth.users where auth.users.email = u.email);
 
 -- Set roles
 update public.users set role = 'admin',   name = 'Dev Admin'

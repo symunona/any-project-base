@@ -12,7 +12,14 @@ const commitDate = (() => {
 })()
 
 export default defineConfig({
+  clearScreen: false,
   plugins: [
+    // When started via `just start` (Caddy running), suppress the localhost banner.
+    // Canonical URLs are shown once by `just start`. Direct `pnpm dev` still shows the banner.
+    process.env.CADDY === '1' && {
+      name: 'suppress-banner',
+      configureServer(server: { printUrls: () => void }) { server.printUrls = () => {} },
+    },
     react(),
     tailwindcss(),
     VitePWA({
@@ -33,6 +40,11 @@ export default defineConfig({
   define: {
     'import.meta.env.VITE_COMMIT_SHA': JSON.stringify(commitSha),
     'import.meta.env.VITE_COMMIT_DATE': JSON.stringify(commitDate),
+  },
+  server: {
+    port: 5173,
+    host: true,
+    allowedHosts: true,
   },
   resolve: {
     alias: {
