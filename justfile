@@ -10,38 +10,36 @@ start:
     #!/bin/bash
     set -e
 
-    # Bail if the stack is running as a managed system service
+    # Stop managed service if running — can't run Vite dev servers alongside it
     PROJECT=$(grep '^name:' project.yaml | awk '{print $2}')
     if systemctl is-active --quiet "${PROJECT}-dev" 2>/dev/null; then
       echo ""
-      echo "  ⚠  '${PROJECT}-dev' is running as a system service."
-      echo "  ⚠  Starting Vite dev servers alongside it will conflict."
-      echo "  ⚠  To redeploy: just deploy-local-service"
-      echo "  ⚠  To stop the service: sudo systemctl stop ${PROJECT}-dev"
-      exit 1
+      echo "  ⚠  '${PROJECT}-dev' system service is running — stopping it for dev mode..."
+      sudo systemctl stop "${PROJECT}-dev" || { echo "  ✗  Failed to stop service. Run: sudo systemctl stop ${PROJECT}-dev"; exit 1; }
+      echo "  ✓  Service stopped. Starting dev servers..."
+      echo ""
     fi
 
-    # Warn if nginx localdev is configured — dev stack is reachable on the network
-    LOCALDEV_CONFIG="setup/dev/.localdev-config"
-    if [ -f "$LOCALDEV_CONFIG" ] && systemctl is-active --quiet nginx 2>/dev/null; then
-      _IP=$(grep "^IP=" "$LOCALDEV_CONFIG" | cut -d= -f2)
-      _PORTAL=$(grep "^URL_PORTAL=" "$LOCALDEV_CONFIG" | cut -d= -f2)
-      _ADMIN=$(grep "^URL_ADMIN=" "$LOCALDEV_CONFIG" | cut -d= -f2)
-      _API=$(grep "^URL_API=" "$LOCALDEV_CONFIG" | cut -d= -f2)
-      _TS_IP=$(ip addr show tailscale0 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d/ -f1 || true)
-      _TS_HOST=$(tailscale status 2>/dev/null | grep -E "^\s*${_TS_IP}" | awk '{print $2}' || true)
+    # Warn if any nginx config exposes the stack to the network
+    _nginx_warn() {
+      local config=$1 label=$2
+      [ -f "$config" ] || return 0
+      systemctl is-active --quiet nginx 2>/dev/null || return 0
+      _IP=$(grep "^IP=" "$config" | cut -d= -f2)
+      _PORTAL=$(grep "^URL_PORTAL=" "$config" | cut -d= -f2)
+      _ADMIN=$(grep "^URL_ADMIN="   "$config" | cut -d= -f2)
+      _API=$(grep "^URL_API="       "$config" | cut -d= -f2)
       echo ""
-      echo "  ⚠  ⚠  ⚠  NGINX LOCALDEV IS ACTIVE  ⚠  ⚠  ⚠"
-      echo "  ⚠  Your dev stack is LIVE on the network (IP: ${_IP})"
+      echo "  ⚠  ⚠  ⚠  NGINX ${label} IS ACTIVE  ⚠  ⚠  ⚠"
+      echo "  ⚠  Your stack is LIVE on the network (IP: ${_IP})"
       echo "  ⚠  ${_PORTAL}"
       echo "  ⚠  ${_ADMIN}"
       echo "  ⚠  ${_API}  ← Supabase API + keys exposed"
-      if [ -n "$_TS_IP" ]; then
-        echo "  ⚠  Tailscale: ${_TS_IP}${_TS_HOST:+ (${_TS_HOST})} — visible to your Tailnet"
-      fi
       echo "  ⚠  Run 'sudo nginx -s stop' to take it offline."
       echo ""
-    fi
+    }
+    _nginx_warn "setup/dev/.vitedev-config"   "DEV PROXY"
+    _nginx_warn "setup/dev/.localdev-config"  "SERVICE"
 
     # Auto-install if tools missing
     if ! supabase --version > /dev/null 2>&1 || ! caddy version > /dev/null 2>&1; then
@@ -74,26 +72,29 @@ start:
     # Start Caddy reverse proxy (*.localhost subdomains → Vite ports)
     bash setup/dev/caddy_start.sh
 
-    # Show remote URLs if nginx localdev is configured
-    if [ -f "setup/dev/.localdev-config" ] && systemctl is-active --quiet nginx 2>/dev/null; then
-      _LD=$(grep "^URL_LANDING=" setup/dev/.localdev-config | cut -d= -f2)
-      _PO=$(grep "^URL_PORTAL="  setup/dev/.localdev-config | cut -d= -f2)
-      _AD=$(grep "^URL_ADMIN="   setup/dev/.localdev-config | cut -d= -f2)
-      _AP=$(grep "^URL_API="     setup/dev/.localdev-config | cut -d= -f2)
-      _TS=$(ip addr show tailscale0 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d/ -f1 || true)
+    # Show remote URLs — dev proxy takes priority (it's what's active after just start)
+    _show_remote_urls() {
+      local config=$1 label=$2
+      [ -f "$config" ] || return 0
+      systemctl is-active --quiet nginx 2>/dev/null || return 0
+      _LD=$(grep "^URL_LANDING=" "$config" | cut -d= -f2)
+      _PO=$(grep "^URL_PORTAL="  "$config" | cut -d= -f2)
+      _AD=$(grep "^URL_ADMIN="   "$config" | cut -d= -f2)
+      _AP=$(grep "^URL_API="     "$config" | cut -d= -f2)
       _W1=14; _W2=$(( ${#_AP} + 2 )); [ $_W2 -lt 44 ] && _W2=44
       _S1=$(printf '─%.0s' $(seq 1 $((_W1 + 2))))
       _S2=$(printf '─%.0s' $(seq 1 $((_W2 + 1))))
       echo ""
-      printf "  \033[1mRemote (Nginx)\033[0m\n"
+      printf "  \033[1mRemote — ${label}\033[0m\n"
       printf "╭%s┬%s╮\n" "$_S1" "$_S2"
       printf "│ %-${_W1}s │ %-${_W2}s│\n" "Landing"       "$_LD"
-      printf "│ %-${_W1}s │ %-${_W2}s│\n" "Client Portal" "$_PO"
-      printf "│ %-${_W1}s │ %-${_W2}s│\n" "Admin Portal"  "$_AD"
+      printf "│ %-${_W1}s │ %-${_W2}s│\n" "Client portal" "$_PO"
+      printf "│ %-${_W1}s │ %-${_W2}s│\n" "Admin portal"  "$_AD"
       printf "│ %-${_W1}s │ %-${_W2}s│\n" "Supabase API"  "$_AP"
       printf "╰%s┴%s╯\n" "$_S1" "$_S2"
-      [ -n "$_TS" ] && printf "  \033[2mTailscale: %s\033[0m\n" "$_TS"
-    fi
+    }
+    _show_remote_urls "setup/dev/.vitedev-config"  "Nginx dev proxy (→ Vite)"
+    _show_remote_urls "setup/dev/.localdev-config" "Nginx service (→ dist/)"
 
     # Show nip.io quicklinks when Tailscale is detected
     _TS_NIP=$(ip addr show tailscale0 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d/ -f1 || true)
@@ -140,6 +141,80 @@ start:
 port-check:
     bash setup/checks/port_check.sh
 
+# Show status of all local dev services (Supabase, Caddy, Vite ports, systemd)
+[group: 'All']
+local-service-status:
+    #!/bin/bash
+    PROJECT=$(grep '^name:' project.yaml | awk '{print $2}')
+
+    ok()  { printf "  \033[32m✓\033[0m  %-28s %s\n" "$1" "$2"; }
+    fail(){ printf "  \033[31m✗\033[0m  %-28s %s\n" "$1" "$2"; }
+    warn(){ printf "  \033[33m⚠\033[0m  %-28s %s\n" "$1" "$2"; }
+
+    echo ""
+    echo "  Local service status — ${PROJECT}"
+    echo "  ─────────────────────────────────────────"
+
+    # Supabase
+    if supabase status &>/dev/null; then
+      DB_URL=$(supabase status 2>/dev/null | grep "DB URL" | awk '{print $NF}' || true)
+      ok "Supabase" "${DB_URL:-running}"
+    else
+      fail "Supabase" "stopped  (just dev-db)"
+    fi
+
+    # Caddy
+    if caddy status &>/dev/null 2>&1 || pgrep -x caddy &>/dev/null; then
+      ok "Caddy" "running"
+    else
+      fail "Caddy" "stopped"
+    fi
+
+    # Vite dev servers
+    for PORT in 5173 5174 5175; do
+      PID=$(lsof -ti:"$PORT" 2>/dev/null || true)
+      case $PORT in
+        5173) LABEL="Client portal   :5173";;
+        5174) LABEL="Admin portal    :5174";;
+        5175) LABEL="Landing         :5175";;
+      esac
+      if [ -n "$PID" ]; then
+        CMD=$(ps -p "$PID" -o args= 2>/dev/null | head -c 50 || true)
+        ok "$LABEL" ""
+      else
+        fail "$LABEL" "not running  (just start)"
+      fi
+    done
+
+    # Systemd managed service
+    SVC="${PROJECT}-dev"
+    if systemctl is-active --quiet "$SVC" 2>/dev/null; then
+      warn "systemd: ${SVC}" "running — conflicts with just start"
+    elif systemctl list-units --full --all "$SVC.service" 2>/dev/null | grep -q "$SVC"; then
+      fail "systemd: ${SVC}" "inactive"
+    fi
+
+    # Nginx configs — dev proxy and/or service, independent
+    if systemctl is-active --quiet nginx 2>/dev/null; then
+      VITEDEV_CONFIG="setup/dev/.vitedev-config"
+      SVC_CONFIG="setup/dev/.localdev-config"
+      if [ -f "$VITEDEV_CONFIG" ]; then
+        _URL=$(grep "^URL_PORTAL=" "$VITEDEV_CONFIG" | cut -d= -f2)
+        ok "nginx dev proxy" "${_URL}"
+      fi
+      if [ -f "$SVC_CONFIG" ]; then
+        _URL=$(grep "^URL_PORTAL=" "$SVC_CONFIG" | cut -d= -f2)
+        ok "nginx service" "${_URL}"
+      fi
+      if [ ! -f "$VITEDEV_CONFIG" ] && [ ! -f "$SVC_CONFIG" ]; then
+        fail "nginx" "running but no config found"
+      fi
+    else
+      fail "nginx" "not running"
+    fi
+
+    echo ""
+
 # Kill all dev servers, stop Supabase and Caddy
 [group: 'All']
 kill:
@@ -154,9 +229,24 @@ kill:
     done
     echo "Done."
 
-# Build all frontend projects
+# Build all frontend projects (auto-generates env vars from Supabase if missing)
 [group: 'All']
 build:
+    #!/bin/bash
+    set -e
+    ENV_FILE=".env.local"
+    # Auto-generate env if Supabase anon key is missing
+    if ! grep -q "^VITE_SUPABASE_ANON_KEY=.\+" "$ENV_FILE" 2>/dev/null; then
+      echo "⚠  VITE_SUPABASE_ANON_KEY missing — running env-generate..."
+      just env-generate
+    fi
+    # Fail fast if still missing (Supabase not running and no existing key)
+    if ! grep -q "^VITE_SUPABASE_ANON_KEY=.\+" "$ENV_FILE" 2>/dev/null; then
+      echo "✗  VITE_SUPABASE_ANON_KEY still missing after env-generate."
+      echo "   Start Supabase first:  just dev-db"
+      echo "   Then retry:            just build"
+      exit 1
+    fi
     pnpm -r build
 
 # Remove tools installed by this project (skips pre-existing). Asks for confirmation.
@@ -387,12 +477,12 @@ plugin-install:
 setup-caddy:
     bash setup/dev/caddy_start.sh
 
-# Set up Nginx reverse proxy for VPS/remote dev access via nip.io subdomains (dev mode)
+# [VPS] Nginx dev proxy: public domain → Vite dev servers. Domain: portal.dev.{project}.{domain}. Then: just start
 [group: 'Setup']
 setup-nginx-localdev:
-    bash setup/dev/nginx_localdev.sh dev
+    bash setup/dev/nginx_localdev.sh
 
-# Set up Nginx + systemd service for persistent VPS deployment (serves built dist/)
+# [VPS] Nginx service: public domain → built dist/ + systemd. Domain: portal.{project}.{domain}. Then: just deploy-local-service
 [group: 'Setup']
 setup-service-localdev:
     bash setup/dev/service_localdev.sh

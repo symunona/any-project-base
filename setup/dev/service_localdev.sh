@@ -28,15 +28,13 @@ info "Supabase starts on boot. Nginx serves built static files."
 echo ""
 
 # ── Nginx config first ────────────────────────────────────────────────────────
-if ! nginx -t 2>/dev/null | grep -q "${PROJECT}" && \
-   ! [ -f "/etc/nginx/sites-enabled/${PROJECT}" ]; then
-  info "Nginx not yet configured — running nginx setup first..."
-  bash "$SETUP_DIR/dev/nginx_localdev.sh" service
+NGINX_SERVICE_CONF="/etc/nginx/sites-enabled/${PROJECT}-service"
+if [ -L "$NGINX_SERVICE_CONF" ] || [ -f "$NGINX_SERVICE_CONF" ]; then
+  info "Nginx service config already installed — re-running to refresh..."
 else
-  info "Nginx already configured for ${PROJECT}."
-  # Update mode to service in the nginx config
-  bash "$SETUP_DIR/dev/nginx_localdev.sh" service
+  info "Nginx service config not found — running nginx service setup..."
 fi
+bash "$SETUP_DIR/dev/nginx_service.sh"
 
 echo ""
 

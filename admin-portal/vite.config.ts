@@ -3,6 +3,12 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { execSync } from 'child_process'
+import { fileURLToPath } from 'url'
+import path from 'path'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const commons = path.resolve(__dirname, '../commons')
+const root = path.resolve(__dirname, '..')
 
 const commitSha = (() => {
   try { return execSync('git rev-parse --short HEAD').toString().trim() } catch { return '' }
@@ -13,6 +19,7 @@ const commitDate = (() => {
 
 export default defineConfig({
   clearScreen: false,
+  envDir: root,
   plugins: [
     react(),
     tailwindcss(),
@@ -41,6 +48,10 @@ export default defineConfig({
     allowedHosts: true,
   },
   resolve: {
-    alias: { '@any-project-base/commons': '../commons' },
+    alias: [
+      { find: /^@any-project-base\/commons\/styles$/, replacement: `${commons}/styles/globals.css` },
+      { find: /^@any-project-base\/commons$/, replacement: `${commons}/index.ts` },
+      { find: /^@any-project-base\/commons\/(.*)$/, replacement: `${commons}/$1` },
+    ],
   },
 })

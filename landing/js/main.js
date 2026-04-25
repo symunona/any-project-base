@@ -1,4 +1,5 @@
 // Landing page — lang detection, lang pref save, scroll effects, login resolver.
+import { startOrbitLogo } from './orbit-logo.js'
 
 const SUPPORTED_LOCALES = ['en', 'es', 'ko']
 const DEFAULT_LOCALE = 'en'
@@ -61,6 +62,9 @@ function resolvePortalUrl() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const orbitEl = document.getElementById('orbit-logo-hero')
+  if (orbitEl) startOrbitLogo(orbitEl)
+
   redirectToLocale()
 
   // ── Lang selector ──

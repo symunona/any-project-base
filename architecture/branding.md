@@ -34,7 +34,15 @@ Part of setup step 3 (Branding). Runs after business description captured.
 ```
 
 5. User picks → `apply-branding` runs automatically
-6. User can always re-run `just setup apply-branding` after manual edits
+6. User can always re-run `just setup-apply-branding` after manual edits
+
+## Logo propagation
+
+`just setup-apply-branding` handles three targets:
+- Copies `branding/logo-*.svg` → `{client-portal,admin-portal,landing}/public/`
+- Replaces inline SVG in `landing/index.html` between `<!-- LOGO-MARK-START -->` / `<!-- LOGO-MARK-END -->` markers with `branding/logo-small.svg` (sized `width="48" height="48"`)
+
+**Rule:** never edit inline SVGs in `index.html` directly for logo changes — edit `branding/logo-small.svg` and re-run `just setup-apply-branding`.
 
 ## palette.js Structure
 

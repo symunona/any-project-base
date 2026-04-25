@@ -60,6 +60,27 @@ for logo in logo-large.svg logo-small.svg logo-favicon.svg; do
 done
 success "Logos copied to portal public/ dirs"
 
+# ── Inline logo-mark in landing/index.html ──────────────────────────────────
+LANDING_HTML="$ROOT_DIR/landing/index.html"
+LOGO_MARK="$BRANDING_DIR/logo-small.svg"
+if [ -f "$LANDING_HTML" ] && [ -f "$LOGO_MARK" ]; then
+  SVG_CONTENT=$(cat "$LOGO_MARK")
+  python3 - <<PYEOF
+import re, sys
+html = open('$LANDING_HTML').read()
+inner = open('$LOGO_MARK').read().strip()
+# Wrap with size attrs matching nav usage, preserve markers
+replacement = '<!-- LOGO-MARK-START -->\n      ' + \
+  re.sub(r'^<svg', '<svg width="48" height="48"', inner, count=1) + \
+  '\n      <!-- LOGO-MARK-END -->'
+html = re.sub(
+  r'<!-- LOGO-MARK-START -->.*?<!-- LOGO-MARK-END -->',
+  replacement, html, flags=re.DOTALL)
+open('$LANDING_HTML', 'w').write(html)
+PYEOF
+  success "landing/index.html inline logo-mark updated"
+fi
+
 # ── Update client-portal/public/manifest.json ──────────────────────────────
 MANIFEST="$ROOT_DIR/client-portal/public/manifest.json"
 if [ -f "$MANIFEST" ]; then

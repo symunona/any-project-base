@@ -2,3 +2,4 @@
 .tooling-state
 branding/palette.js
 dev/.localdev-config
+dev/.vitedev-config

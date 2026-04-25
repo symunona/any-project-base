@@ -41,6 +41,46 @@ All dev tasks live in `justfile`. Never instruct a dev (or agent) to run raw CLI
 
 If a raw CLI invocation is needed that has no `just` wrapper yet, add the wrapper before using it. `just` is the contract between devs, agents, and CI.
 
+## Finding the running server URL
+
+Before browsing or testing, resolve the live URL for this environment:
+
+**1. VPS — check which nginx mode is configured:**
+
+Two modes coexist independently. Check whichever config file is present:
+
+| Config file | Mode | Domain pattern | How to set up |
+|-------------|------|----------------|---------------|
+| `setup/dev/.vitedev-config` | **Dev proxy** — nginx → Vite dev servers | `portal.dev.{project}.{domain}` | `just setup-nginx-localdev` |
+| `setup/dev/.localdev-config` | **Service** — nginx → built `dist/` | `portal.{project}.{domain}` | `just setup-service-localdev` |
+
+Both files expose `URL_PORTAL`, `URL_ADMIN`, `URL_LANDING`, `URL_API`.
+
+After `just start` (Vite running) → use `URL_PORTAL` from `.vitedev-config`.
+After `just deploy-local-service` (built files) → use `URL_PORTAL` from `.localdev-config`.
+
+**2. Otherwise derive from `project.yaml`** (local Caddy dev):
+```bash
+grep '^name:' project.yaml   # → e.g. "any-project-base"
+```
+Caddy routes:
+- Landing → `http://{name}.localhost:5175`
+- Client portal → `http://portal.{name}.localhost` (proxied from :5173)
+- Admin portal → `http://admin.{name}.localhost` (proxied from :5174)
+
+**3. Check if the server is actually running before testing:**
+```bash
+just local-service-status
+```
+This shows Supabase, Caddy, all three Vite ports, and the systemd service state. If servers are stopped, the browser check will show nothing useful — start them first (`just start`).
+
+## Always verify with agent-browser
+
+After any UI change or deployment, use an agent with browser access to check the result:
+- Browse to the resolved URL
+- Report what's visible: any blank screen, error overlay, console errors, or working UI
+- Never report a UI task as complete without a browser verification
+
 ## Before every task
 
 ```bash
@@ -122,5 +162,5 @@ To add more: `claude plugin install <name>` or `claude plugin search`.
 | `commons/` | shared types, hooks, components, utils |
 | `architecture/` | architectural decisions — read-only for agents |
 | `setup/` | install + platform setup scripts |
-| `branding/` | logos, colors — edit here, propagate via apply-branding |
+| `branding/` | logos, colors — edit here, propagate via `just setup-apply-branding` |
 | `spec/` | module specs |

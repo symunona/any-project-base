@@ -1,0 +1,11 @@
+{
+  "name": "any-project-base",
+  "short_name": "APB",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "icons": [
+    { "src": "/assets/favicon.svg", "type": "image/svg+xml", "sizes": "any" }
+  ]
+}
