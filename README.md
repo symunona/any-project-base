@@ -4,8 +4,12 @@ Opinionated SaaS monorepo starter. Kick-starts any business idea — demo-ready 
 
 ## Quick start
 
+See **[SETUP.md](SETUP.md)** for full local setup steps.
+
 ```bash
-just setup        # guided first-run setup
+just install      # install dependencies
+supabase start    # start local DB + auth (Docker required)
+just db-reset     # apply migrations + seed
 just dev          # start all services
 ```
 

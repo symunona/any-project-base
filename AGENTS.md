@@ -26,6 +26,10 @@ Before implementing anything non-trivial: read the relevant architecture doc.
 | `architecture/mobile.md` | any mobile-app work |
 | `architecture/project-yaml.md` | reading/writing project.yaml |
 
+## Local setup
+
+See `SETUP.md` for prerequisites, env setup, and how to start the stack.
+
 ## Before every task
 
 ```bash
