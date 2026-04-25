@@ -41,10 +41,19 @@ start:
     # Start Caddy reverse proxy (*.localhost subdomains → Vite ports)
     bash setup/dev/caddy_start.sh
 
-    # Start all frontend dev servers (CADDY=1 suppresses Vite's localhost banner)
-    CADDY=1 pnpm --filter client-portal dev &
-    CADDY=1 pnpm --filter admin-portal dev &
-    CADDY=1 pnpm --filter landing dev &
+    # Ctrl+C kills Vite + Caddy but leaves Supabase (Docker — slow to restart)
+    trap '
+      kill 0
+      echo ""
+      echo "  ⚠  Vite servers and Caddy stopped."
+      echo "  ⚠  Supabase is still running (Docker stack left intentionally)."
+      echo "  ⚠  Run \033[1mjust kill\033[0m to stop Supabase too."
+    ' INT TERM
+
+    # Start all frontend dev servers
+    pnpm --filter client-portal dev &
+    pnpm --filter admin-portal dev &
+    pnpm --filter landing dev &
     wait
 
 # Check all dev ports are free

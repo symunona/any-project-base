@@ -2,12 +2,6 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   clearScreen: false,
-  plugins: [
-    process.env.CADDY === '1' && {
-      name: 'suppress-banner',
-      configureServer(server) { server.printUrls = () => {} },
-    },
-  ].filter(Boolean),
   root: '.',
   server: {
     port: 5175,

@@ -14,12 +14,6 @@ const commitDate = (() => {
 export default defineConfig({
   clearScreen: false,
   plugins: [
-    // When started via `just start` (Caddy running), suppress the localhost banner.
-    // Canonical URLs are shown once by `just start`. Direct `pnpm dev` still shows the banner.
-    process.env.CADDY === '1' && {
-      name: 'suppress-banner',
-      configureServer(server: { printUrls: () => void }) { server.printUrls = () => {} },
-    },
     react(),
     tailwindcss(),
     VitePWA({

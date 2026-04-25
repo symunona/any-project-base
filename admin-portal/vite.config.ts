@@ -14,10 +14,6 @@ const commitDate = (() => {
 export default defineConfig({
   clearScreen: false,
   plugins: [
-    process.env.CADDY === '1' && {
-      name: 'suppress-banner',
-      configureServer(server: { printUrls: () => void }) { server.printUrls = () => {} },
-    },
     react(),
     tailwindcss(),
     VitePWA({
