@@ -31,7 +31,9 @@ install:
     pnpm install
     echo "Running supply chain checks..."
     pnpm audit --audit-level=high || true
-    echo "Supply chain check done. Run GlassWorm manually for deep scan."
+    echo "Running GlassWorm supply chain scan..."
+    glassworm-hunter scan --npm-scan --quiet || true
+    echo "Supply chain check done."
 
 # ── Client Portal ─────────────────────────────────────────────────────────────
 
