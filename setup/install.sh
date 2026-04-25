@@ -12,6 +12,7 @@ STATE_FILE="$SETUP_DIR/.install-state.json"
 STEPS=(
   "agent|Agent selector|$SETUP_DIR/init/agent.sh|no"
   "project|Project init|$SETUP_DIR/init/project.sh|no"
+  "env_generate|Auto-fill env vars|$SETUP_DIR/env/env_generate.sh|no"
   "branding|Branding|$SETUP_DIR/branding/branding.sh|yes"
   "dns|DNS setup|$SETUP_DIR/platform/dns_setup.sh|yes"
   "static|Static hosting|$SETUP_DIR/static/select.sh|yes"

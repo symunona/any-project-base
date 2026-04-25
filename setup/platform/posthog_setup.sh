@@ -5,6 +5,14 @@ SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SETUP_DIR/lib/ui.sh"
 source "$SETUP_DIR/lib/yaml.sh"
 
+ANALYTICS=$(read_yaml "analytics")
+if [ "$ANALYTICS" != "posthog" ]; then
+  info "analytics is not 'posthog' in project.yaml — PostHog not needed."
+  info "To enable: set 'analytics: posthog' in project.yaml, then re-run: just setup-posthog"
+  write_state "posthog" "skipped" "analytics!=posthog"
+  exit 0
+fi
+
 header "POSTHOG ANALYTICS"
 info "Session recording, funnels, feature flags."
 warn "Without this: analytics disabled (no tracking at all)."

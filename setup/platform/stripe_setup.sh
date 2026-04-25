@@ -5,6 +5,14 @@ SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SETUP_DIR/lib/ui.sh"
 source "$SETUP_DIR/lib/yaml.sh"
 
+PRICING=$(read_yaml "pricing_model")
+if [ "$PRICING" = "none" ] || [ -z "$PRICING" ]; then
+  info "pricing_model is 'none' in project.yaml — Stripe not needed."
+  info "To enable billing: set pricing_model in project.yaml, then re-run: just setup-stripe"
+  write_state "stripe" "skipped" "pricing_model=none"
+  exit 0
+fi
+
 header "STRIPE"
 info "Handles payments, subscriptions, and credits."
 warn "Without this: billing disabled → pricing_model stays 'none'."

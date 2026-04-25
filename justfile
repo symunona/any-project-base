@@ -4,15 +4,15 @@
 
 # ── All ───────────────────────────────────────────────────────────────────────
 
-# Start local Supabase — installs missing tools, creates .env.local, fills keys automatically
+# Start everything: port check → Supabase → env-generate → all 3 frontend servers
 [group: 'All']
 start:
     #!/bin/bash
     set -e
 
-    # Auto-install if supabase CLI missing
-    if ! supabase --version > /dev/null 2>&1; then
-      echo "supabase not found — running just install first..."
+    # Auto-install if tools missing
+    if ! supabase --version > /dev/null 2>&1 || ! caddy version > /dev/null 2>&1; then
+      echo "Required tools missing — running just install first..."
       just install
     fi
 
@@ -22,25 +22,53 @@ start:
       echo "Created .env.local from .env.local.example"
     fi
 
-    # Start Supabase
+    # Check ports — kill and retry once if busy
+    if ! just port-check; then
+      echo "Ports busy — running just kill..."
+      just kill
+      if ! just port-check; then
+        echo "Ports still busy after kill. Check manually."
+        exit 1
+      fi
+    fi
+
+    # Start Supabase (blocking until ready)
     supabase start
 
-    # Auto-fill Supabase keys + project.yaml values into .env.local
+    # Auto-fill env vars from project.yaml + supabase status
     just env-generate
 
-# Start all services (supabase + all frontends)
-[group: 'All']
-dev:
-    #!/bin/bash
-    echo "Starting supabase..."
-    supabase start &
-    echo "Starting client-portal..."
+    # Start Caddy reverse proxy (*.localhost subdomains → Vite ports)
+    bash setup/dev/caddy_start.sh
+
+    # Start all frontend dev servers
+    PROJECT=$(grep '^name:' project.yaml | awk '{print $2}')
+    echo "→ Starting portal.${PROJECT}.localhost → :5173 (client portal)..."
     pnpm --filter client-portal dev &
-    echo "Starting admin-portal..."
+    echo "→ Starting admin.${PROJECT}.localhost  → :5174 (admin portal)..."
     pnpm --filter admin-portal dev &
-    echo "Starting landing..."
+    echo "→ Starting ${PROJECT}.localhost         → :5175 (landing)..."
     pnpm --filter landing dev &
     wait
+
+# Check all dev ports are free
+[group: 'All']
+port-check:
+    bash setup/checks/port_check.sh
+
+# Kill all dev servers, stop Supabase and Caddy
+[group: 'All']
+kill:
+    #!/bin/bash
+    echo "→ Stopping Supabase..."
+    supabase stop 2>/dev/null || true
+    echo "→ Stopping Caddy..."
+    caddy stop 2>/dev/null || true
+    echo "→ Killing frontend servers..."
+    for port in 5173 5174 5175; do
+      lsof -ti:"$port" 2>/dev/null | xargs kill -9 2>/dev/null || true
+    done
+    echo "Done."
 
 # Build all frontend projects
 [group: 'All']
@@ -226,10 +254,10 @@ security-autofix:
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
 
-# Run full guided setup (first-run)
+# Run full guided setup (first-run sequential, re-run pick-a-step menu)
 [group: 'Setup']
 setup:
-    bash setup/install.sh
+    npx tsx setup/install.ts
 
 # Run a specific setup step
 [group: 'Setup']
@@ -255,6 +283,11 @@ setup-report:
 [group: 'Setup']
 setup-agent:
     bash setup/init/agent.sh
+
+# Generate Caddyfile from project.yaml and start/reload Caddy (*.localhost subdomains)
+[group: 'Setup']
+setup-caddy:
+    bash setup/dev/caddy_start.sh
 
 # Apply branding everywhere (from branding/colors.yaml + SVGs)
 [group: 'Setup: Branding']
