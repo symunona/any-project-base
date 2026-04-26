@@ -28,9 +28,15 @@ command -v git   > /dev/null 2>&1 || fail "git not found — install git and ret
 success "bash, curl, git: OK"
 echo ""
 
+# ── TTY guard — required for read prompts when run via curl | bash ────────────
+if [ ! -t 0 ] && [ ! -c /dev/tty ]; then
+  fail "No terminal available. Save the script and run it directly: bash bootstrap.sh"
+fi
+[ ! -t 0 ] && exec < /dev/tty
+
 # ── Node.js ──────────────────────────────────────────────────────────────────
-NODE_MAJOR=$(node --version 2>/dev/null | tr -d 'v' | cut -d. -f1 || echo "0")
-if [ "${NODE_MAJOR}" -ge 20 ] 2>/dev/null; then
+NODE_MAJOR=$(node --version 2>/dev/null | tr -d 'v' | cut -d. -f1)
+if [ "${NODE_MAJOR:-0}" -ge 20 ]; then
   success "node: $(node --version)"
 else
   warn "Node.js ≥ 20 not found (found: $(node --version 2>/dev/null || echo 'none'))"
@@ -67,12 +73,16 @@ else
     brew install just \
       && success "just installed via brew" \
       || fail "just install failed — see https://github.com/casey/just"
+  elif command -v snap > /dev/null 2>&1; then
+    snap install --edge just \
+      && success "just installed via snap" \
+      || fail "just install failed — see https://github.com/casey/just"
   elif command -v cargo > /dev/null 2>&1; then
     cargo install just \
       && success "just installed via cargo" \
       || fail "just install failed — see https://github.com/casey/just"
   else
-    fail "just not found and no installer available (need brew or cargo). Install: https://github.com/casey/just"
+    fail "just not found and no installer available (need brew, snap, or cargo). Install: https://github.com/casey/just"
   fi
 fi
 echo ""
@@ -137,7 +147,6 @@ if [[ "$IDEATE" =~ ^[Yy]$ ]]; then
 else
   echo ""
   success "All set. When you're ready:"
-  arrow "cd $PROJECT_SLUG"
   arrow "bash setup/install.sh"
   echo ""
 fi
