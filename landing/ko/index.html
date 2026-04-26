@@ -3,35 +3,483 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>any-project-base — 여기에 태그라인</title>
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/styles/globals.css" />
-  <link rel="stylesheet" href="/styles/landing.css" />
+  <title>any-project-base — SaaS를 몇 달이 아닌 몇 시간 만에 출시하세요</title>
+  <meta name="description" content="프로덕션 수준의 SaaS 모노레포 스타터. 인증, 결제, 어드민 포털, 모바일 앱 — 모두 연결되어 있습니다. 인프라가 아닌 기능 개발에 집중하세요." />
+
+  <meta property="og:title"       content="any-project-base" />
+  <meta property="og:description" content="SaaS를 몇 달이 아닌 몇 시간 만에 출시하세요." />
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://any-project-base.com" />
+
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="any-project-base" />
+  <meta name="twitter:description" content="SaaS를 몇 달이 아닌 몇 시간 만에 출시하세요." />
+
+  <link rel="manifest"    href="/manifest.json" />
+  <link rel="icon"        href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet"  href="/styles/globals.css" />
+  <link rel="stylesheet"  href="/styles/landing.css" />
 </head>
 <body>
-  <div id="video-bg" data-video-id="672TY8K2PKk"></div>
-  <nav>
-    <a href="/" class="nav-logo">any-project-base</a>
-    <div class="lang-selector">
-      <a href="/en/" data-lang="en">EN</a>
-      <a href="/es/" data-lang="es">ES</a>
-      <a href="/ko/" data-lang="ko" class="active">KO</a>
+
+<!-- ── Sticky header ─────────────────────────────────────────── -->
+<header id="site-header">
+  <nav aria-label="주요 내비게이션">
+    <a href="/" class="nav-logo" aria-label="any-project-base 홈">
+      <!-- LOGO-MARK-START -->
+      <svg width="48" height="48" viewBox="0 0 512 512" aria-hidden="true">
+        <g><circle cx="406.101" cy="176.190" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="411.900" cy="188.213" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="416.738" cy="200.653" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="420.585" cy="213.435" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="423.417" cy="226.480" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="425.217" cy="239.706" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="425.974" cy="253.033" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="425.683" cy="266.378" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="424.346" cy="279.659" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="421.970" cy="292.795" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="418.572" cy="305.703" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="414.171" cy="318.305" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="408.795" cy="330.523" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="402.477" cy="342.282" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="395.256" cy="353.508" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="387.176" cy="364.133" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="378.288" cy="374.092" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="368.645" cy="383.322" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="358.309" cy="391.768" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="347.341" cy="399.377" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="335.810" cy="406.101" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="323.787" cy="411.900" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="311.347" cy="416.738" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="298.565" cy="420.585" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="285.520" cy="423.417" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="272.294" cy="425.217" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="258.967" cy="425.974" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="245.622" cy="425.683" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="232.341" cy="424.346" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="219.205" cy="421.970" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="206.297" cy="418.572" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="193.695" cy="414.171" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="181.477" cy="408.795" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="169.718" cy="402.477" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="158.492" cy="395.256" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="147.867" cy="387.176" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="137.908" cy="378.288" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="128.678" cy="368.645" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="120.232" cy="358.309" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="112.623" cy="347.341" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="105.899" cy="335.810" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="100.100" cy="323.787" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="95.262" cy="311.347" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="91.415" cy="298.565" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="88.583" cy="285.520" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="86.783" cy="272.294" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="86.026" cy="258.967" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="86.317" cy="245.622" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="87.654" cy="232.341" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="90.030" cy="219.205" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="93.428" cy="206.297" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="97.829" cy="193.695" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="103.205" cy="181.477" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="109.523" cy="169.718" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="116.744" cy="158.492" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="124.824" cy="147.867" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="133.712" cy="137.908" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="143.355" cy="128.678" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="153.691" cy="120.232" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="164.659" cy="112.623" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="176.190" cy="105.899" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="188.213" cy="100.100" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="200.653" cy="95.262" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="213.435" cy="91.415" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="226.480" cy="88.583" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="239.706" cy="86.783" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="253.033" cy="86.026" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="266.378" cy="86.317" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="279.659" cy="87.654" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="292.795" cy="90.030" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="305.703" cy="93.428" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="318.305" cy="97.829" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="330.523" cy="103.205" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="342.282" cy="109.523" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="353.508" cy="116.744" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="364.133" cy="124.824" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="374.092" cy="133.712" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="383.322" cy="143.355" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="391.768" cy="153.691" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="399.377" cy="164.659" r="3" fill="#7a7a7a" opacity="0.7"/></g>
+        <g><circle cx="149.778" cy="236.883" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="140.873" cy="227.632" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="133.375" cy="217.207" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="127.436" cy="205.822" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="123.179" cy="193.707" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="120.688" cy="181.110" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="120.016" cy="168.287" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="121.176" cy="155.498" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="124.144" cy="143.005" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="128.860" cy="131.061" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="135.227" cy="119.910" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="143.117" cy="109.778" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="152.368" cy="100.873" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="162.793" cy="93.375" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="174.178" cy="87.436" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="186.293" cy="83.179" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="198.890" cy="80.688" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="211.713" cy="80.016" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="224.502" cy="81.176" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="236.995" cy="84.144" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="248.939" cy="88.860" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="260.090" cy="95.227" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="270.222" cy="103.117" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="279.127" cy="112.368" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="286.625" cy="122.793" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="292.564" cy="134.178" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="296.821" cy="146.293" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="299.312" cy="158.890" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="299.984" cy="171.713" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="298.824" cy="184.502" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="295.856" cy="196.995" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="291.140" cy="208.939" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="284.773" cy="220.090" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="276.883" cy="230.222" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="267.632" cy="239.127" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="257.207" cy="246.625" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="245.822" cy="252.564" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="233.707" cy="256.821" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="221.110" cy="259.312" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="208.287" cy="259.984" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="195.498" cy="258.824" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="183.005" cy="255.856" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="171.061" cy="251.140" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="159.910" cy="244.773" r="3" fill="#9a9a9a" opacity="0.7"/></g>
+        <g><circle cx="336.701" cy="318.832" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="323.291" cy="319.955" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="309.839" cy="319.569" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="296.516" cy="317.680" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="283.488" cy="314.310" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="270.918" cy="309.503" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="258.967" cy="303.319" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="247.782" cy="295.836" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="237.506" cy="287.148" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="228.267" cy="277.363" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="220.182" cy="266.606" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="213.352" cy="255.011" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="207.863" cy="242.725" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="203.785" cy="229.901" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="201.168" cy="216.701" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="200.045" cy="203.291" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="200.431" cy="189.839" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="202.320" cy="176.516" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="205.690" cy="163.488" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="210.497" cy="150.918" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="216.681" cy="138.967" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="224.164" cy="127.782" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="232.852" cy="117.506" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="242.637" cy="108.267" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="253.394" cy="100.182" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="264.989" cy="93.352" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="277.275" cy="87.863" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="290.099" cy="83.785" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="303.299" cy="81.168" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="316.709" cy="80.045" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="330.161" cy="80.431" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="343.484" cy="82.320" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="356.512" cy="85.690" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="369.082" cy="90.497" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="381.033" cy="96.681" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="392.218" cy="104.164" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="402.494" cy="112.852" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="411.733" cy="122.637" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="419.818" cy="133.394" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="426.648" cy="144.989" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="432.137" cy="157.275" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="436.215" cy="170.099" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="438.832" cy="183.299" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="439.955" cy="196.709" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="439.569" cy="210.161" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="437.680" cy="223.484" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="434.310" cy="236.512" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="429.503" cy="249.082" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="423.319" cy="261.033" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="415.836" cy="272.218" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="407.148" cy="282.494" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="397.363" cy="291.733" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="386.606" cy="299.818" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="375.011" cy="306.648" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="362.725" cy="312.137" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="349.901" cy="316.215" r="3" fill="#8a8a8a" opacity="0.7"/></g>
+        <g stroke="#bdbdbd" stroke-width="4" stroke-linecap="round"><line x1="406.101" y1="176.190" x2="149.778" y2="236.883"/><line x1="149.778" y1="236.883" x2="336.701" y2="318.832"/><line x1="336.701" y1="318.832" x2="406.101" y2="176.190"/></g>
+        <circle cx="406.101" cy="176.190" r="48" fill="#5a5a5a"/>
+        <circle cx="149.778" cy="236.883" r="36" fill="#8a8a8a"/>
+        <circle cx="336.701" cy="318.832" r="24" fill="#6f6f6f"/>
+      </svg>
+      <!-- LOGO-MARK-END -->
+      <span>any-project-base</span>
+    </a>
+    <div class="nav-right">
+      <div class="lang-selector">
+        <a href="/"    data-lang="en">EN</a>
+        <a href="/es/" data-lang="es">ES</a>
+        <a href="/ko/" data-lang="ko" class="active">KO</a>
+      </div>
+      <a href="#" id="login-btn" class="nav-login">로그인 →</a>
     </div>
   </nav>
-  <section class="hero">
-    <h1>여기에 태그라인</h1>
-    <p>SaaS 아이디어를 빠르게 시작하세요. 최단 시간에 데모 준비 완료.</p>
-    <a href="https://app.any-project-base.com" class="hero-cta">시작하기 →</a>
-    <div class="hero-terminal" aria-label="Bootstrap command">
-      <span class="code-prompt">$</span><span class="terminal-cmd"> curl -fsSL https://raw.githubusercontent.com/symunona/any-project-base/main/setup/bootstrap.sh | bash</span>
-      <button class="copy-btn" aria-label="Copy command" title="Copy">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      </button>
+</header>
+
+<!-- ── Video background ──────────────────────────────────────── -->
+<div id="video-bg" data-video-id="672TY8K2PKk" aria-hidden="true"></div>
+
+<!-- ── Hero ──────────────────────────────────────────────────── -->
+<section class="hero" aria-label="히어로">
+  <div id="orbit-logo-hero" class="hero-orbit" aria-hidden="true"></div>
+  <h1>SaaS를 몇 달이 아닌<br>몇 시간 만에 출시하세요</h1>
+  <p>프로덕션 수준의 모노레포 스타터. 인증, 결제, 어드민 포털, 모바일 앱 — 첫날부터 모두 연결되어 있습니다. 당신을 차별화하는 기능 개발에만 집중하세요.</p>
+  <div class="hero-actions">
+    <a href="#" id="hero-login-btn" class="btn-primary">앱 열기 →</a>
+    <a href="https://github.com/symunona/any-project-base" class="btn-ghost">GitHub에서 보기</a>
+  </div>
+  <div class="hero-terminal" aria-label="부트스트랩 명령어">
+    <span class="code-prompt">$</span><span class="terminal-cmd"> curl -fsSL https://raw.githubusercontent.com/symunona/any-project-base/main/setup/bootstrap.sh | bash</span>
+    <button class="copy-btn" aria-label="명령어 복사" title="복사">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    </button>
+  </div>
+  <div class="store-badges">
+    <a href="#" class="store-badge">▶ App Store</a>
+    <a href="#" class="store-badge">▶ Google Play</a>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Solid background from here down -->
+<div class="solid-content">
+
+  <!-- ── Problem section ─────────────────────────────────────── -->
+  <section class="section section--problem" aria-label="문제점">
+    <div class="section-inner section-inner--wide">
+      <div class="problem-text">
+        <div class="eyebrow">문제점</div>
+        <h2>모든 SaaS의 90%는<br>동일한 인프라입니다</h2>
+        <p>인증, 결제, 어드민, 모바일 푸시, 이메일, 분석, 다국어, 보안, 배포. 모든 팀이 매번 처음부터 동일한 스택을 다시 구축합니다.</p>
+        <p class="problem-callout">실제 제품 코드를 한 줄 작성하기 전에 몇 주가 설정으로 소모됩니다.</p>
+      </div>
+      <div class="problem-visual" aria-hidden="true">
+        <div class="feature-grid-demo">
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Auth</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Payments</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Admin</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Mobile</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Email</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Analytics</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> i18n</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Security</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Deploy</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Types</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Testing</div>
+          <div class="fgd-item fgd-highlight"><span>✦</span> 당신의 아이디어</div>
+        </div>
+        <div class="problem-legend">
+          <span class="legend-dot legend-dot--done"></span> 스타터에 포함
+          <span class="legend-dot legend-dot--you" style="margin-left:16px"></span> 직접 구현하는 부분
+        </div>
+      </div>
     </div>
   </section>
-  <footer>© 2026 any-project-base. All rights reserved.</footer>
-  <script type="module" src="/js/video-bg.js"></script>
-  <script type="module" src="/js/main.js"></script>
+
+  <!-- ── Stats bar ───────────────────────────────────────────── -->
+  <div class="stats-bar" aria-label="주요 수치">
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <span class="stat-num">5<span class="stat-unit">분</span></span>
+      <span class="stat-label">전체 설정 완료</span>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+      </div>
+      <span class="stat-num">1</span>
+      <span class="stat-label">시작 명령어</span>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l1.9 5.87H20l-4.9 3.56 1.9 5.87L12 14.87 6.99 18.3l1.9-5.87L4 8.87h6.1z"/>
+        </svg>
+      </div>
+      <span class="stat-num">0</span>
+      <span class="stat-label">보일러플레이트 작성량</span>
+    </div>
+  </div>
+
+  <!-- ── How it works ────────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="작동 방식">
+    <div class="section-inner">
+      <div class="eyebrow">작동 방식</div>
+      <h2>세 가지 명령어로 제로에서 실행까지</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>8가지 질문에 답하세요</h3>
+            <p><code>just setup</code>을 실행하세요. 프로젝트 이름, 도메인, 가격 모델, 필요한 서비스를 선택합니다. 5분 이내에 완료됩니다. 환경 변수 13개가 자동으로 채워집니다.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> just setup
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>명령어 하나로 모든 것이 시작됩니다</h3>
+            <p><code>just start</code>를 실행하세요. Supabase가 실행되고, Supabase 키가 <code>.env.local</code>에 자동으로 채워지며, 세 개의 프론트엔드 서버가 모두 시작됩니다. 포트 충돌을 감지하고 자동으로 해결합니다.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> just start
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>중요한 것을 출시하세요</h3>
+            <p>나머지는 이미 모두 준비되어 있습니다. 인증이 작동합니다. 결제가 작동합니다. 어드민 포털이 작동합니다. 당신은 제품을 차별화하는 기능을 작성하면 됩니다.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> git push → prod
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Time saved visual (p5.js) ───────────────────────────── -->
+  <section class="section section--graph" aria-label="절약되는 시간">
+    <div class="section-inner section-inner--wide">
+      <div class="graph-text">
+        <div class="eyebrow">데모까지 걸리는 시간</div>
+        <h2>SaaS 부트스트래핑이 몇 주에서 몇 시간으로 줄어들었습니다</h2>
+        <div class="time-comparison">
+          <div class="time-row">
+            <span class="time-label">기존 방식</span>
+            <div class="time-bar time-bar--before">
+              <div class="time-bar-fill"></div>
+              <span class="time-bar-label">4~6주</span>
+            </div>
+          </div>
+          <div class="time-row">
+            <span class="time-label">any-project-base</span>
+            <div class="time-bar time-bar--after">
+              <div class="time-bar-fill"></div>
+              <span class="time-bar-label">약 6시간</span>
+            </div>
+          </div>
+        </div>
+        <p class="graph-note">측정 기준: "빈 저장소"에서 "인증 + 결제가 작동하는 데모" 완성까지.</p>
+      </div>
+      <div id="p5-nodes" class="p5-canvas-container" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ── Features grid ───────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="포함된 기능">
+    <div class="section-inner">
+      <div class="eyebrow">포함된 기능</div>
+      <h2>모든 것이 연결되어 있습니다. 직접 연결할 것은 없습니다.</h2>
+      <div class="features">
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h3>인증</h3>
+          <p>이메일, Google, Facebook. Supabase를 통한 쿠키 기반 세션. 역할 기반 접근 제어가 기본 제공됩니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          </div>
+          <h3>결제</h3>
+          <p>크레딧, 구독, 또는 티어 방식. Stripe + 웹훅 동기화. 설정 하나만 바꾸면 결제 모델이 전환됩니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <h3>어드민 포털</h3>
+          <p>사용자 관리, 지원 티켓, 사용량 통계, 배포 이력. 첫날부터 바로 사용할 수 있습니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <h3>모바일</h3>
+          <p>Expo React Native. Firebase를 통한 푸시 알림. 딥 링크. 테스트용 웹 타겟 포함.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3>TypeScript 전면 적용</h3>
+          <p>엔드투엔드 타입. DB 스키마 → 생성된 타입 → 프론트엔드. 타입 불일치도, 예상치 못한 오류도 없습니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>보안 검사</h3>
+          <p>공급망 감사, CSS 색상 가드, 페치 가드, 복잡도 게이트, 스키마 드리프트 감지 — 모든 커밋마다 자동으로 실행됩니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <h3>다국어 지원</h3>
+          <p>로케일별 정적 HTML. 브라우저 언어 자동 감지. 언어 설정이 쿠키와 localStorage에 저장됩니다.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <h3>배포</h3>
+          <p>Cloudflare, Vercel, 또는 Netlify. 명령어 하나로 테스트 또는 프로덕션 배포. 릴리즈 태그와 변경 로그가 내장되어 있습니다.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Security visual (p5.js) ─────────────────────────────── -->
+  <section class="section section--security" aria-label="보안">
+    <div class="section-inner section-inner--wide">
+      <div id="p5-security" class="p5-canvas-container" aria-hidden="true"></div>
+      <div class="security-text">
+        <div class="eyebrow">보안 우선</div>
+        <h2>검사가 자동으로 실행됩니다.<br>잘못된 패턴은 병합될 수 없습니다.</h2>
+        <ul class="security-list">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <code>just install</code> 실행 시마다 공급망 감사
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            CI에서 하드코딩된 색상 &amp; 시크릿 감지
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            순환 복잡도 게이트 (최대 8) — ESLint로 강제 적용
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            스키마 드리프트 검사 — DB 타입이 항상 동기화됨
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            페치 가드 — 경계를 넘는 API 호출 실수 방지
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Built for agents ────────────────────────────────────── -->
+  <section class="section section--agents" aria-label="AI 에이전트를 위해 설계됨">
+    <div class="section-inner">
+      <div class="eyebrow">에이전트 네이티브</div>
+      <h2>모든 디렉터리에<br><code class="headline-code">AGENTS.md</code>가 있습니다</h2>
+      <p class="agents-subline">Claude, Copilot, Cursor — 모든 AI는 컨텍스트 파일을 읽어 코드베이스를 이해합니다. 우리는 모든 폴더에 그 매뉴얼을 작성해 두었습니다.</p>
+      <div class="agents-grid">
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div>
+            <h3>잘못된 추상화 없음</h3>
+            <p>아키텍처 규칙이 해당 코드 옆에 위치합니다. 에이전트는 무엇을 해야 하는지만큼 무엇을 하면 안 되는지도 정확히 압니다.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div>
+            <h3>일관된 컨벤션</h3>
+            <p>인증 패턴 하나, 데이터 페칭 패턴 하나, 컴포넌트 패턴 하나. 에이전트는 별도 지시 없이도 어디에 무엇이 있는지 예측합니다.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <h3>복잡도 게이트</h3>
+            <p>모든 변경 후 검사기가 실행됩니다. 에이전트가 실수로 복잡도 예산을 초과하거나 잘못된 모듈을 임포트하는 코드를 배포할 수 없습니다.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3>아키텍처 문서</h3>
+            <p>주요 결정 사항이 <code>architecture/</code>에 문서화되어 있습니다. 에이전트는 코드를 수정하기 전에 그 이유를 먼저 읽습니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ────────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="사용 후기">
+    <div class="section-inner">
+      <div class="eyebrow">사용자들의 이야기</div>
+      <h2>사람과 에이전트 모두 동의합니다</h2>
+      <div class="testimonials">
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"아이디어에서 유료 고객까지 11일이 걸렸습니다. 이렇게 빠르게 출시한 적은 처음입니다."</p>
+          <footer>
+            <span class="testimonial-name">Sarah Chen</span>
+            <span class="testimonial-role">인디 창업자 · @sarahcodes</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">AI 에이전트</div>
+          <p>"모든 디렉터리에 무엇을 해야 하고 무엇을 건드리면 안 되는지 정확히 알려주는 AGENTS.md가 있습니다. 아키텍처 패턴을 실수로 깨뜨린 적이 한 번도 없습니다."</p>
+          <footer>
+            <span class="testimonial-name">Claude Sonnet 4.6</span>
+            <span class="testimonial-role">Anthropic</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"<code>just setup</code> 플로우가 환경 변수 13개를 자동으로 채워줍니다. 예전에는 하루 종일 걸리던 작업이 이제 5분이면 됩니다."</p>
+          <footer>
+            <span class="testimonial-name">Marcus Hoffmann</span>
+            <span class="testimonial-role">풀스택 프리랜서 · @mhoffmann_dev</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">AI 에이전트</div>
+          <p>"일관된 파일 구조, 명확한 스크립팅 규칙, 예측 가능한 임포트 경로. 처음 시도에 올바른 추상화를 제안합니다. 매번."</p>
+          <footer>
+            <span class="testimonial-name">GitHub Copilot</span>
+            <span class="testimonial-role">Microsoft</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"인증, Stripe 웹훅, 어드민 포털 — 첫 번째 기능을 작성하기도 전에 완료되어 있었습니다. 모노레포 스타터는 이렇게 작동해야 합니다."</p>
+          <footer>
+            <span class="testimonial-name">Priya Agarwal</span>
+            <span class="testimonial-role">YC W25 · @priya_builds</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">AI 에이전트</div>
+          <p>"복잡도 검사기가 순환 복잡도 8을 초과하는 함수를 작성하기 전에 저를 멈춰줍니다. 사람들이 저를 좋아해 주고, 저 스스로도 만족합니다."</p>
+          <footer>
+            <span class="testimonial-name">Cursor</span>
+            <span class="testimonial-role">Anysphere</span>
+          </footer>
+        </blockquote>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────── -->
+  <section class="section section--cta" aria-label="시작하기">
+    <div class="section-inner section-inner--narrow">
+      <h2>오늘 바로 개발을 시작하세요.</h2>
+      <p>오픈 소스, MIT 라이선스. 명령어 하나로 도구, 의존성, 새 프로젝트까지 모두 설정됩니다.</p>
+      <div class="cta-terminal" aria-label="부트스트랩 명령어">
+        <span class="code-prompt">$</span><span class="terminal-cmd"> curl -fsSL https://raw.githubusercontent.com/symunona/any-project-base/main/setup/bootstrap.sh | bash</span>
+        <button class="copy-btn" aria-label="명령어 복사" title="복사">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="cta-actions">
+        <a href="https://github.com/symunona/any-project-base" class="btn-primary">GitHub에서 보기 →</a>
+        <a href="#" id="cta-login-btn" class="btn-ghost">앱 열기 ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────────────── -->
+  <footer>
+    <p>© 2026 any-project-base. MIT license. ☕ 와 수많은 justfile로 만들었습니다.</p>
+  </footer>
+
+</div><!-- /solid-content -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js" defer></script>
+<script type="module" src="/js/video-bg.js"></script>
+<script type="module" src="/js/main.js"></script>
+<script type="module" src="/js/p5-sketches.js"></script>
 </body>
 </html>
