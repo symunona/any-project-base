@@ -7,7 +7,6 @@ import { magicLinks } from './routes/magic-links.ts'
 import { llm } from './routes/llm.ts'
 
 const app = new Hono()
-  .basePath('/api')
   .route('/users', users)
   .route('/support', support)
   .route('/usage', usage)

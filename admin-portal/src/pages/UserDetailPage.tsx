@@ -20,49 +20,72 @@ export function UserDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold">{user.name ?? user.email}</h1>
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold text-[var(--color-text)]">{user.name ?? user.email}</h1>
+        <p className="text-sm text-[var(--color-text-muted)] mt-1">User detail</p>
+      </div>
 
-      {/* Profile */}
-      <Section title="Profile">
-        <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
-          <dt className="text-[var(--color-text-muted)]">Email</dt><dd>{user.email}</dd>
-          <dt className="text-[var(--color-text-muted)]">Role</dt>
-          <dd><Badge variant={user.role === 'admin' ? 'danger' : user.role === 'support' ? 'warning' : 'neutral'}>{user.role}</Badge></dd>
-          <dt className="text-[var(--color-text-muted)]">Joined</dt>
-          <dd>{new Date(user.created_at).toLocaleString()}</dd>
-        </dl>
-      </Section>
+      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+          <h2 className="font-semibold text-[var(--color-text)]">Profile</h2>
+        </div>
+        <div className="p-6">
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Email</dt>
+              <dd className="text-sm font-medium text-[var(--color-text)]">{user.email}</dd>
+            </div>
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Role</dt>
+              <dd className="text-sm font-medium text-[var(--color-text)]">
+                <Badge variant={user.role === 'admin' ? 'danger' : user.role === 'support' ? 'warning' : 'neutral'}>{user.role}</Badge>
+              </dd>
+            </div>
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Joined</dt>
+              <dd className="text-sm font-medium text-[var(--color-text)]">{new Date(user.created_at).toLocaleString()}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
 
-      {/* Magic links */}
-      <Section title="Login Links">
-        <MagicLinkPanel userId={user.id} onNotify={notify} />
-      </Section>
+      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+          <h2 className="font-semibold text-[var(--color-text)]">Login Links</h2>
+        </div>
+        <div className="p-6">
+          <MagicLinkPanel userId={user.id} onNotify={notify} />
+        </div>
+      </div>
 
-      {/* Devices */}
-      <Section title="Devices">
-        <DeviceList userId={user.id} />
-      </Section>
+      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+          <h2 className="font-semibold text-[var(--color-text)]">Devices</h2>
+        </div>
+        <div className="p-6">
+          <DeviceList userId={user.id} />
+        </div>
+      </div>
 
-      {/* Usage */}
-      <Section title="Usage">
-        <p className="text-sm text-[var(--color-text-muted)]">Usage stats load here. See /usage?user_id={user.id}</p>
-      </Section>
+      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+          <h2 className="font-semibold text-[var(--color-text)]">Usage</h2>
+        </div>
+        <div className="p-6">
+          <p className="text-sm text-[var(--color-text-muted)]">Usage stats load here. See /usage?user_id={user.id}</p>
+        </div>
+      </div>
 
-      {/* Danger zone */}
-      <Section title="Danger Zone">
-        <DeleteUser user={user} onNotify={notify} />
-      </Section>
+      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+          <h2 className="font-semibold text-[var(--color-text)]">Danger Zone</h2>
+        </div>
+        <div className="p-6">
+          <DeleteUser user={user} onNotify={notify} />
+        </div>
+      </div>
 
       <NotificationContainer notifications={notifications} onDismiss={dismiss} />
-    </div>
-  )
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-6">
-      <h2 className="font-semibold mb-4">{title}</h2>
-      {children}
     </div>
   )
 }
@@ -103,15 +126,19 @@ function DeviceList({ userId }: { userId: string }) {
   if (!data?.data?.length) return <p className="text-sm text-[var(--color-text-muted)]">No devices registered.</p>
   return (
     <table className="w-full text-sm">
-      <thead><tr className="text-left text-[var(--color-text-muted)]">
-        <th className="pb-2">Platform</th><th className="pb-2">Last seen</th><th className="pb-2">First seen</th>
-      </tr></thead>
+      <thead>
+        <tr className="text-left">
+          <th className="pb-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Platform</th>
+          <th className="pb-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Last seen</th>
+          <th className="pb-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">First seen</th>
+        </tr>
+      </thead>
       <tbody>
         {data.data.map(d => (
-          <tr key={d.id} className="border-t border-[var(--color-border)]">
-            <td className="py-2 capitalize">{d.platform}</td>
-            <td className="py-2">{new Date(d.last_seen).toLocaleString()}</td>
-            <td className="py-2">{new Date(d.created_at).toLocaleString()}</td>
+          <tr key={d.id} className="hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)] last:border-0">
+            <td className="px-6 py-3 text-sm text-[var(--color-text)] capitalize">{d.platform}</td>
+            <td className="px-6 py-3 text-sm text-[var(--color-text)]">{new Date(d.last_seen).toLocaleString()}</td>
+            <td className="px-6 py-3 text-sm text-[var(--color-text)]">{new Date(d.created_at).toLocaleString()}</td>
           </tr>
         ))}
       </tbody>

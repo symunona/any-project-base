@@ -17,7 +17,7 @@ type OnboardingModalProps = {
 // Renders over the dashboard. Not blocking. Reads + writes onboarding_step.
 export function OnboardingModal({ settings, onComplete, steps }: OnboardingModalProps) {
   const [currentSettings, setCurrentSettings] = useState(settings)
-  const step = currentSettings.onboarding_step
+  const step = currentSettings.onboarding_step ?? 0
 
   const isDone = step >= steps.length
 

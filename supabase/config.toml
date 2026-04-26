@@ -57,3 +57,6 @@ verify_enabled = false
 
 [analytics]
 enabled = false
+
+[functions.dev-login]
+verify_jwt = false

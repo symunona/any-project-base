@@ -227,7 +227,7 @@ set_env_force() {
 set_env_force "SITE_URL"          "$URL_PORTAL"
 set_env_force "VITE_APP_URL"      "$URL_PORTAL"
 set_env_force "VITE_SUPABASE_URL" "$URL_API"
-set_env_force "VITE_API_URL"      "${URL_API}/functions/v1"
+set_env_force "VITE_API_URL"      "${URL_API}/functions/v1/api"
 
 # ── Save state ────────────────────────────────────────────────────────────────
 mkdir -p "$(dirname "$CONFIG_FILE")"

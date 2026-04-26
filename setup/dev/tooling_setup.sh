@@ -72,7 +72,11 @@ install_supabase_linux() {
   tmp=$(mktemp -d)
 
   latest=$(curl -sf "https://api.github.com/repos/supabase/cli/releases/latest" \
-    | grep -oP '"tag_name":"\Kv[^"]+' || echo "")
+    | grep -oP '"tag_name":"\Kv[^"]+' || true)
+  if [ -z "$latest" ]; then
+    latest=$(curl -sI "https://github.com/supabase/cli/releases/latest" \
+      | grep -i '^location:' | awk '{print $2}' | tr -d '\r' | xargs basename || true)
+  fi
   if [ -z "$latest" ]; then
     rm -rf "$tmp"
     fail "Could not fetch supabase CLI version from GitHub"
@@ -172,13 +176,9 @@ else
       && success "caddy installed via brew" && track "caddy" "brew" \
       || fail "caddy install failed — see https://caddyserver.com/docs/install"
   elif [ "$OS" = "Linux" ]; then
-    if snap install caddy 2>/dev/null; then
-      success "caddy installed via snap" && track "caddy" "snap"
-    else
-      install_caddy_linux \
-        && success "caddy installed to ~/.local/bin" && track "caddy" "linux-binary" \
-        || fail "caddy install failed — see https://caddyserver.com/docs/install"
-    fi
+    install_caddy_linux \
+      && success "caddy installed to ~/.local/bin" && track "caddy" "linux-binary" \
+      || fail "caddy install failed — see https://caddyserver.com/docs/install"
   else
     fail "caddy auto-install not supported on $OS — see https://caddyserver.com/docs/install"
   fi

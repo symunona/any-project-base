@@ -50,6 +50,19 @@ if [ -f "$CSS_FILE" ]; then
   success "commons/styles/globals.css updated"
 fi
 
+# ── Update landing/styles/globals.css ──────────────────────────────────────
+LANDING_CSS="$ROOT_DIR/landing/styles/globals.css"
+if [ -f "$LANDING_CSS" ]; then
+  sed -i \
+    -e "s|--color-primary: .*;|--color-primary: $PRIMARY;|" \
+    -e "s|--color-secondary: .*;|--color-secondary: $SECONDARY;|" \
+    -e "s|--color-accent: .*;|--color-accent: $ACCENT;|" \
+    -e "s|--color-success: .*;|--color-success: $SUCCESS_COLOR;|" \
+    -e "s|--color-danger: .*;|--color-danger: $DANGER;|" \
+    "$LANDING_CSS"
+  success "landing/styles/globals.css updated"
+fi
+
 # ── Copy logos ──────────────────────────────────────────────────────────────
 for logo in logo-large.svg logo-small.svg logo-favicon.svg; do
   for dir in client-portal/public admin-portal/public landing/public; do

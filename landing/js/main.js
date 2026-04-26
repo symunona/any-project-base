@@ -47,18 +47,18 @@ function markActiveLang(lang) {
   })
 }
 
-// Resolves the client portal URL based on current environment.
-// localhost / 127.0.0.1       → http://localhost:5173 (direct Vite port)
-// [project].localhost         → portal.[project].localhost (Caddy subdomain)
-// [domain].tld                → portal.[domain].tld (production)
+// localhost / 127.0.0.1 → http://localhost:5173, else portal.{hostname}
 function resolvePortalUrl() {
   const { hostname, protocol } = window.location
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'http://localhost:5173'
-  }
-  // Caddy localdev:  any-project-base.localhost → portal.any-project-base.localhost
-  // Production:      myapp.com                  → portal.myapp.com
+  if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:5173'
   return `${protocol}//portal.${hostname}`
+}
+
+// localhost / 127.0.0.1 → http://localhost:5174, else admin.{hostname}
+function resolveAdminUrl() {
+  const { hostname, protocol } = window.location
+  if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:5174'
+  return `${protocol}//admin.${hostname}`
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -103,9 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 
-  // ── Login button URL resolution ──
+  // ── Login / portal button URL resolution ──
   const portalUrl = resolvePortalUrl()
   document.querySelectorAll('#login-btn, #hero-login-btn, #cta-login-btn').forEach(btn => {
     btn.href = portalUrl
+  })
+  const adminUrl = resolveAdminUrl()
+  document.querySelectorAll('#nav-admin-btn, #hero-admin-btn, #cta-admin-btn').forEach(btn => {
+    btn.href = adminUrl
   })
 })

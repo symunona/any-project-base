@@ -100,6 +100,31 @@ body {
   background: color-mix(in srgb, var(--color-primary) 25%, transparent);
   border-color: color-mix(in srgb, var(--color-primary) 55%, transparent);
 }
+.nav-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.nav-admin:hover {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.85);
+}
+.btn-ghost--dim {
+  opacity: 0.6;
+}
+.btn-ghost--dim:hover {
+  opacity: 1;
+}
 
 /* ── Video background ──────────────────────────────────── */
 .video-bg-container {

@@ -60,7 +60,7 @@ set_env "VITE_APP_URL"  "http://portal.${PROJECT}.localhost"
 echo ""
 printf "  ${BOLD}Supabase (static)${RESET}\n"
 set_env "VITE_SUPABASE_URL" "http://localhost:54321"
-set_env "VITE_API_URL"      "http://localhost:54321/functions/v1"
+set_env "VITE_API_URL"      "http://localhost:54321/functions/v1/api"
 
 # ── Supabase from `supabase status` ──────────────────
 echo ""

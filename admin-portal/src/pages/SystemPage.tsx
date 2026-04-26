@@ -14,36 +14,41 @@ export function SystemPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold">System</h1>
+      <div className="mb-8">
+        <h1 className="text-2xl font-semibold text-[var(--color-text)]">System</h1>
+        <p className="text-sm text-[var(--color-text-muted)] mt-1">Monitor deployments and system health</p>
+      </div>
 
-      <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold">Deployment history</h2>
-          <TestPushButton onNotify={notify} />
+      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+          <h2 className="font-semibold text-[var(--color-text)]">Deployment history</h2>
+          <div><TestPushButton onNotify={notify} /></div>
         </div>
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="text-left text-[var(--color-text-muted)]">
-              <th className="pb-2">SHA</th>
-              <th className="pb-2">Branch</th>
-              <th className="pb-2">Env</th>
-              <th className="pb-2">Deployed</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(deployments?.data ?? []).map(d => (
-              <tr key={d.id} className="border-t border-[var(--color-border)]">
-                <td className="py-2 font-mono text-xs">{d.sha}</td>
-                <td className="py-2">{d.branch}</td>
-                <td className="py-2">{d.env}</td>
-                <td className="py-2">{new Date(d.deployed_at).toLocaleString()}</td>
+        <div className="p-6">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-[var(--color-border)]">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wide">SHA</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wide">Branch</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wide">Env</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wide">Deployed</th>
               </tr>
-            ))}
-            {!deployments?.data?.length && (
-              <tr><td colSpan={4} className="py-4 text-center text-[var(--color-text-muted)]">No deployments yet.</td></tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {(deployments?.data ?? []).map(d => (
+                <tr key={d.id} className="border-b border-[var(--color-border)] last:border-0 hover:bg-[var(--color-surface-2)] transition-colors">
+                  <td className="px-6 py-3 text-sm text-[var(--color-text)] font-mono text-xs">{d.sha}</td>
+                  <td className="px-6 py-3 text-sm text-[var(--color-text)]">{d.branch}</td>
+                  <td className="px-6 py-3 text-sm text-[var(--color-text)]">{d.env}</td>
+                  <td className="px-6 py-3 text-sm text-[var(--color-text)]">{new Date(d.deployed_at).toLocaleString()}</td>
+                </tr>
+              ))}
+              {!deployments?.data?.length && (
+                <tr><td colSpan={4} className="px-6 py-4 text-center text-[var(--color-text-muted)]">No deployments yet.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <NotificationContainer notifications={notifications} onDismiss={dismiss} />

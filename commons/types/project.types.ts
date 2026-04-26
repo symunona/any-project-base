@@ -57,6 +57,7 @@ export type SupportMessage = {
   id: string
   conversation_id: string
   sender_id: string | null
+  sender_role: 'admin' | 'support' | 'user' | null
   body: string
   created_at: string
 }
