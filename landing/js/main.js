@@ -87,6 +87,22 @@ document.addEventListener('DOMContentLoaded', () => {
     onScroll() // apply immediately in case page loads scrolled
   }
 
+  // ── Copy buttons ──
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.closest('[aria-label]').querySelector('.terminal-cmd')?.textContent.trim()
+      if (!cmd) return
+      navigator.clipboard.writeText(cmd).then(() => {
+        btn.classList.add('copied')
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>'
+        setTimeout(() => {
+          btn.classList.remove('copied')
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+        }, 1500)
+      })
+    })
+  })
+
   // ── Login button URL resolution ──
   const portalUrl = resolvePortalUrl()
   document.querySelectorAll('#login-btn, #hero-login-btn, #cta-login-btn').forEach(btn => {
