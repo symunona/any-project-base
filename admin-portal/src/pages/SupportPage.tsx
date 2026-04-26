@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchApi, Badge, Button, useNotification, NotificationContainer } from '@any-project-base/commons'
+import { fetchApi, Badge, Button, useNotification, NotificationContainer, Card, CardHeader, Select, Textarea, PageHeader } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
 import type { SupportConversation, SupportMessage } from '@any-project-base/commons'
 
@@ -48,25 +48,21 @@ export function SupportPage() {
 
   return (
     <div className="p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-[var(--color-text)]">Support</h1>
-        <p className="text-sm text-[var(--color-text-muted)] mt-1">Manage customer conversations</p>
-      </div>
+      <PageHeader title="Support" subtitle="Manage customer conversations" />
 
       <div className="grid grid-cols-1 md:grid-cols-[360px_1fr] gap-6 h-[calc(100vh-12rem)]">
-        <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden flex flex-col">
+        <Card className="flex flex-col">
           <div className="px-5 py-4 border-b border-[var(--color-border)]">
-            <select
+            <Select
               value={statusFilter}
               onChange={e => { setStatusFilter(e.target.value) }}
-              className="w-full text-sm rounded-xl px-3 py-2 bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
             >
               <option value="">All open</option>
               <option value="new">New</option>
               <option value="open">Open</option>
               <option value="waiting_on_customer">Waiting</option>
               <option value="closed">Closed</option>
-            </select>
+            </Select>
           </div>
           <div className="flex-1 overflow-y-auto divide-y divide-[var(--color-border)]">
             {conversations.map(c => (
@@ -93,23 +89,24 @@ export function SupportPage() {
               <p className="px-5 py-4 text-sm text-[var(--color-text-muted)]">No conversations.</p>
             )}
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden flex flex-col">
+        <Card className="flex flex-col">
           {selected ? (
             <>
-              <div className="px-5 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
-                <div>
-                  <h2 className="font-semibold text-[var(--color-text)]">{selected.subject ?? 'No subject'}</h2>
-                  <div className="mt-1">
-                    <StatusBadge status={selected.status} />
-                  </div>
-                </div>
+              <CardHeader actions={
                 <CloseButton convId={selected.id} onDone={() => {
                   void qc.invalidateQueries({ queryKey: ['support'] })
                   setSelectedId(null)
                 }} />
-              </div>
+              }>
+                <div>
+                  <div>{selected.subject ?? 'No subject'}</div>
+                  <div className="mt-1 font-normal">
+                    <StatusBadge status={selected.status} />
+                  </div>
+                </div>
+              </CardHeader>
 
               <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
                 {(msgs ?? []).map(m => (
@@ -138,12 +135,11 @@ export function SupportPage() {
               </div>
 
               <div className="px-5 py-4 border-t border-[var(--color-border)] flex gap-3 items-end">
-                <textarea
+                <Textarea
                   value={reply}
                   onChange={e => { setReply(e.target.value) }}
                   rows={3}
                   placeholder="Write a reply…"
-                  className="w-full rounded-xl px-4 py-3 text-sm text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] resize-none"
                 />
                 <Button size="sm" onClick={() => { void sendReply() }} loading={sending}>Send</Button>
               </div>
@@ -153,7 +149,7 @@ export function SupportPage() {
               Select a conversation
             </div>
           )}
-        </div>
+        </Card>
       </div>
 
       <NotificationContainer notifications={notifications} onDismiss={dismiss} />

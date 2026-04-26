@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
-import { fetchApi, Badge, Button, Modal, useNotification, NotificationContainer } from '@any-project-base/commons'
+import { fetchApi, Badge, Button, Modal, useNotification, NotificationContainer, Card, CardHeader, CardBody, PageHeader, Input } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
 import type { User } from '@any-project-base/commons'
 
@@ -20,16 +20,11 @@ export function UserDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-[var(--color-text)]">{user.name ?? user.email}</h1>
-        <p className="text-sm text-[var(--color-text-muted)] mt-1">User detail</p>
-      </div>
+      <PageHeader title={user.name ?? user.email} subtitle="User detail" />
 
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--color-text)]">Profile</h2>
-        </div>
-        <div className="p-6">
+      <Card>
+        <CardHeader>Profile</CardHeader>
+        <CardBody>
           <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <dt className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Email</dt>
@@ -46,53 +41,43 @@ export function UserDetailPage() {
               <dd className="text-sm font-medium text-[var(--color-text)]">{new Date(user.created_at).toLocaleString()}</dd>
             </div>
           </dl>
-        </div>
-      </div>
+        </CardBody>
+      </Card>
 
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--color-text)]">Credits</h2>
-        </div>
-        <div className="p-6">
+      <Card>
+        <CardHeader>Credits</CardHeader>
+        <CardBody>
           <CreditsPanel userId={user.id} onNotify={notify} />
-        </div>
-      </div>
+        </CardBody>
+      </Card>
 
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--color-text)]">Login Links</h2>
-        </div>
-        <div className="p-6">
+      <Card>
+        <CardHeader>Login Links</CardHeader>
+        <CardBody>
           <MagicLinkPanel userId={user.id} onNotify={notify} />
-        </div>
-      </div>
+        </CardBody>
+      </Card>
 
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--color-text)]">Devices</h2>
-        </div>
-        <div className="p-6">
+      <Card>
+        <CardHeader>Devices</CardHeader>
+        <CardBody>
           <DeviceList userId={user.id} />
-        </div>
-      </div>
+        </CardBody>
+      </Card>
 
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--color-text)]">Usage</h2>
-        </div>
-        <div className="p-6">
+      <Card>
+        <CardHeader>Usage</CardHeader>
+        <CardBody>
           <p className="text-sm text-[var(--color-text-muted)]">Usage stats load here. See /usage?user_id={user.id}</p>
-        </div>
-      </div>
+        </CardBody>
+      </Card>
 
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--color-text)]">Danger Zone</h2>
-        </div>
-        <div className="p-6">
+      <Card>
+        <CardHeader>Danger Zone</CardHeader>
+        <CardBody>
           <DeleteUser user={user} onNotify={notify} />
-        </div>
-      </div>
+        </CardBody>
+      </Card>
 
       <NotificationContainer notifications={notifications} onDismiss={dismiss} />
     </div>
@@ -141,13 +126,12 @@ function CreditsPanel({ userId, onNotify }: { userId: string; onNotify: (n: { ty
           </Button>
         ))}
         <div className="flex items-center gap-2 ml-2">
-          <input
+          <Input
             type="number"
             value={delta}
             onChange={e => { setDelta(e.target.value) }}
             placeholder="Custom…"
-            className="w-28 px-3 py-1.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-            style={{ background: 'rgba(0,0,0,0.05)' }}
+            className="w-28"
           />
           <Button size="sm" disabled={!validDelta} loading={loading} onClick={() => { void adjust(parsed) }}>
             Apply
@@ -245,8 +229,7 @@ function DeleteUser({ user, onNotify }: { user: User; onNotify: (n: { type: 'suc
         <p className="text-sm mb-4">
           Type <strong>{user.name ?? user.email}</strong> to confirm deletion. This cannot be undone.
         </p>
-        <input value={confirm} onChange={e => { setConfirm(e.target.value) }}
-          className="w-full px-3 py-2 rounded-md rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-danger)]" />
+        <Input value={confirm} onChange={e => { setConfirm(e.target.value) }} error />
       </Modal>
     </>
   )

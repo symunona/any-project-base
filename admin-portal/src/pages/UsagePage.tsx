@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { DataTable } from '@any-project-base/commons'
-import { usePaged } from '@any-project-base/commons'
+import { DataTable, usePaged, Card, PageHeader } from '@any-project-base/commons'
 import type { PageParams, UsageRecord } from '@any-project-base/commons'
 
 export function UsagePage() {
@@ -9,11 +8,8 @@ export function UsagePage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-[var(--color-text)]">Usage</h1>
-        <p className="text-sm text-[var(--color-text-muted)] mt-1">Track API usage and credit consumption</p>
-      </div>
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+      <PageHeader title="Usage" subtitle="Track API usage and credit consumption" />
+      <Card>
         <DataTable<UsageRecord & Record<string, unknown>>
           data={data}
           loading={isLoading}
@@ -32,7 +28,7 @@ export function UsagePage() {
               render: (r) => new Date(r.created_at as string).toLocaleString() },
           ]}
         />
-      </div>
+      </Card>
     </div>
   )
 }
