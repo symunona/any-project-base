@@ -6,6 +6,7 @@ node_modules/
 .env.local
 .env*.local
 !.env.local.example
+supabase/functions/.env
 
 # Build outputs
 dist/
@@ -55,3 +56,7 @@ pnpm-debug.log*
 
 # Misc
 *.tgz
+
+tmp/*
+.playwright-mcp/*
+.playwright-mcp/**

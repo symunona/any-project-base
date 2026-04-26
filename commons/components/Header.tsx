@@ -31,7 +31,10 @@ export function Header({ navItems = [], onNavigate, currentPath }: HeaderProps) 
   return (
     <header className="sticky top-0 z-40 bg-[var(--color-surface)]" style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-        <span className="font-bold text-[var(--color-primary)] tracking-tight">{config.projectName}</span>
+        <div className="flex items-center gap-2">
+          <img src="/logo-small.svg" alt="" className="w-7 h-7" />
+          <span className="font-bold text-[var(--color-primary)] tracking-tight">{config.projectName}</span>
+        </div>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1 flex-1 ml-6">

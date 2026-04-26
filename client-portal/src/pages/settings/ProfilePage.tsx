@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth, Button, useNotification, NotificationContainer } from '@any-project-base/commons'
+import { useAuth, Button, useNotification, NotificationContainer, Input, Card, PageHeader } from '@any-project-base/commons'
 import { fetchApi } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
 import { t, msg } from '@any-project-base/commons/i18n'
@@ -34,23 +34,21 @@ export function ProfilePage() {
 
   return (
     <div className="max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold mb-6">{t(msg.Profile.title)}</h1>
+      <PageHeader title={t(msg.Profile.title)} />
 
-      <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-6 flex flex-col gap-5">
+      <Card className="p-6 flex flex-col gap-5">
         <div>
           <label className="block text-sm font-medium mb-1">{t(msg.Profile.name)}</label>
-          <input
+          <Input
             type="text"
             value={name}
             onChange={e => { setName(e.target.value) }}
-            className="w-full px-3 py-2 rounded-md border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium mb-1">{t(msg.Profile.email)}</label>
-          <input type="email" value={user?.email ?? ''} disabled
-            className="w-full px-3 py-2 rounded-md border border-[var(--color-border)] opacity-50 cursor-not-allowed" />
+          <Input type="email" value={user?.email ?? ''} disabled />
         </div>
 
         <div>
@@ -80,7 +78,7 @@ export function ProfilePage() {
         <Button onClick={() => { void save() }} loading={loading}>
           {t(msg.Common.save)}
         </Button>
-      </div>
+      </Card>
 
       <NotificationContainer notifications={notifications} onDismiss={dismiss} />
     </div>

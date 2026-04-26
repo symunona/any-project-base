@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { DataTable } from '@any-project-base/commons'
-import { usePaged } from '@any-project-base/commons'
-import type { PageParams } from '@any-project-base/commons'
-import type { User } from '@any-project-base/commons'
-import { Badge } from '@any-project-base/commons'
+import { DataTable, usePaged, Badge, Card, PageHeader } from '@any-project-base/commons'
+import type { PageParams, User } from '@any-project-base/commons'
 
 export function UsersPage() {
   const navigate = useNavigate()
@@ -13,11 +10,8 @@ export function UsersPage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-[var(--color-text)]">Users</h1>
-        <p className="text-sm text-[var(--color-text-muted)] mt-1">Manage registered users</p>
-      </div>
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+      <PageHeader title="Users" subtitle="Manage registered users" />
+      <Card>
         <DataTable<User & Record<string, unknown>>
           data={data}
           loading={isLoading}
@@ -47,7 +41,7 @@ export function UsersPage() {
             },
           ]}
         />
-      </div>
+      </Card>
     </div>
   )
 }

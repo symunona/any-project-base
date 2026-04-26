@@ -107,6 +107,40 @@ if grep -q "^VITE_FIREBASE_PROJECT_ID=.\+" "$ENV_FILE" 2>/dev/null; then
   set_env "VITE_FIREBASE_AUTH_DOMAIN" "${FID}.firebaseapp.com"
 fi
 
+# ── Sync server-side keys → supabase/functions/.env ──
+# Edge functions can't read root .env.local — sync non-VITE keys they need.
+echo ""
+printf "  ${BOLD}Supabase functions/.env (server-side keys)${RESET}\n"
+
+FUNCTIONS_ENV="$ROOT_DIR/supabase/functions/.env"
+touch "$FUNCTIONS_ENV"
+
+sync_to_functions_env() {
+  local key=$1
+  local value
+  value=$(grep "^${key}=" "$ENV_FILE" 2>/dev/null | cut -d= -f2- || true)
+  [ -z "$value" ] && return
+  if grep -q "^${key}=" "$FUNCTIONS_ENV" 2>/dev/null; then
+    sed -i "s|^${key}=.*|${key}=${value}|" "$FUNCTIONS_ENV"
+  else
+    echo "${key}=${value}" >> "$FUNCTIONS_ENV"
+  fi
+  success "$key → functions/.env"
+}
+
+# Server-side keys edge functions need
+sync_to_functions_env "ANTHROPIC_API_KEY"
+sync_to_functions_env "DATA_GO_KR_API_KEY"
+sync_to_functions_env "STRIPE_SECRET_KEY"
+sync_to_functions_env "STRIPE_WEBHOOK_SECRET"
+sync_to_functions_env "FIREBASE_SERVICE_ACCOUNT_JSON"
+sync_to_functions_env "SMTP_HOST"
+sync_to_functions_env "SMTP_PORT"
+sync_to_functions_env "SMTP_USER"
+sync_to_functions_env "SMTP_PASS"
+sync_to_functions_env "SMTP_FROM"
+sync_to_functions_env "SUPABASE_SERVICE_ROLE_KEY"
+
 echo ""
 success "Done."
 info "Run 'just status' to see what's still missing."

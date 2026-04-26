@@ -7,10 +7,10 @@ type NotificationToastProps = {
 }
 
 const typeClasses: Record<NotificationType, string> = {
-  success: 'border-[var(--color-success)] bg-[var(--color-success-bg,#10b98111)]',
+  success: 'border-[var(--color-success)] bg-[var(--color-success-bg)]',
   error:   'border-[var(--color-danger)]  bg-[var(--color-danger-bg,#ef444411)]',
-  warning: 'border-[var(--color-warning,#f59e0b)] bg-[var(--color-warning-bg,#f59e0b11)]',
-  info:    'border-[var(--color-accent)]  bg-[var(--color-accent-bg,#06b6d411)]',
+  warning: 'border-[var(--color-warning)] bg-[var(--color-warning-bg)]',
+  info:    'border-[var(--color-accent)]  bg-[var(--color-accent-bg)]',
 }
 
 export function NotificationToast({ notification, onDismiss }: NotificationToastProps) {

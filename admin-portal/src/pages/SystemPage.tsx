@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchApi, Button, useNotification, NotificationContainer } from '@any-project-base/commons'
+import { fetchApi, Button, useNotification, NotificationContainer, Card, CardHeader, CardBody, PageHeader, Input } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
 import type { Deployment } from '@any-project-base/commons'
 
@@ -14,17 +14,11 @@ export function SystemPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-[var(--color-text)]">System</h1>
-        <p className="text-sm text-[var(--color-text-muted)] mt-1">Monitor deployments and system health</p>
-      </div>
+      <PageHeader title="System" subtitle="Monitor deployments and system health" />
 
-      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--color-text)]">Deployment history</h2>
-          <div><TestPushButton onNotify={notify} /></div>
-        </div>
-        <div className="p-6">
+      <Card>
+        <CardHeader actions={<TestPushButton onNotify={notify} />}>Deployment history</CardHeader>
+        <CardBody>
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[var(--color-border)]">
@@ -48,8 +42,8 @@ export function SystemPage() {
               )}
             </tbody>
           </table>
-        </div>
-      </div>
+        </CardBody>
+      </Card>
 
       <NotificationContainer notifications={notifications} onDismiss={dismiss} />
     </div>
@@ -78,9 +72,9 @@ function TestPushButton({ onNotify }: { onNotify: (n: { type: 'success' | 'error
 
   return (
     <div className="flex gap-2 items-center">
-      <input value={userId} onChange={e => { setUserId(e.target.value) }}
+      <Input value={userId} onChange={e => { setUserId(e.target.value) }}
         placeholder="User ID"
-        className="px-2 py-1.5 text-sm rounded rounded-xl focus:outline-none w-48" />
+        className="w-48" />
       <Button size="sm" variant="secondary" loading={loading} onClick={() => { void send() }}>
         Test push
       </Button>

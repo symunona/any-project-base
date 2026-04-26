@@ -65,15 +65,15 @@ export function DataTable<T extends Record<string, unknown>>({
               onParamsChange({ ...params, search: debouncedSearch, offset: 0 })
             }}
             placeholder="Search..."
-            className="flex-1 px-3 py-2 rounded-md border border-[var(--color-border,#e5e7eb)]
-                       bg-[var(--color-surface,white)] text-sm focus:outline-none
+            className="flex-1 px-3 py-2 rounded-md border border-[var(--color-border)]
+                       bg-[var(--color-surface)] text-sm focus:outline-none
                        focus:ring-2 focus:ring-[var(--color-primary)]"
           />
           <select
             value={limit}
             onChange={e => { onParamsChange({ ...params, limit: Number(e.target.value), offset: 0 }) }}
-            className="px-3 py-2 rounded-md border border-[var(--color-border,#e5e7eb)] text-sm
-                       bg-[var(--color-surface,white)] focus:outline-none"
+            className="px-3 py-2 rounded-md border border-[var(--color-border)] text-sm
+                       bg-[var(--color-surface)] focus:outline-none"
           >
             {PAGE_SIZES.map(s => (
               <option key={s} value={s}>{s} / page</option>
@@ -82,16 +82,16 @@ export function DataTable<T extends Record<string, unknown>>({
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-lg border border-[var(--color-border,#e5e7eb)]">
+      <div className="overflow-x-auto rounded-lg border border-[var(--color-border)]">
         <table className="w-full text-sm">
-          <thead className="bg-[var(--color-surface-2,#f9fafb)]">
+          <thead className="bg-[var(--color-surface-2)]">
             <tr>
               {columns.map(col => (
                 <th
                   key={String(col.key)}
                   onClick={() => { if (col.sortable) setSort(String(col.key)) }}
                   className={[
-                    'px-4 py-3 text-left font-semibold text-[var(--color-text-muted,#6b7280)]',
+                    'px-4 py-3 text-left font-semibold text-[var(--color-text-muted)]',
                     col.sortable ? 'cursor-pointer select-none hover:text-[var(--color-text)]' : '',
                   ].join(' ')}
                 >
@@ -108,10 +108,10 @@ export function DataTable<T extends Record<string, unknown>>({
           <tbody>
             {loading && (
               Array.from({ length: 5 }).map((_, i) => (
-                <tr key={i} className="border-t border-[var(--color-border,#e5e7eb)]">
+                <tr key={i} className="border-t border-[var(--color-border)]">
                   {columns.map((_, j) => (
                     <td key={j} className="px-4 py-3">
-                      <div className="h-4 rounded bg-[var(--color-border,#e5e7eb)] animate-pulse"/>
+                      <div className="h-4 rounded bg-[var(--color-border)] animate-pulse"/>
                     </td>
                   ))}
                 </tr>
@@ -119,13 +119,13 @@ export function DataTable<T extends Record<string, unknown>>({
             )}
             {!loading && rows.length === 0 && (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-8 text-center text-[var(--color-text-muted,#6b7280)]">
+                <td colSpan={columns.length} className="px-4 py-8 text-center text-[var(--color-text-muted)]">
                   No results
                 </td>
               </tr>
             )}
             {!loading && rows.map((row, i) => (
-              <tr key={i} className="border-t border-[var(--color-border,#e5e7eb)] hover:bg-[var(--color-surface-2,#f9fafb)]">
+              <tr key={i} className="border-t border-[var(--color-border)] hover:bg-[var(--color-surface-2)]">
                 {columns.map(col => (
                   <td key={String(col.key)} className="px-4 py-3">
                     {col.render
@@ -140,22 +140,22 @@ export function DataTable<T extends Record<string, unknown>>({
       </div>
 
       {total > 0 && (
-        <div className="mt-4 flex items-center justify-between text-sm text-[var(--color-text-muted,#6b7280)]">
+        <div className="mt-4 flex items-center justify-between text-sm text-[var(--color-text-muted)]">
           <span>Showing {offset + 1}–{Math.min(offset + limit, total)} of {total}</span>
           <div className="flex gap-2">
             <button
               onClick={() => { setPage(page - 1) }}
               disabled={page <= 1}
-              className="px-3 py-1.5 rounded border border-[var(--color-border,#e5e7eb)]
-                         disabled:opacity-40 hover:bg-[var(--color-surface-2,#f9fafb)]"
+              className="px-3 py-1.5 rounded border border-[var(--color-border)]
+                         disabled:opacity-40 hover:bg-[var(--color-surface-2)]"
             >
               Prev
             </button>
             <button
               onClick={() => { setPage(page + 1) }}
               disabled={page >= totalPages}
-              className="px-3 py-1.5 rounded border border-[var(--color-border,#e5e7eb)]
-                         disabled:opacity-40 hover:bg-[var(--color-surface-2,#f9fafb)]"
+              className="px-3 py-1.5 rounded border border-[var(--color-border)]
+                         disabled:opacity-40 hover:bg-[var(--color-surface-2)]"
             >
               Next
             </button>

@@ -26,23 +26,18 @@ export function AuthLayout({ children, variant = 'client' }: AuthLayoutProps) {
       <div className="w-full" style={{ maxWidth: 420 }}>
         {/* Brand mark */}
         <div className="flex flex-col items-center mb-8">
-          <div
-            className="flex items-center justify-center w-12 h-12 rounded-2xl mb-3"
-            style={{ background: BRAND_GRADIENT[variant] }}
-          >
-            <span className="text-white font-bold text-lg">
-              {config.projectName.charAt(0).toUpperCase()}
-            </span>
-          </div>
+          <img src="/logo-small.svg" alt={config.projectName} className="w-16 h-16 mb-3" />
           <p className="text-sm text-[var(--color-text-muted)]">{config.projectName}</p>
         </div>
 
         {/* Card */}
         <div
-          className="bg-white rounded-3xl px-8 py-8"
-          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08)' }}
+          className="bg-white rounded-3xl overflow-hidden"
+          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.10)' }}
         >
-          {children}
+          <div className="px-8 py-8">
+            {children}
+          </div>
         </div>
       </div>
     </div>

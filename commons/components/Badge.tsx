@@ -6,11 +6,11 @@ type BadgeProps = {
 }
 
 const variantClasses: Record<Variant, string> = {
-  success: 'bg-[var(--color-success-bg,#10b98122)] text-[var(--color-success)]',
-  warning: 'bg-[var(--color-warning-bg,#f59e0b22)] text-[var(--color-warning,#f59e0b)]',
+  success: 'bg-[var(--color-success-bg)] text-[var(--color-success)]',
+  warning: 'bg-[var(--color-warning-bg)] text-[var(--color-warning)]',
   danger:  'bg-[var(--color-danger-bg,#ef444422)] text-[var(--color-danger)]',
-  neutral: 'bg-[var(--color-neutral-bg,#6b728022)] text-[var(--color-neutral,#6b7280)]',
-  accent:  'bg-[var(--color-accent-bg,#06b6d422)] text-[var(--color-accent)]',
+  neutral: 'bg-[var(--color-neutral-bg)] text-[var(--color-neutral)]',
+  accent:  'bg-[var(--color-accent-bg)] text-[var(--color-accent)]',
 }
 
 export function Badge({ variant = 'neutral', children }: BadgeProps) {

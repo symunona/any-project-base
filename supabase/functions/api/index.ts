@@ -1,4 +1,4 @@
-import { Hono } from 'https://deno.land/x/hono@v4.7.7/mod.ts'
+import { Hono } from 'npm:hono'
 import { users } from './routes/users.ts'
 import { support } from './routes/support.ts'
 import { usage } from './routes/usage.ts'
@@ -6,7 +6,7 @@ import { deployments } from './routes/deployments.ts'
 import { magicLinks } from './routes/magic-links.ts'
 import { llm } from './routes/llm.ts'
 
-const app = new Hono()
+const app = new Hono().basePath('/api')
   .route('/users', users)
   .route('/support', support)
   .route('/usage', usage)

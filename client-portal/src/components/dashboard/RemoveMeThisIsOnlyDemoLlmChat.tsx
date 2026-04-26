@@ -63,7 +63,7 @@ export function RemoveMeThisIsOnlyDemoLlmChat() {
       </div>
 
       {error && (
-        <div className="px-4 py-2 bg-[var(--color-danger-bg,#ef444411)] text-sm text-[var(--color-danger)] flex items-center gap-3">
+        <div className="px-4 py-2 bg-[var(--color-danger)]/8 text-sm text-[var(--color-danger)] flex items-center gap-3">
           {error}
           {error.includes('credits') && (
             <button onClick={() => { void navigate('/settings/billing') }} className="underline text-[var(--color-primary)]">
