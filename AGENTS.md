@@ -164,3 +164,6 @@ To add more: `claude plugin install <name>` or `claude plugin search`.
 | `setup/` | install + platform setup scripts |
 | `branding/` | logos, colors — edit here, propagate via `just setup-apply-branding` |
 | `spec/` | module specs |
+
+## Misc
+For temporary images like screenshots and agent-browser outputs, use tmp/ folder. 
