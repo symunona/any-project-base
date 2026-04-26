@@ -4,29 +4,29 @@
 
 :root {
   /* Color palette — edit branding/colors.yaml, then run: just setup-apply-branding */
-  --color-primary:   #6366f1;
-  --color-secondary: #8b5cf6;
-  --color-accent:    #06b6d4;
-  --color-success:   #10b981;
-  --color-danger:    #ef4444;
-  --color-warning:   #f59e0b;
+  --color-primary:   #2563EB;
+  --color-secondary: #475569;
+  --color-accent:    #0891B2;
+  --color-success:   #16A34A;
+  --color-danger:    #DC2626;
+  --color-warning:   #D97706;
 
   /* Semantic surface + text */
-  --color-bg:          #f8f9fa;
+  --color-bg:          #F8FAFC;
   --color-surface:     #ffffff;
-  --color-surface-2:   #f3f4f6;
-  --color-border:      #e5e7eb;
-  --color-text:        #111827;
-  --color-text-muted:  #6b7280;
+  --color-surface-2:   #F1F5F9;
+  --color-border:      #E2E8F0;
+  --color-text:        #0F172A;
+  --color-text-muted:  #64748B;
 }
 
 [data-theme="dark"] {
-  --color-bg:          #0f0f14;
-  --color-surface:     #1a1a2e;
-  --color-surface-2:   #16213e;
-  --color-border:      #2d2d44;
-  --color-text:        #e0e0e0;
-  --color-text-muted:  #9ca3af;
+  --color-bg:          #0B1120;
+  --color-surface:     #131E2F;
+  --color-surface-2:   #1E2D42;
+  --color-border:      #2D3F58;
+  --color-text:        #E2E8F0;
+  --color-text-muted:  #94A3B8;
 }
 
 /* Base */

@@ -1,8 +1,9 @@
 # Edit this file directly to change colors.
 # Run: just setup-apply-branding  to propagate changes everywhere.
 # Run: just setup-branding        to let the agent regenerate palettes.
-primary:   "#6366f1"
-secondary: "#8b5cf6"
-accent:    "#06b6d4"
-success:   "#10b981"
-danger:    "#ef4444"
+primary:   "#2563EB"
+secondary: "#475569"
+accent:    "#0891B2"
+success:   "#16A34A"
+danger:    "#DC2626"
+warning:   "#D97706"

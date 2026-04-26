@@ -29,19 +29,21 @@ export function Header({ navItems = [], onNavigate, currentPath }: HeaderProps) 
   )
 
   return (
-    <header className="sticky top-0 z-40 bg-[var(--color-primary)] text-white shadow-md">
+    <header className="sticky top-0 z-40 bg-[var(--color-surface)] border-b border-[var(--color-border)]">
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-        <span className="font-bold text-lg tracking-tight">{config.projectName}</span>
+        <span className="font-bold text-[var(--color-primary)] tracking-tight">{config.projectName}</span>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6 flex-1 ml-8">
+        <nav className="hidden md:flex items-center gap-1 flex-1 ml-6">
           {visibleItems.map(item => (
             <button
               key={item.href}
               onClick={() => { onNavigate?.(item.href) }}
               className={[
-                'text-sm font-medium opacity-80 hover:opacity-100 transition-opacity',
-                currentPath === item.href ? 'opacity-100 underline underline-offset-4' : '',
+                'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                currentPath === item.href
+                  ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]'
+                  : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)]',
               ].join(' ')}
             >
               {item.label}
@@ -49,20 +51,20 @@ export function Header({ navItems = [], onNavigate, currentPath }: HeaderProps) 
           ))}
         </nav>
 
-        {/* User dropdown */}
+        {/* User actions */}
         {user && (
-          <div className="hidden md:flex items-center gap-3">
-            <span className="text-sm opacity-80">{user.name ?? user.email}</span>
+          <div className="hidden md:flex items-center gap-1">
+            <span className="text-sm text-[var(--color-text-muted)] mr-2">{user.name ?? user.email}</span>
             <button
               onClick={() => { onNavigate?.('/settings/profile') }}
-              className="p-1 opacity-70 hover:opacity-100"
+              className="p-2 rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)] transition-colors"
               aria-label="Settings"
             >
               <Settings size={18} />
             </button>
             <button
               onClick={handleLogout}
-              className="p-1 opacity-70 hover:opacity-100"
+              className="p-2 rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)] transition-colors"
               aria-label="Sign out"
             >
               <LogOut size={18} />
@@ -72,7 +74,7 @@ export function Header({ navItems = [], onNavigate, currentPath }: HeaderProps) 
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden p-1"
+          className="md:hidden p-2 rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] transition-colors"
           onClick={() => { setMenuOpen(v => !v) }}
           aria-label="Toggle menu"
         >
@@ -82,12 +84,17 @@ export function Header({ navItems = [], onNavigate, currentPath }: HeaderProps) 
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[var(--color-primary)] border-t border-white/20 px-4 py-3 flex flex-col gap-3">
+        <div className="md:hidden bg-[var(--color-surface)] border-t border-[var(--color-border)] px-4 py-3 flex flex-col gap-1">
           {visibleItems.map(item => (
             <button
               key={item.href}
               onClick={() => { onNavigate?.(item.href); setMenuOpen(false) }}
-              className="text-left text-sm font-medium opacity-80 hover:opacity-100"
+              className={[
+                'text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                currentPath === item.href
+                  ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]'
+                  : 'text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)]',
+              ].join(' ')}
             >
               {item.label}
             </button>
@@ -95,7 +102,7 @@ export function Header({ navItems = [], onNavigate, currentPath }: HeaderProps) 
           {user && (
             <button
               onClick={handleLogout}
-              className="text-left text-sm font-medium opacity-80 hover:opacity-100 flex items-center gap-2 mt-2"
+              className="text-left px-3 py-2 rounded-lg text-sm font-medium text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)] flex items-center gap-2 mt-2"
             >
               <LogOut size={16} /> Sign out
             </button>

@@ -10,16 +10,16 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary:   'bg-[var(--color-primary)] text-white hover:opacity-90',
-  secondary: 'bg-[var(--color-secondary)] text-white hover:opacity-90',
-  danger:    'bg-[var(--color-danger)] text-white hover:opacity-90',
-  ghost:     'bg-transparent border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white',
+  primary:   'bg-[var(--color-primary)] text-white hover:brightness-110 shadow-sm',
+  secondary: 'bg-[var(--color-surface-2)] text-[var(--color-text)] border border-[var(--color-border)] hover:bg-[var(--color-border)]',
+  danger:    'bg-[var(--color-danger)] text-white hover:brightness-110 shadow-sm',
+  ghost:     'bg-transparent border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10',
 }
 
 const sizeClasses: Record<Size, string> = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-6 py-3 text-lg',
+  sm: 'px-4 py-1.5 text-sm',
+  md: 'px-5 py-2 text-sm',
+  lg: 'px-7 py-2.5 text-base',
 }
 
 export function Button({
@@ -36,8 +36,8 @@ export function Button({
       {...props}
       disabled={disabled ?? loading}
       className={[
-        'inline-flex items-center justify-center gap-2 rounded-md font-medium',
-        'transition-opacity disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center gap-2 rounded-full font-medium',
+        'transition-all disabled:opacity-50 disabled:cursor-not-allowed',
         variantClasses[variant],
         sizeClasses[size],
         className,

@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useLocation } from 'react-router'
+import { Outlet, Navigate, useNavigate, useLocation } from 'react-router'
 import { useAuth, Header, PageLayout } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
 
@@ -12,8 +12,8 @@ export function AppLayout() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading…</div>
-  if (!user) { void navigate('/login'); return null }
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-[var(--color-text-muted)]">Loading…</div>
+  if (!user) return <Navigate to="/login" replace />
 
   const navItems = [
     ...BASE_NAV,

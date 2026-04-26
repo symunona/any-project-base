@@ -28,16 +28,20 @@ export function Modal({ open, onClose, title, children, footer }: ModalProps) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div className="bg-[var(--color-surface,white)] rounded-xl shadow-2xl w-full max-w-md">
-        <div className="flex items-center justify-between p-6 border-b border-[var(--color-border,#e5e7eb)]">
-          <h2 className="text-lg font-semibold">{title}</h2>
-          <button onClick={onClose} className="opacity-60 hover:opacity-100" aria-label="Close">
-            <X size={20} />
+      <div className="bg-[var(--color-surface,white)] rounded-2xl shadow-xl w-full max-w-md">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--color-border,#E2E8F0)]">
+          <h2 className="text-base font-semibold text-[var(--color-text)]">{title}</h2>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] transition-colors"
+            aria-label="Close"
+          >
+            <X size={18} />
           </button>
         </div>
         <div className="p-6">{children}</div>
         {footer && (
-          <div className="flex justify-end gap-3 p-6 pt-0">{footer}</div>
+          <div className="flex justify-end gap-3 px-6 pb-6">{footer}</div>
         )}
       </div>
     </div>
