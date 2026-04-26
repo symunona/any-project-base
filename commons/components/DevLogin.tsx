@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { fetchApi } from '../api/fetchApi'
+import { useNavigate } from 'react-router'
+import { supabase } from '../lib/supabase'
 import { config } from '../config'
 
 // GUARD — must be first check. Never renders in prod.
@@ -13,27 +14,41 @@ const DEV_USERS = [
   { label: 'User (subscription)',  email: 'user-sub@dev.local' },
 ] as const
 
+const REGISTER_LOADING = '__register__'
+
 export function DevLogin() {
   if (config.appEnv === 'prod') return null
 
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [newEmail, setNewEmail] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   const login = async (email: string) => {
     setLoading(email)
     setError(null)
-    try {
-      const { url } = await fetchApi<{ url: string }>(
-        `${config.apiUrl}/dev-login`,
-        {
-          method: 'POST',
-          body: JSON.stringify({ email }),
-        },
-      )
-      window.location.href = url
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Login failed')
+    setNewEmail(null)
+    const { error } = await supabase.auth.signInWithPassword({ email, password: 'devpassword' })
+    if (error) {
+      setError(error.message)
       setLoading(null)
+    } else {
+      void navigate('/')
+    }
+  }
+
+  const registerNew = async () => {
+    setLoading(REGISTER_LOADING)
+    setError(null)
+    setNewEmail(null)
+    const email = `test-${Date.now()}@dev.local`
+    const { error } = await supabase.auth.signUp({ email, password: 'devpassword' })
+    if (error) {
+      setError(error.message)
+      setLoading(null)
+    } else {
+      setNewEmail(email)
+      void navigate('/')
     }
   }
 
@@ -56,7 +71,26 @@ export function DevLogin() {
             {loading === u.email ? '…' : `▶ Login as ${u.label}`}
           </button>
         ))}
+
+        <hr className="border-[var(--color-border,#e5e7eb)] my-1" />
+
+        <button
+          onClick={() => { void registerNew() }}
+          disabled={loading !== null}
+          className="text-left px-3 py-2 rounded-md text-sm font-medium
+                     bg-[var(--color-surface,white)] border border-dashed border-[var(--color-border,#e5e7eb)]
+                     hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]
+                     disabled:opacity-50 transition-colors"
+        >
+          {loading === REGISTER_LOADING ? '…' : '✦ Register new test user'}
+        </button>
       </div>
+
+      {newEmail && (
+        <p className="mt-2 text-xs text-[var(--color-text-muted,#6b7280)]">
+          Registered as <span className="font-mono">{newEmail}</span> (pw: devpassword)
+        </p>
+      )}
       {error && (
         <p className="mt-2 text-xs text-[var(--color-danger)]">{error}</p>
       )}

@@ -3,7 +3,7 @@ import { AuthLayout as CommonAuthLayout } from '@any-project-base/commons'
 
 export function AuthLayout() {
   return (
-    <CommonAuthLayout>
+    <CommonAuthLayout variant="admin">
       <Outlet />
     </CommonAuthLayout>
   )

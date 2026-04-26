@@ -25,7 +25,8 @@ export function AppLayout() {
   }, [loading, user, isAdmin, isSupport, navigate])
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center text-[var(--color-text-muted)]">Loading…</div>
+    <div className="min-h-screen flex items-center justify-center text-[var(--color-text-muted)]"
+         style={{ background: 'linear-gradient(160deg, #F1F5F9 0%, #F8FAFC 60%, #EEF2FF 100%)' }}>Loading…</div>
   )
   if (!user || (!isAdmin && !isSupport)) return null
 
@@ -62,7 +63,7 @@ export function AppLayout() {
   const userInitial = (user.name ?? user.email ?? '?').charAt(0).toUpperCase()
 
   return (
-    <div className="min-h-screen flex bg-[var(--color-bg)]">
+    <div className="min-h-screen flex" style={{ background: 'linear-gradient(160deg, #F1F5F9 0%, #F8FAFC 60%, #EEF2FF 100%)' }}>
 
       {/* Desktop sidebar */}
       <aside className="hidden md:flex flex-col w-64 min-h-screen bg-[var(--color-surface)] border-r border-[var(--color-border)] fixed top-0 left-0 z-30">
@@ -131,7 +132,7 @@ export function AppLayout() {
       )}
 
       {/* Main content */}
-      <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
+      <div className="flex-1 md:ml-64 flex flex-col min-h-screen" style={{ background: 'transparent' }}>
         <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6 pt-20 md:pt-6">
           <Outlet />
         </main>

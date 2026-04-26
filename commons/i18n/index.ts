@@ -10,14 +10,20 @@ const bundles: Partial<Record<string, Messages>> = {}
 let currentLocale = config.defaultLocale ?? 'en'
 let currentBundle: Messages | null = null
 
+const LOCALE_LOADERS: Record<string, (() => Promise<{ messages: Messages }>) | undefined> = {
+  en: () => import('./messages/en'),
+  es: () => import('./messages/es'),
+  ko: () => import('./messages/ko'),
+}
+
 async function loadLocale(locale: string): Promise<Messages> {
   if (bundles[locale]) return bundles[locale]!
   try {
-    const mod = await import(`./messages/${locale}`) as { messages: Messages }
+    const loader = LOCALE_LOADERS[locale] ?? LOCALE_LOADERS['en']!
+    const mod = await loader()
     bundles[locale] = mod.messages
     return mod.messages
   } catch {
-    // fallback to en
     const fallback = await import('./messages/en')
     bundles[locale] = fallback.messages
     return fallback.messages

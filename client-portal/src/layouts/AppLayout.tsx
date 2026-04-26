@@ -12,7 +12,7 @@ export function AppLayout() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-[var(--color-text-muted)]">Loading…</div>
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-[var(--color-text-muted)]" style={{ background: 'linear-gradient(160deg, #EFF6FF 0%, #F8FAFC 60%, #E0F2FE 100%)' }}>Loading…</div>
   if (!user) return <Navigate to="/login" replace />
 
   const navItems = [
@@ -22,6 +22,7 @@ export function AppLayout() {
 
   return (
     <PageLayout
+      variant="client"
       header={
         <Header
           navItems={navItems}

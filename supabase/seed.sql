@@ -3,35 +3,84 @@
 -- Maintained in sync with DevLogin.tsx seed users list.
 
 -- NOTE: auth.create_user(jsonb) was removed in newer Supabase CLI versions.
--- We insert directly into auth.users using crypt() from pgcrypto (enabled by default).
+-- We insert directly into auth.users and auth.identities (required for email
+-- provider sign-in in newer Supabase auth versions).
 -- Password for all dev users: 'devpassword'
--- Run via: supabase db reset
+-- Run via: supabase db reset  OR  just db-reset
 
+-- Step 1: insert missing auth.users rows
+-- Use a CTE to generate one UUID per row so id and sub stay in sync.
+with new_users as (
+  select
+    gen_random_uuid() as id,
+    u.email
+  from (values
+    ('admin@dev.local'),
+    ('support@dev.local'),
+    ('user@dev.local'),
+    ('user-nocredits@dev.local'),
+    ('user-sub@dev.local')
+  ) as u(email)
+  where not exists (select 1 from auth.users where auth.users.email = u.email)
+)
 insert into auth.users (
   id, instance_id, email, encrypted_password,
   email_confirmed_at, created_at, updated_at,
   raw_app_meta_data, raw_user_meta_data,
-  is_super_admin, role, aud
+  is_super_admin, role, aud,
+  confirmation_token, recovery_token, email_change_token_new, email_change
 )
 select
-  gen_random_uuid(),
+  nu.id,
   '00000000-0000-0000-0000-000000000000',
-  u.email,
+  nu.email,
   crypt('devpassword', gen_salt('bf')),
   now(), now(), now(),
-  '{"provider":"email","providers":["email"]}'::jsonb,
-  '{}'::jsonb,
+  jsonb_build_object('provider', 'email', 'providers', jsonb_build_array('email')),
+  jsonb_build_object(
+    'sub',            nu.id::text,
+    'email',          nu.email,
+    'email_verified', true,
+    'phone_verified', false
+  ),
   false,
   'authenticated',
-  'authenticated'
-from (values
-  ('admin@dev.local'),
-  ('support@dev.local'),
-  ('user@dev.local'),
-  ('user-nocredits@dev.local'),
-  ('user-sub@dev.local')
-) as u(email)
-where not exists (select 1 from auth.users where auth.users.email = u.email);
+  'authenticated',
+  '', '', '', ''
+from new_users nu;
+
+-- Step 2: insert missing auth.identities rows (required for email sign-in)
+-- Each user needs an identity with provider='email' that matches their user id.
+-- Note: 'email' column is GENERATED ALWAYS — omit it, it is derived from identity_data.
+insert into auth.identities (
+  id, user_id, provider_id, provider,
+  identity_data,
+  last_sign_in_at, created_at, updated_at
+)
+select
+  au.id,                    -- identity id = user id (Supabase convention for email)
+  au.id,                    -- user_id FK
+  au.email,                 -- provider_id = email for email provider
+  'email',
+  jsonb_build_object(
+    'sub',            au.id::text,
+    'email',          au.email,
+    'email_verified', true,
+    'phone_verified', false
+  ),
+  now(), now(), now()
+from auth.users au
+where au.email in (
+  'admin@dev.local',
+  'support@dev.local',
+  'user@dev.local',
+  'user-nocredits@dev.local',
+  'user-sub@dev.local'
+)
+and not exists (
+  select 1 from auth.identities ai
+  where ai.user_id = au.id and ai.provider = 'email'
+);
 
 -- Set roles
 update public.users set role = 'admin',   name = 'Dev Admin'

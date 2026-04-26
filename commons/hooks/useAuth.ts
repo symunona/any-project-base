@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { Session } from '@supabase/supabase-js'
-import { supabase } from '../lib/supabase'
+import { supabase, fetchWithToken } from '../lib/supabase'
 import type { User } from '../types/project.types'
 import type { Role } from '../constants'
 
@@ -14,18 +14,24 @@ type AuthState = {
 
 const UNAUTHED: AuthState = { user: null, role: null, isAdmin: false, isSupport: false, loading: false }
 
+/**
+ * Fetches the public.users row using an explicit access token.
+ * Uses fetchWithToken (plain fetch in supabase.ts) to bypass supabase.from()
+ * which re-enters the GoTrueClient lock — causing a deadlock when called from
+ * inside an onAuthStateChange callback where the lock is already held by the
+ * GoTrueClient initialisation task.
+ */
 async function resolveSession(session: Session | null): Promise<AuthState> {
   if (!session) return UNAUTHED
 
-  const { data, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', session.user.id)
-    .single()
+  const data = await fetchWithToken<User>(
+    'users',
+    session.access_token,
+    { 'id': `eq.${session.user.id}`, 'limit': '1' },
+  )
+  if (!data) return UNAUTHED
 
-  if (error || !data) return UNAUTHED
-
-  const user = data as unknown as User
+  const user = data as User
   const role = user.role as Role
   return {
     user,
@@ -50,15 +56,19 @@ export function useAuth(): AuthState {
 
     const init = async () => {
       try {
-        // Race getSession against a timeout — stale/invalid cookies can cause
-        // the Supabase client to hang indefinitely waiting for a token refresh.
-        const result = await Promise.race([
-          supabase.auth.getSession(),
+        // Race the entire auth resolution (getSession + DB lookup) against a
+        // timeout. Stale/invalid cookies or a slow PostgREST can cause either
+        // step to hang indefinitely.
+        const authState = await Promise.race([
+          (async () => {
+            const { data } = await supabase.auth.getSession()
+            return resolveSession(data.session)
+          })(),
           new Promise<never>((_, reject) =>
             setTimeout(() => reject(new Error('auth_timeout')), 4000),
           ),
         ])
-        if (!cancelled) setState(await resolveSession(result.data.session))
+        if (!cancelled) setState(authState)
       } catch {
         // Timed out or hard error — clear stale session, proceed unauthenticated
         if (!cancelled) {
@@ -73,7 +83,8 @@ export function useAuth(): AuthState {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === 'INITIAL_SESSION' || cancelled) return
-        setState(await resolveSession(session))
+        const authState = await resolveSession(session)
+        if (!cancelled) setState(authState)
       },
     )
 
