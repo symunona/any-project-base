@@ -6,6 +6,7 @@ import { DashboardPage } from './pages/DashboardPage'
 import { ProfilePage } from './pages/settings/ProfilePage'
 import { BillingPage } from './pages/settings/BillingPage'
 import { SupportPage } from './pages/SupportPage'
+import { BuyCreditsPage } from './pages/BuyCreditsPage'
 import { CookieBanner, CommitWatermark } from '@any-project-base/commons'
 
 export function App() {
@@ -20,6 +21,7 @@ export function App() {
           <Route path="/settings/profile" element={<ProfilePage />} />
           <Route path="/settings/billing" element={<BillingPage />} />
           <Route path="/support" element={<SupportPage />} />
+          <Route path="/buy-credits" element={<BuyCreditsPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
