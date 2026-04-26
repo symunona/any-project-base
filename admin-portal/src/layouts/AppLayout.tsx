@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router'
 import { useAuth } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
@@ -20,10 +20,14 @@ export function AppLayout() {
   const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  useEffect(() => {
+    if (!loading && (!user || (!isAdmin && !isSupport))) void navigate('/login')
+  }, [loading, user, isAdmin, isSupport, navigate])
+
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center text-[var(--color-text-muted)]">Loading…</div>
   )
-  if (!user || (!isAdmin && !isSupport)) { void navigate('/login'); return null }
+  if (!user || (!isAdmin && !isSupport)) return null
 
   const navItems = [
     ...NAV_ITEMS,
