@@ -3,35 +3,483 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>any-project-base — Tu eslogan aquí</title>
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/styles/globals.css" />
-  <link rel="stylesheet" href="/styles/landing.css" />
+  <title>any-project-base — Lanza tu SaaS en horas, no en meses</title>
+  <meta name="description" content="Monorepo de inicio SaaS listo para producción. Auth, facturación, portal de administración, app móvil — todo conectado. Tú lanzas la funcionalidad, no la infraestructura." />
+
+  <meta property="og:title"       content="any-project-base" />
+  <meta property="og:description" content="Lanza tu SaaS en horas, no en meses." />
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://any-project-base.com" />
+
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="any-project-base" />
+  <meta name="twitter:description" content="Lanza tu SaaS en horas, no en meses." />
+
+  <link rel="manifest"    href="/manifest.json" />
+  <link rel="icon"        href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet"  href="/styles/globals.css" />
+  <link rel="stylesheet"  href="/styles/landing.css" />
 </head>
 <body>
-  <div id="video-bg" data-video-id="672TY8K2PKk"></div>
-  <nav>
-    <a href="/" class="nav-logo">any-project-base</a>
-    <div class="lang-selector">
-      <a href="/en/" data-lang="en">EN</a>
-      <a href="/es/" data-lang="es" class="active">ES</a>
-      <a href="/ko/" data-lang="ko">KO</a>
+
+<!-- ── Sticky header ─────────────────────────────────────────── -->
+<header id="site-header">
+  <nav aria-label="Navegación principal">
+    <a href="/" class="nav-logo" aria-label="Inicio de any-project-base">
+      <!-- LOGO-MARK-START -->
+      <svg width="48" height="48" viewBox="0 0 512 512" aria-hidden="true">
+        <g><circle cx="406.101" cy="176.190" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="411.900" cy="188.213" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="416.738" cy="200.653" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="420.585" cy="213.435" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="423.417" cy="226.480" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="425.217" cy="239.706" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="425.974" cy="253.033" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="425.683" cy="266.378" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="424.346" cy="279.659" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="421.970" cy="292.795" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="418.572" cy="305.703" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="414.171" cy="318.305" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="408.795" cy="330.523" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="402.477" cy="342.282" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="395.256" cy="353.508" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="387.176" cy="364.133" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="378.288" cy="374.092" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="368.645" cy="383.322" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="358.309" cy="391.768" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="347.341" cy="399.377" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="335.810" cy="406.101" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="323.787" cy="411.900" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="311.347" cy="416.738" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="298.565" cy="420.585" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="285.520" cy="423.417" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="272.294" cy="425.217" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="258.967" cy="425.974" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="245.622" cy="425.683" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="232.341" cy="424.346" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="219.205" cy="421.970" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="206.297" cy="418.572" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="193.695" cy="414.171" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="181.477" cy="408.795" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="169.718" cy="402.477" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="158.492" cy="395.256" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="147.867" cy="387.176" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="137.908" cy="378.288" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="128.678" cy="368.645" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="120.232" cy="358.309" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="112.623" cy="347.341" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="105.899" cy="335.810" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="100.100" cy="323.787" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="95.262" cy="311.347" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="91.415" cy="298.565" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="88.583" cy="285.520" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="86.783" cy="272.294" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="86.026" cy="258.967" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="86.317" cy="245.622" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="87.654" cy="232.341" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="90.030" cy="219.205" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="93.428" cy="206.297" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="97.829" cy="193.695" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="103.205" cy="181.477" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="109.523" cy="169.718" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="116.744" cy="158.492" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="124.824" cy="147.867" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="133.712" cy="137.908" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="143.355" cy="128.678" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="153.691" cy="120.232" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="164.659" cy="112.623" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="176.190" cy="105.899" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="188.213" cy="100.100" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="200.653" cy="95.262" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="213.435" cy="91.415" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="226.480" cy="88.583" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="239.706" cy="86.783" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="253.033" cy="86.026" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="266.378" cy="86.317" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="279.659" cy="87.654" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="292.795" cy="90.030" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="305.703" cy="93.428" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="318.305" cy="97.829" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="330.523" cy="103.205" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="342.282" cy="109.523" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="353.508" cy="116.744" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="364.133" cy="124.824" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="374.092" cy="133.712" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="383.322" cy="143.355" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="391.768" cy="153.691" r="3" fill="#7a7a7a" opacity="0.7"/><circle cx="399.377" cy="164.659" r="3" fill="#7a7a7a" opacity="0.7"/></g>
+        <g><circle cx="149.778" cy="236.883" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="140.873" cy="227.632" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="133.375" cy="217.207" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="127.436" cy="205.822" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="123.179" cy="193.707" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="120.688" cy="181.110" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="120.016" cy="168.287" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="121.176" cy="155.498" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="124.144" cy="143.005" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="128.860" cy="131.061" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="135.227" cy="119.910" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="143.117" cy="109.778" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="152.368" cy="100.873" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="162.793" cy="93.375" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="174.178" cy="87.436" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="186.293" cy="83.179" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="198.890" cy="80.688" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="211.713" cy="80.016" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="224.502" cy="81.176" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="236.995" cy="84.144" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="248.939" cy="88.860" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="260.090" cy="95.227" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="270.222" cy="103.117" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="279.127" cy="112.368" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="286.625" cy="122.793" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="292.564" cy="134.178" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="296.821" cy="146.293" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="299.312" cy="158.890" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="299.984" cy="171.713" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="298.824" cy="184.502" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="295.856" cy="196.995" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="291.140" cy="208.939" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="284.773" cy="220.090" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="276.883" cy="230.222" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="267.632" cy="239.127" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="257.207" cy="246.625" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="245.822" cy="252.564" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="233.707" cy="256.821" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="221.110" cy="259.312" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="208.287" cy="259.984" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="195.498" cy="258.824" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="183.005" cy="255.856" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="171.061" cy="251.140" r="3" fill="#9a9a9a" opacity="0.7"/><circle cx="159.910" cy="244.773" r="3" fill="#9a9a9a" opacity="0.7"/></g>
+        <g><circle cx="336.701" cy="318.832" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="323.291" cy="319.955" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="309.839" cy="319.569" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="296.516" cy="317.680" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="283.488" cy="314.310" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="270.918" cy="309.503" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="258.967" cy="303.319" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="247.782" cy="295.836" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="237.506" cy="287.148" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="228.267" cy="277.363" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="220.182" cy="266.606" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="213.352" cy="255.011" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="207.863" cy="242.725" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="203.785" cy="229.901" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="201.168" cy="216.701" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="200.045" cy="203.291" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="200.431" cy="189.839" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="202.320" cy="176.516" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="205.690" cy="163.488" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="210.497" cy="150.918" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="216.681" cy="138.967" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="224.164" cy="127.782" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="232.852" cy="117.506" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="242.637" cy="108.267" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="253.394" cy="100.182" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="264.989" cy="93.352" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="277.275" cy="87.863" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="290.099" cy="83.785" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="303.299" cy="81.168" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="316.709" cy="80.045" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="330.161" cy="80.431" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="343.484" cy="82.320" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="356.512" cy="85.690" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="369.082" cy="90.497" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="381.033" cy="96.681" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="392.218" cy="104.164" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="402.494" cy="112.852" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="411.733" cy="122.637" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="419.818" cy="133.394" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="426.648" cy="144.989" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="432.137" cy="157.275" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="436.215" cy="170.099" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="438.832" cy="183.299" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="439.955" cy="196.709" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="439.569" cy="210.161" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="437.680" cy="223.484" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="434.310" cy="236.512" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="429.503" cy="249.082" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="423.319" cy="261.033" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="415.836" cy="272.218" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="407.148" cy="282.494" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="397.363" cy="291.733" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="386.606" cy="299.818" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="375.011" cy="306.648" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="362.725" cy="312.137" r="3" fill="#8a8a8a" opacity="0.7"/><circle cx="349.901" cy="316.215" r="3" fill="#8a8a8a" opacity="0.7"/></g>
+        <g stroke="#bdbdbd" stroke-width="4" stroke-linecap="round"><line x1="406.101" y1="176.190" x2="149.778" y2="236.883"/><line x1="149.778" y1="236.883" x2="336.701" y2="318.832"/><line x1="336.701" y1="318.832" x2="406.101" y2="176.190"/></g>
+        <circle cx="406.101" cy="176.190" r="48" fill="#5a5a5a"/>
+        <circle cx="149.778" cy="236.883" r="36" fill="#8a8a8a"/>
+        <circle cx="336.701" cy="318.832" r="24" fill="#6f6f6f"/>
+      </svg>
+      <!-- LOGO-MARK-END -->
+      <span>any-project-base</span>
+    </a>
+    <div class="nav-right">
+      <div class="lang-selector">
+        <a href="/"    data-lang="en">EN</a>
+        <a href="/es/" data-lang="es" class="active">ES</a>
+        <a href="/ko/" data-lang="ko">KO</a>
+      </div>
+      <a href="#" id="login-btn" class="nav-login">Iniciar sesión →</a>
     </div>
   </nav>
-  <section class="hero">
-    <h1>Tu eslogan aquí</h1>
-    <p>Lanza tu idea SaaS. Lista para demostrar en el menor tiempo posible.</p>
-    <a href="https://app.any-project-base.com" class="hero-cta">Comenzar →</a>
-    <div class="hero-terminal" aria-label="Bootstrap command">
-      <span class="code-prompt">$</span><span class="terminal-cmd"> curl -fsSL https://raw.githubusercontent.com/symunona/any-project-base/main/setup/bootstrap.sh | bash</span>
-      <button class="copy-btn" aria-label="Copy command" title="Copy">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      </button>
+</header>
+
+<!-- ── Video background ──────────────────────────────────────── -->
+<div id="video-bg" data-video-id="672TY8K2PKk" aria-hidden="true"></div>
+
+<!-- ── Hero ──────────────────────────────────────────────────── -->
+<section class="hero" aria-label="Inicio">
+  <div id="orbit-logo-hero" class="hero-orbit" aria-hidden="true"></div>
+  <h1>Lanza tu SaaS<br>en horas, no en meses</h1>
+  <p>Monorepo de inicio listo para producción. Auth, facturación, portal de administración, app móvil — todo conectado desde el primer día. Tú construyes lo que te hace diferente.</p>
+  <div class="hero-actions">
+    <a href="#" id="hero-login-btn" class="btn-primary">Abrir la app →</a>
+    <a href="https://github.com/symunona/any-project-base" class="btn-ghost">Ver en GitHub</a>
+  </div>
+  <div class="hero-terminal" aria-label="Comando de instalación">
+    <span class="code-prompt">$</span><span class="terminal-cmd"> curl -fsSL https://raw.githubusercontent.com/symunona/any-project-base/main/setup/bootstrap.sh | bash</span>
+    <button class="copy-btn" aria-label="Copiar comando" title="Copiar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    </button>
+  </div>
+  <div class="store-badges">
+    <a href="#" class="store-badge">▶ App Store</a>
+    <a href="#" class="store-badge">▶ Google Play</a>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Solid background from here down -->
+<div class="solid-content">
+
+  <!-- ── Problem section ─────────────────────────────────────── -->
+  <section class="section section--problem" aria-label="El problema">
+    <div class="section-inner section-inner--wide">
+      <div class="problem-text">
+        <div class="eyebrow">El problema</div>
+        <h2>El 90% de cada SaaS<br>es infraestructura idéntica</h2>
+        <p>Auth, facturación, administración, notificaciones push en móvil, email, analíticas, i18n, seguridad, despliegue. Cada equipo reconstruye el mismo stack desde cero. Cada vez.</p>
+        <p class="problem-callout">Son semanas de configuración antes de escribir una sola línea de código de producto real.</p>
+      </div>
+      <div class="problem-visual" aria-hidden="true">
+        <div class="feature-grid-demo">
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Auth</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Pagos</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Admin</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Móvil</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Email</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Analíticas</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> i18n</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Seguridad</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Despliegue</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Tipos</div>
+          <div class="fgd-item fgd-done"><span class="fgd-check">✓</span> Tests</div>
+          <div class="fgd-item fgd-highlight"><span>✦</span> Tu idea</div>
+        </div>
+        <div class="problem-legend">
+          <span class="legend-dot legend-dot--done"></span> Incluido en el starter
+          <span class="legend-dot legend-dot--you" style="margin-left:16px"></span> Lo construyes tú
+        </div>
+      </div>
     </div>
   </section>
-  <footer>© 2026 any-project-base. Todos los derechos reservados.</footer>
-  <script type="module" src="/js/video-bg.js"></script>
-  <script type="module" src="/js/main.js"></script>
+
+  <!-- ── Stats bar ───────────────────────────────────────────── -->
+  <div class="stats-bar" aria-label="Estadísticas clave">
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <span class="stat-num">5<span class="stat-unit">min</span></span>
+      <span class="stat-label">configuración completa</span>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+      </div>
+      <span class="stat-num">1</span>
+      <span class="stat-label">comando para arrancar</span>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <div class="stat-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l1.9 5.87H20l-4.9 3.56 1.9 5.87L12 14.87 6.99 18.3l1.9-5.87L4 8.87h6.1z"/>
+        </svg>
+      </div>
+      <span class="stat-num">0</span>
+      <span class="stat-label">código repetitivo escrito</span>
+    </div>
+  </div>
+
+  <!-- ── How it works ────────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="Cómo funciona">
+    <div class="section-inner">
+      <div class="eyebrow">Cómo funciona</div>
+      <h2>De cero a funcionando con tres comandos</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Responde 8 preguntas</h3>
+            <p>Ejecuta <code>just setup</code>. Nombre, dominio, modelo de precios, qué servicios necesitas. Listo en menos de 5 minutos. 13 variables de entorno se rellenan solas.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> just setup
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Un comando, todo arranca</h3>
+            <p>Ejecuta <code>just start</code>. Supabase se levanta, las claves de Supabase se vuelcan en <code>.env.local</code>, los tres servidores frontend arrancan. Puertos verificados, conflictos eliminados.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> just start
+            </div>
+          </div>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Lanza lo que importa</h3>
+            <p>Todo lo demás ya está ahí. Auth funciona. Facturación funciona. Portal de administración funciona. Tú escribes la funcionalidad que hace único tu producto.</p>
+            <div class="step-code">
+              <span class="code-prompt">$</span> git push → prod
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Time saved visual (p5.js) ───────────────────────────── -->
+  <section class="section section--graph" aria-label="Tiempo ahorrado">
+    <div class="section-inner section-inner--wide">
+      <div class="graph-text">
+        <div class="eyebrow">Tiempo hasta la demo</div>
+        <h2>Arrancar un SaaS ha pasado de semanas a horas</h2>
+        <div class="time-comparison">
+          <div class="time-row">
+            <span class="time-label">Configuración tradicional</span>
+            <div class="time-bar time-bar--before">
+              <div class="time-bar-fill"></div>
+              <span class="time-bar-label">4–6 semanas</span>
+            </div>
+          </div>
+          <div class="time-row">
+            <span class="time-label">any-project-base</span>
+            <div class="time-bar time-bar--after">
+              <div class="time-bar-fill"></div>
+              <span class="time-bar-label">~6 horas</span>
+            </div>
+          </div>
+        </div>
+        <p class="graph-note">Tiempo medido desde "repositorio vacío" hasta "demo con auth + facturación funcionando."</p>
+      </div>
+      <div id="p5-nodes" class="p5-canvas-container" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ── Features grid ───────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="Qué incluye">
+    <div class="section-inner">
+      <div class="eyebrow">Qué incluye</div>
+      <h2>Todo conectado. Nada pendiente de cablear.</h2>
+      <div class="features">
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h3>Auth</h3>
+          <p>Email, Google, Facebook. Sesiones basadas en cookies vía Supabase. Control de acceso por roles incluido.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          </div>
+          <h3>Pagos</h3>
+          <p>Créditos, suscripciones o niveles. Stripe + sincronización de webhooks. Cambia de modelo con un solo cambio de configuración.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <h3>Portal de administración</h3>
+          <p>Usuarios, tickets de soporte, estadísticas de uso, historial de despliegues. Listo desde el primer día.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <h3>Móvil</h3>
+          <p>Expo React Native. Notificaciones push vía Firebase. Deep links. Target web para pruebas.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3>TypeScript en todas partes</h3>
+          <p>Tipos de extremo a extremo. Esquema de BD → tipos generados → frontend. Sin desfase, sin sorpresas.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Comprobaciones de seguridad</h3>
+          <p>Auditoría de cadena de suministro, guardia de colores CSS, guardia de fetch, umbral de complejidad, detección de desfase de esquema — todo se ejecuta en cada commit.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <h3>Multiidioma</h3>
+          <p>HTML estático por idioma. Detección del idioma del navegador. Idioma guardado en cookie + localStorage.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <h3>Despliegues</h3>
+          <p>Cloudflare, Vercel o Netlify. Un comando para desplegar a pruebas o producción. Etiquetas de versión y changelogs integrados.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Security visual (p5.js) ─────────────────────────────── -->
+  <section class="section section--security" aria-label="Seguridad">
+    <div class="section-inner section-inner--wide">
+      <div id="p5-security" class="p5-canvas-container" aria-hidden="true"></div>
+      <div class="security-text">
+        <div class="eyebrow">Seguridad primero</div>
+        <h2>Las comprobaciones se ejecutan automáticamente.<br>Los patrones incorrectos no pueden integrarse.</h2>
+        <ul class="security-list">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Auditoría de cadena de suministro en cada <code>just install</code>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Detección de colores fijos &amp; secretos en CI
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Umbral de complejidad ciclomática (máx. 8) — impuesto por ESLint
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Comprobación de desfase de esquema — tipos de BD siempre sincronizados
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Guardia de fetch — sin llamadas accidentales entre límites de módulos
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Built for agents ────────────────────────────────────── -->
+  <section class="section section--agents" aria-label="Diseñado para agentes de IA">
+    <div class="section-inner">
+      <div class="eyebrow">Nativo para agentes</div>
+      <h2>Cada directorio tiene un<br><code class="headline-code">AGENTS.md</code></h2>
+      <p class="agents-subline">Claude, Copilot, Cursor — todos leen archivos de contexto para entender el código. Hemos escrito el manual para ellos. En cada carpeta.</p>
+      <div class="agents-grid">
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div>
+            <h3>Sin abstracciones incorrectas</h3>
+            <p>Las reglas de arquitectura viven junto al código que gobiernan. Los agentes saben qué NO hacer tanto como qué hacer.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div>
+            <h3>Convenciones consistentes</h3>
+            <p>Un patrón para auth, uno para obtener datos, uno para componentes. Los agentes predicen dónde viven las cosas sin que se les diga.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <h3>Umbrales de complejidad</h3>
+            <p>Los verificadores se ejecutan tras cada cambio. Los agentes no pueden subir accidentalmente código que supere el presupuesto de complejidad o importe el módulo incorrecto.</p>
+          </div>
+        </div>
+        <div class="agent-feature">
+          <div class="agent-feature-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3>Documentación de arquitectura</h3>
+            <p>Cada decisión importante está documentada en <code>architecture/</code>. Los agentes leen el razonamiento antes de tocar el código.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Testimonials ────────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="Testimonios">
+    <div class="section-inner">
+      <div class="eyebrow">Lo que dicen</div>
+      <h2>Humanos y agentes de acuerdo</h2>
+      <div class="testimonials">
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"Pasé de la idea a clientes de pago en 11 días. Nunca había lanzado tan rápido en mi vida."</p>
+          <footer>
+            <span class="testimonial-name">Sarah Chen</span>
+            <span class="testimonial-role">Fundadora indie · @sarahcodes</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">Agente IA</div>
+          <p>"Cada directorio tiene un AGENTS.md que me dice exactamente qué hacer y qué no tocar. Nunca he roto accidentalmente un patrón de arquitectura."</p>
+          <footer>
+            <span class="testimonial-name">Claude Sonnet 4.6</span>
+            <span class="testimonial-role">Anthropic</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"El flujo de <code>just setup</code> rellena 13 variables de entorno automáticamente. Antes me pasaba un día entero con esto. Ahora son 5 minutos."</p>
+          <footer>
+            <span class="testimonial-name">Marcus Hoffmann</span>
+            <span class="testimonial-role">Freelancer full-stack · @mhoffmann_dev</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">Agente IA</div>
+          <p>"Estructura de archivos consistente, reglas de scripting explícitas, rutas de importación predecibles. Sugiero la abstracción correcta al primer intento. Siempre."</p>
+          <footer>
+            <span class="testimonial-name">GitHub Copilot</span>
+            <span class="testimonial-role">Microsoft</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--human">
+          <p>"Auth, webhooks de Stripe, portal de administración — todo listo antes de escribir mi primera funcionalidad. Así es como deberían funcionar los starters de monorepo."</p>
+          <footer>
+            <span class="testimonial-name">Priya Agarwal</span>
+            <span class="testimonial-role">YC W25 · @priya_builds</span>
+          </footer>
+        </blockquote>
+
+        <blockquote class="testimonial testimonial--ai">
+          <div class="ai-badge">Agente IA</div>
+          <p>"El verificador de complejidad me detiene antes de escribir funciones con complejidad ciclomática superior a 8. Los humanos me lo agradecen. Yo mismo me lo agradezco."</p>
+          <footer>
+            <span class="testimonial-name">Cursor</span>
+            <span class="testimonial-role">Anysphere</span>
+          </footer>
+        </blockquote>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────── -->
+  <section class="section section--cta" aria-label="Empezar">
+    <div class="section-inner section-inner--narrow">
+      <h2>Empieza a construir hoy.</h2>
+      <p>Código abierto, licencia MIT. Un comando configura todo — herramientas, dependencias y tu nuevo proyecto.</p>
+      <div class="cta-terminal" aria-label="Comando de instalación">
+        <span class="code-prompt">$</span><span class="terminal-cmd"> curl -fsSL https://raw.githubusercontent.com/symunona/any-project-base/main/setup/bootstrap.sh | bash</span>
+        <button class="copy-btn" aria-label="Copiar comando" title="Copiar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <div class="cta-actions">
+        <a href="https://github.com/symunona/any-project-base" class="btn-primary">Ver en GitHub →</a>
+        <a href="#" id="cta-login-btn" class="btn-ghost">Abrir la app ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────────────── -->
+  <footer>
+    <p>© 2026 any-project-base. MIT license. Construido con ☕ y demasiados justfiles.</p>
+  </footer>
+
+</div><!-- /solid-content -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js" defer></script>
+<script type="module" src="/js/video-bg.js"></script>
+<script type="module" src="/js/main.js"></script>
+<script type="module" src="/js/p5-sketches.js"></script>
 </body>
 </html>
