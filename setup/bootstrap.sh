@@ -1,9 +1,9 @@
 #!/bin/bash
 # setup/bootstrap.sh — downloadable project bootstrapper
-# Usage: curl -fsSL https://raw.githubusercontent.com/your-org/any-project-base/main/setup/bootstrap.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/symunona/any-project-base/main/setup/bootstrap.sh | bash
 set -euo pipefail
 
-REPO_URL="https://github.com/your-org/any-project-base"
+REPO_URL="https://github.com/symunona/any-project-base"
 
 # ── Minimal terminal UI (lib/ui.sh not available pre-clone) ──────────────────
 GREEN='\033[0;32m'; CYAN='\033[0;36m'; RED='\033[0;31m'; YELLOW='\033[1;33m'
