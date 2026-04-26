@@ -2,6 +2,13 @@
 
 @import "tailwindcss";
 
+/* Scan all commons source files — Tailwind v4 Vite plugin doesn't follow workspace symlinks */
+@source "../components/**/*.tsx";
+@source "../hooks/**/*.ts";
+/* Scan app source directories */
+@source "../../admin-portal/src/**/*.tsx";
+@source "../../client-portal/src/**/*.tsx";
+
 :root {
   /* Color palette — edit branding/colors.yaml, then run: just setup-apply-branding */
   --color-primary:   #2563EB;

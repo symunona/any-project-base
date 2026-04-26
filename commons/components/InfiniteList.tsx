@@ -44,7 +44,7 @@ export function InfiniteList<T>({
     return (
       <div className="space-y-3">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="h-16 rounded-lg bg-[var(--color-border,#e5e7eb)] animate-pulse"/>
+          <div key={i} className="h-16 rounded-lg bg-[var(--color-border)] animate-pulse"/>
         ))}
       </div>
     )
@@ -52,7 +52,7 @@ export function InfiniteList<T>({
 
   if (items.length === 0) {
     return (
-      <p className="text-center py-8 text-[var(--color-text-muted,#6b7280)]">{emptyMessage}</p>
+      <p className="text-center py-8 text-[var(--color-text-muted)]">{emptyMessage}</p>
     )
   }
 
@@ -67,7 +67,7 @@ export function InfiniteList<T>({
           </svg>
         )}
         {!hasNextPage && items.length > 0 && (
-          <span className="text-xs text-[var(--color-text-muted,#6b7280)]">End of list</span>
+          <span className="text-xs text-[var(--color-text-muted)]">End of list</span>
         )}
       </div>
     </div>

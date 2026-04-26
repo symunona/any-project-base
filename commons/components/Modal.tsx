@@ -28,7 +28,7 @@ export function Modal({ open, onClose, title, children, footer }: ModalProps) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div className="bg-[var(--color-surface,white)] rounded-2xl shadow-xl w-full max-w-md">
+      <div className="bg-[var(--color-surface)] rounded-2xl shadow-xl w-full max-w-md">
         <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
           <h2 className="text-base font-semibold text-[var(--color-text)]">{title}</h2>
           <button

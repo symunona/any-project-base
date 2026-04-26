@@ -19,10 +19,10 @@ export function CookieBanner() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--color-surface,white)]
-                    border-t border-[var(--color-border,#e5e7eb)] shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--color-surface)]
+                    border-t border-[var(--color-border)] shadow-lg">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4 text-sm">
-        <span className="text-[var(--color-text-muted,#6b7280)]">
+        <span className="text-[var(--color-text-muted)]">
           We use cookies for analytics.
         </span>
         <button

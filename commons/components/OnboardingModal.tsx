@@ -47,7 +47,7 @@ export function OnboardingModal({ settings, onComplete, steps }: OnboardingModal
         <div className="flex items-center gap-3 w-full">
           <button
             onClick={() => { void advance(steps.length) }}
-            className="text-sm text-[var(--color-text-muted,#6b7280)] hover:underline mr-auto"
+            className="text-sm text-[var(--color-text-muted)] hover:underline mr-auto"
           >
             Skip for now
           </button>
@@ -57,7 +57,7 @@ export function OnboardingModal({ settings, onComplete, steps }: OnboardingModal
         </div>
       }
     >
-      <div className="mb-2 text-xs text-[var(--color-text-muted,#6b7280)]">
+      <div className="mb-2 text-xs text-[var(--color-text-muted)]">
         Step {step + 1} of {steps.length}
       </div>
       {current.content}

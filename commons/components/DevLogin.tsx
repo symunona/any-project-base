@@ -53,44 +53,42 @@ export function DevLogin() {
   }
 
   return (
-    <div className="mt-6 rounded-2xl p-4" style={{ background: 'rgba(0,0,0,0.03)' }}>
-      <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted,#6b7280)] mb-3">
+    <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', background: 'rgba(0,0,0,0.02)' }}
+         className="px-8 py-5 -mx-8 -mb-8 rounded-b-3xl">
+      <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)] mb-3">
         Dev Login — {config.appEnv} only
       </p>
-      <div className="flex flex-col gap-1.5">
+      <div className="grid grid-cols-2 gap-1.5">
         {DEV_USERS.map(u => (
           <button
             key={u.email}
             onClick={() => { void login(u.email) }}
             disabled={loading !== null}
-            className="text-left px-3 py-2 rounded-xl text-sm font-medium
-                       bg-white text-[var(--color-text,#0f172a)]
-                       hover:bg-[var(--color-primary,#2563eb)] hover:text-white
+            className="text-left px-3 py-2 rounded-lg text-xs font-medium
+                       text-[var(--color-text)] bg-white
+                       hover:bg-[var(--color-primary)] hover:text-white
                        disabled:opacity-50 transition-colors"
-            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}
+            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.07)' }}
           >
-            {loading === u.email ? '…' : `▶ Login as ${u.label}`}
+            {loading === u.email ? '…' : `▶ ${u.label}`}
           </button>
         ))}
-
-        <div className="my-1" />
-
         <button
           onClick={() => { void registerNew() }}
           disabled={loading !== null}
-          className="text-left px-3 py-2 rounded-xl text-sm font-medium
-                     bg-white text-[var(--color-text-muted,#6b7280)]
-                     hover:bg-[var(--color-primary,#2563eb)] hover:text-white
+          className="col-span-2 text-left px-3 py-2 rounded-lg text-xs font-medium
+                     text-[var(--color-text-muted)] bg-white
+                     hover:bg-[var(--color-primary)] hover:text-white
                      disabled:opacity-50 transition-colors"
-          style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}
+          style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.07)' }}
         >
           {loading === REGISTER_LOADING ? '…' : '✦ Register new test user'}
         </button>
       </div>
 
       {newEmail && (
-        <p className="mt-2 text-xs text-[var(--color-text-muted,#6b7280)]">
-          Registered as <span className="font-mono">{newEmail}</span> (pw: devpassword)
+        <p className="mt-2 text-xs text-[var(--color-text-muted)]">
+          Registered as <span className="font-mono">{newEmail}</span>
         </p>
       )}
       {error && (
