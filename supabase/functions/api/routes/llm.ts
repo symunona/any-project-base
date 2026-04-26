@@ -1,8 +1,8 @@
-import { Hono } from 'https://deno.land/x/hono@v4.7.7/mod.ts'
-import { zValidator } from 'https://deno.land/x/hono@v4.7.7/middleware.ts'
-import { requireAuth } from '../_shared/auth.ts'
-import { getAdminClient } from '../_shared/db.ts'
-import { LlmChatSchema } from '../_shared/schemas.ts'
+import { Hono } from 'npm:hono'
+import { zValidator } from 'npm:@hono/zod-validator'
+import { requireAuth } from '../../_shared/auth.ts'
+import { getAdminClient } from '../../_shared/db.ts'
+import { LlmChatSchema } from '../../_shared/schemas.ts'
 
 const llm = new Hono()
 
@@ -14,16 +14,20 @@ llm.post('/chat', zValidator('json', LlmChatSchema), async (c) => {
 
   const CREDITS_PER_CALL = 1
 
-  // Atomic credit deduction — 0 rows = insufficient
-  const { count } = await admin
+  const { data: credits } = await admin
     .from('credits')
-    .update({ balance: admin.rpc('decrement_balance', { amount: CREDITS_PER_CALL }) as unknown as number })
+    .select('balance')
     .eq('user_id', user.id)
-    .gte('balance', CREDITS_PER_CALL)
+    .single()
 
-  if ((count ?? 0) === 0) {
+  if (!credits || credits.balance < CREDITS_PER_CALL) {
     return c.json({ error: 'insufficient_credits' }, 402)
   }
+
+  await admin
+    .from('credits')
+    .update({ balance: credits.balance - CREDITS_PER_CALL, updated_at: new Date().toISOString() })
+    .eq('user_id', user.id)
 
   // Call LLM — Anthropic Claude
   const apiKey = Deno.env.get('ANTHROPIC_API_KEY')

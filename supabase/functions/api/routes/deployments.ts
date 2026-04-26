@@ -1,7 +1,7 @@
-import { Hono } from 'https://deno.land/x/hono@v4.7.7/mod.ts'
-import { requireRole } from '../_shared/auth.ts'
-import { getAdminClient } from '../_shared/db.ts'
-import { PageQuerySchema } from '../_shared/schemas.ts'
+import { Hono } from 'npm:hono'
+import { requireRole } from '../../_shared/auth.ts'
+import { getAdminClient } from '../../_shared/db.ts'
+import { PageQuerySchema } from '../../_shared/schemas.ts'
 
 const deployments = new Hono()
 

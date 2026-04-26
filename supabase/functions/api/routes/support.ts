@@ -1,13 +1,13 @@
-import { Hono } from 'https://deno.land/x/hono@v4.7.7/mod.ts'
-import { zValidator } from 'https://deno.land/x/hono@v4.7.7/middleware.ts'
-import { requireAuth, requireRole } from '../_shared/auth.ts'
-import { getAdminClient } from '../_shared/db.ts'
+import { Hono } from 'npm:hono'
+import { zValidator } from 'npm:@hono/zod-validator'
+import { requireAuth, requireRole } from '../../_shared/auth.ts'
+import { getAdminClient } from '../../_shared/db.ts'
 import {
   PageQuerySchema,
   CreateConversationSchema,
   SendMessageSchema,
   UpdateConversationStatusSchema,
-} from '../_shared/schemas.ts'
+} from '../../_shared/schemas.ts'
 
 const support = new Hono()
 

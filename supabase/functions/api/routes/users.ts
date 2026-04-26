@@ -33,6 +33,35 @@ users.get('/me', async (c) => {
   return c.json(data)
 })
 
+// GET /api/users/me/credits — current user balance
+users.get('/me/credits', async (c) => {
+  const authUser = await requireAuth(c)
+  const admin = getAdminClient()
+  const { data } = await admin.from('credits').select('balance').eq('user_id', authUser.id).single()
+  return c.json({ balance: data?.balance ?? 0 })
+})
+
+// POST /api/users/me/credits/purchase — stub: always approves, adds credits
+users.post('/me/credits/purchase', async (c) => {
+  const authUser = await requireAuth(c)
+  const admin = getAdminClient()
+  const { credits } = await c.req.json() as { credits: number }
+
+  if (!credits || credits < 1) return c.json({ error: 'Invalid amount' }, 400)
+
+  const { data: current } = await admin.from('credits').select('balance').eq('user_id', authUser.id).single()
+  const newBalance = (current?.balance ?? 0) + credits
+
+  const { data, error } = await admin
+    .from('credits')
+    .upsert({ user_id: authUser.id, balance: newBalance, updated_at: new Date().toISOString() })
+    .select('balance')
+    .single()
+
+  if (error) return c.json({ error: error.message }, 500)
+  return c.json({ ok: true, balance: data.balance, added: credits })
+})
+
 // PATCH /api/users/me/settings — update own settings
 users.patch('/me/settings', zValidator('json', UpdateUserSettingsSchema), async (c) => {
   const authUser = await requireAuth(c)

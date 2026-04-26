@@ -1,4 +1,4 @@
-import type { Context } from 'https://deno.land/x/hono@v4.7.7/mod.ts'
+import type { Context } from 'npm:hono'
 import { getAdminClient } from './db.ts'
 
 export type AuthUser = {
