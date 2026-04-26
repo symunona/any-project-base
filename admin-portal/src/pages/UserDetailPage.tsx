@@ -26,7 +26,7 @@ export function UserDetailPage() {
       </div>
 
       <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
           <h2 className="font-semibold text-[var(--color-text)]">Profile</h2>
         </div>
         <div className="p-6">
@@ -50,7 +50,16 @@ export function UserDetailPage() {
       </div>
 
       <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
+          <h2 className="font-semibold text-[var(--color-text)]">Credits</h2>
+        </div>
+        <div className="p-6">
+          <CreditsPanel userId={user.id} onNotify={notify} />
+        </div>
+      </div>
+
+      <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
           <h2 className="font-semibold text-[var(--color-text)]">Login Links</h2>
         </div>
         <div className="p-6">
@@ -59,7 +68,7 @@ export function UserDetailPage() {
       </div>
 
       <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
           <h2 className="font-semibold text-[var(--color-text)]">Devices</h2>
         </div>
         <div className="p-6">
@@ -68,7 +77,7 @@ export function UserDetailPage() {
       </div>
 
       <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
           <h2 className="font-semibold text-[var(--color-text)]">Usage</h2>
         </div>
         <div className="p-6">
@@ -77,7 +86,7 @@ export function UserDetailPage() {
       </div>
 
       <div className="bg-[var(--color-surface)] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[var(--color-border)] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-transparent flex items-center justify-between">
           <h2 className="font-semibold text-[var(--color-text)]">Danger Zone</h2>
         </div>
         <div className="p-6">
@@ -86,6 +95,65 @@ export function UserDetailPage() {
       </div>
 
       <NotificationContainer notifications={notifications} onDismiss={dismiss} />
+    </div>
+  )
+}
+
+function CreditsPanel({ userId, onNotify }: { userId: string; onNotify: (n: { type: 'success' | 'error'; message: string }) => void }) {
+  const [delta, setDelta] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const { data, refetch } = useQuery<{ balance: number }>({
+    queryKey: ['credits', userId],
+    queryFn: () => fetchApi<{ balance: number }>(`${config.apiUrl}/users/${userId}/credits`),
+  })
+
+  const adjust = async (amount: number) => {
+    setLoading(true)
+    try {
+      await fetchApi(`${config.apiUrl}/users/${userId}/credits`, {
+        method: 'POST',
+        body: JSON.stringify({ delta: amount }),
+      })
+      await refetch()
+      setDelta('')
+      onNotify({ type: 'success', message: `${amount > 0 ? '+' : ''}${amount} credits applied.` })
+    } catch {
+      onNotify({ type: 'error', message: 'Failed to adjust credits.' })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const parsed = parseInt(delta, 10)
+  const validDelta = !isNaN(parsed) && parsed !== 0
+
+  return (
+    <div className="flex items-center gap-6 flex-wrap">
+      <div>
+        <p className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide mb-1">Balance</p>
+        <p className="text-3xl font-semibold text-[var(--color-text)]">{data?.balance ?? '—'}</p>
+      </div>
+      <div className="flex items-center gap-2 flex-wrap">
+        {[100, 500, 1000].map(n => (
+          <Button key={n} variant="secondary" size="sm" loading={loading} onClick={() => { void adjust(n) }}>
+            +{n}
+          </Button>
+        ))}
+        <div className="flex items-center gap-2 ml-2">
+          <input
+            type="number"
+            value={delta}
+            onChange={e => { setDelta(e.target.value) }}
+            placeholder="Custom…"
+            className="w-28 px-3 py-1.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            style={{ background: 'rgba(0,0,0,0.05)' }}
+          />
+          <Button size="sm" disabled={!validDelta} loading={loading} onClick={() => { void adjust(parsed) }}>
+            Apply
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -135,7 +203,7 @@ function DeviceList({ userId }: { userId: string }) {
       </thead>
       <tbody>
         {data.data.map(d => (
-          <tr key={d.id} className="hover:bg-[var(--color-surface-2)] transition-colors border-b border-[var(--color-border)] last:border-0">
+          <tr key={d.id} className="hover:bg-[var(--color-surface-2)] transition-colors border-b border-transparent last:border-0">
             <td className="px-6 py-3 text-sm text-[var(--color-text)] capitalize">{d.platform}</td>
             <td className="px-6 py-3 text-sm text-[var(--color-text)]">{new Date(d.last_seen).toLocaleString()}</td>
             <td className="px-6 py-3 text-sm text-[var(--color-text)]">{new Date(d.created_at).toLocaleString()}</td>

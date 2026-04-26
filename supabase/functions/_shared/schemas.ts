@@ -1,4 +1,4 @@
-import { z } from 'https://deno.land/x/zod@v3.24.4/mod.ts'
+import { z } from 'npm:zod@3'
 
 // Paging — all list endpoints use this schema. No exceptions.
 export const PageQuerySchema = z.object({
@@ -42,6 +42,11 @@ export const SendMessageSchema = z.object({
 
 export const UpdateConversationStatusSchema = z.object({
   status: z.enum(['new', 'open', 'waiting_on_customer', 'closed']),
+})
+
+// Credits adjustment — admin only
+export const AdjustCreditsSchema = z.object({
+  delta: z.number().int().refine(n => n !== 0, { message: 'delta must be non-zero' }),
 })
 
 // LLM chat
