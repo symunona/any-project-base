@@ -40,7 +40,7 @@ export function RemoveMeThisIsOnlyDemoLlmChat() {
   }
 
   return (
-    <div className="flex flex-col h-[500px] border border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface)]">
+    <div className="flex flex-col h-[500px] rounded-2xl overflow-hidden bg-[var(--color-surface)]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08)' }}>
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
         {messages.length === 0 && (
           <p className="text-center text-sm text-[var(--color-text-muted)] mt-8">Ask anything…</p>
@@ -74,14 +74,15 @@ export function RemoveMeThisIsOnlyDemoLlmChat() {
         </div>
       )}
 
-      <div className="p-3 border-t border-[var(--color-border)] flex gap-2">
+      <div className="p-3 flex gap-2" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
         <input
           value={input}
           onChange={e => { setInput(e.target.value) }}
           onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); void send() } }}
           placeholder="Type a message…"
           disabled={loading}
-          className="flex-1 px-3 py-2 rounded-lg border border-[var(--color-border)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] disabled:opacity-50"
+          className="flex-1 px-3 py-2 rounded-xl text-sm focus:outline-none disabled:opacity-50"
+          style={{ background: 'rgba(0,0,0,0.04)', boxShadow: 'none' }}
         />
         <Button onClick={() => { void send() }} loading={loading} size="sm">Send</Button>
       </div>

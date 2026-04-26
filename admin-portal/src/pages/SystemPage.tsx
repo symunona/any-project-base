@@ -80,7 +80,7 @@ function TestPushButton({ onNotify }: { onNotify: (n: { type: 'success' | 'error
     <div className="flex gap-2 items-center">
       <input value={userId} onChange={e => { setUserId(e.target.value) }}
         placeholder="User ID"
-        className="px-2 py-1.5 text-sm rounded border border-[var(--color-border)] focus:outline-none w-48" />
+        className="px-2 py-1.5 text-sm rounded rounded-xl focus:outline-none w-48" />
       <Button size="sm" variant="secondary" loading={loading} onClick={() => { void send() }}>
         Test push
       </Button>

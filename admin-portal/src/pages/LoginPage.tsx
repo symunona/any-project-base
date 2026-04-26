@@ -43,7 +43,6 @@ export function LoginPage() {
         </div>
       </div>
 
-      {/* Email — MD3 outlined text field with floating label */}
       <div className="relative">
         <input
           id="adm-email"
@@ -52,10 +51,9 @@ export function LoginPage() {
           value={email}
           onChange={e => { setEmail(e.target.value) }}
           required
-          className="peer block w-full px-4 pt-5 pb-2 text-sm text-[var(--color-text)]
-                     border border-[var(--color-border)] rounded-xl bg-transparent
-                     focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]
-                     transition-colors"
+          className="peer block w-full px-4 pt-5 pb-2 text-sm text-[var(--color-text)] rounded-xl
+                     focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
+          style={{ background: 'rgba(0,0,0,0.05)' }}
         />
         <label
           htmlFor="adm-email"
@@ -68,7 +66,6 @@ export function LoginPage() {
         </label>
       </div>
 
-      {/* Password — MD3 outlined text field with floating label */}
       <div className="relative">
         <input
           id="adm-password"
@@ -77,10 +74,9 @@ export function LoginPage() {
           value={password}
           onChange={e => { setPassword(e.target.value) }}
           required
-          className="peer block w-full px-4 pt-5 pb-2 text-sm text-[var(--color-text)]
-                     border border-[var(--color-border)] rounded-xl bg-transparent
-                     focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]
-                     transition-colors"
+          className="peer block w-full px-4 pt-5 pb-2 text-sm text-[var(--color-text)] rounded-xl
+                     focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
+          style={{ background: 'rgba(0,0,0,0.05)' }}
         />
         <label
           htmlFor="adm-password"

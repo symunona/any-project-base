@@ -26,27 +26,29 @@ export function LoginPage() {
 
   return (
     <form onSubmit={(e) => { void handleSubmit(e) }} className="flex flex-col gap-4">
-      <h2 className="text-xl font-bold text-center">{t(msg.Auth.signIn)}</h2>
+      <h2 className="text-xl font-semibold text-center text-[var(--color-text)]">{t(msg.Auth.signIn)}</h2>
 
       <div>
-        <label className="block text-sm font-medium mb-1">{t(msg.Auth.email)}</label>
+        <label className="block text-sm font-medium mb-1.5 text-[var(--color-text-muted)]">{t(msg.Auth.email)}</label>
         <input
           type="email"
           value={email}
           onChange={e => { setEmail(e.target.value) }}
           required
-          className="w-full px-3 py-2 rounded-md border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
+          style={{ background: 'rgba(0,0,0,0.05)' }}
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">{t(msg.Auth.password)}</label>
+        <label className="block text-sm font-medium mb-1.5 text-[var(--color-text-muted)]">{t(msg.Auth.password)}</label>
         <input
           type="password"
           value={password}
           onChange={e => { setPassword(e.target.value) }}
           required
-          className="w-full px-3 py-2 rounded-md border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
+          style={{ background: 'rgba(0,0,0,0.05)' }}
         />
       </div>
 

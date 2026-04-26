@@ -53,34 +53,36 @@ export function DevLogin() {
   }
 
   return (
-    <div className="mt-6 border border-[var(--color-border,#e5e7eb)] rounded-lg p-4 bg-[var(--color-surface-2,#f9fafb)]">
+    <div className="mt-6 rounded-2xl p-4" style={{ background: 'rgba(0,0,0,0.03)' }}>
       <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted,#6b7280)] mb-3">
         Dev Login — {config.appEnv} only
       </p>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1.5">
         {DEV_USERS.map(u => (
           <button
             key={u.email}
             onClick={() => { void login(u.email) }}
             disabled={loading !== null}
-            className="text-left px-3 py-2 rounded-md text-sm font-medium
-                       bg-[var(--color-surface,white)] border border-[var(--color-border,#e5e7eb)]
-                       hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]
+            className="text-left px-3 py-2 rounded-xl text-sm font-medium
+                       bg-white text-[var(--color-text,#0f172a)]
+                       hover:bg-[var(--color-primary,#2563eb)] hover:text-white
                        disabled:opacity-50 transition-colors"
+            style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}
           >
             {loading === u.email ? '…' : `▶ Login as ${u.label}`}
           </button>
         ))}
 
-        <hr className="border-[var(--color-border,#e5e7eb)] my-1" />
+        <div className="my-1" />
 
         <button
           onClick={() => { void registerNew() }}
           disabled={loading !== null}
-          className="text-left px-3 py-2 rounded-md text-sm font-medium
-                     bg-[var(--color-surface,white)] border border-dashed border-[var(--color-border,#e5e7eb)]
-                     hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]
+          className="text-left px-3 py-2 rounded-xl text-sm font-medium
+                     bg-white text-[var(--color-text-muted,#6b7280)]
+                     hover:bg-[var(--color-primary,#2563eb)] hover:text-white
                      disabled:opacity-50 transition-colors"
+          style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.06)' }}
         >
           {loading === REGISTER_LOADING ? '…' : '✦ Register new test user'}
         </button>

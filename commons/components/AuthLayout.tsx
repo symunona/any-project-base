@@ -19,49 +19,32 @@ const FORM_BG: Record<Variant, string> = {
 
 export function AuthLayout({ children, variant = 'client' }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-
-      {/* ── Brand panel — desktop only ── */}
-      <div
-        className="hidden md:flex md:w-5/12 xl:w-2/5 flex-col justify-between p-12 select-none"
-        style={{ background: BRAND_GRADIENT[variant] }}
-      >
-        <span className="text-lg font-bold tracking-tight text-white/90">
-          {config.projectName}
-        </span>
-        <div>
-          <p className="text-4xl font-bold leading-tight mb-4 text-white">
-            Everything wired.<br />You just ship.
-          </p>
-          <p className="text-base text-white/55 max-w-xs">
-            Auth, billing, admin, mobile — connected from day one.
-          </p>
-        </div>
-        <p className="text-xs text-white/25">&copy; {new Date().getFullYear()} {config.projectName}</p>
-      </div>
-
-      {/* ── Form panel ── */}
-      <div
-        className="flex flex-1 flex-col items-center justify-center p-6 md:p-16"
-        style={{ background: FORM_BG[variant] }}
-      >
-        {/* Mobile logo */}
-        <div className="md:hidden text-center mb-8">
-          <h1 className="text-2xl font-bold text-[var(--color-primary)]">
-            {config.projectName}
-          </h1>
-        </div>
-
-        <div className="w-full max-w-sm">
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-12"
+      style={{ background: FORM_BG[variant] }}
+    >
+      <div className="w-full" style={{ maxWidth: 420 }}>
+        {/* Brand mark */}
+        <div className="flex flex-col items-center mb-8">
           <div
-            className="bg-white rounded-3xl p-8"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.08)' }}
+            className="flex items-center justify-center w-12 h-12 rounded-2xl mb-3"
+            style={{ background: BRAND_GRADIENT[variant] }}
           >
-            {children}
+            <span className="text-white font-bold text-lg">
+              {config.projectName.charAt(0).toUpperCase()}
+            </span>
           </div>
+          <p className="text-sm text-[var(--color-text-muted)]">{config.projectName}</p>
+        </div>
+
+        {/* Card */}
+        <div
+          className="bg-white rounded-3xl px-8 py-8"
+          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08)' }}
+        >
+          {children}
         </div>
       </div>
-
     </div>
   )
 }

@@ -8,7 +8,13 @@ const ONBOARDING_STEPS = [
     content: (
       <div className="flex flex-col gap-2">
         {['Building a product', 'Testing the template', 'Learning', 'Other'].map(opt => (
-          <button key={opt} className="text-left px-4 py-3 rounded-lg border border-[var(--color-border)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors">
+          <button
+            key={opt}
+            className="text-left px-4 py-3 rounded-xl text-sm transition-colors"
+            style={{ background: 'rgba(0,0,0,0.04)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(37,99,235,0.1)'; (e.currentTarget as HTMLElement).style.color = '#2563EB' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.04)'; (e.currentTarget as HTMLElement).style.color = '' }}
+          >
             {opt}
           </button>
         ))}
@@ -21,7 +27,8 @@ const ONBOARDING_STEPS = [
       <input
         type="text"
         placeholder="Tell us how you found us…"
-        className="w-full px-3 py-2 rounded-md border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+        className="w-full px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+        style={{ background: 'rgba(0,0,0,0.04)' }}
       />
     ),
   },

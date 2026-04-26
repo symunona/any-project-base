@@ -36,7 +36,7 @@ export function SupportPage() {
       <h1 className="text-2xl font-bold mb-6">{t(msg.Support.title)}</h1>
 
       {sent ? (
-        <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-8 text-center">
+        <div className="bg-[var(--color-surface)] rounded-2xl p-8 text-center" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06)' }}>
           <p className="text-lg font-semibold mb-2">Message sent!</p>
           <p className="text-sm text-[var(--color-text-muted)] mb-6">
             We'll reply to {user.email} as soon as possible.
@@ -47,26 +47,29 @@ export function SupportPage() {
         </div>
       ) : (
         <form onSubmit={(e) => { void submit(e) }}
-          className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-6 flex flex-col gap-4">
+          className="bg-[var(--color-surface)] rounded-2xl p-6 flex flex-col gap-4"
+          style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06)' }}>
           <div>
-            <label className="block text-sm font-medium mb-1">Subject</label>
+            <label className="block text-sm font-medium mb-1.5 text-[var(--color-text-muted)]">Subject</label>
             <input
               type="text"
               value={subject}
               onChange={e => { setSubject(e.target.value) }}
               placeholder="What's this about?"
-              className="w-full px-3 py-2 rounded-md border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-shadow"
+              style={{ background: 'rgba(0,0,0,0.05)' }}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Message</label>
+            <label className="block text-sm font-medium mb-1.5 text-[var(--color-text-muted)]">Message</label>
             <textarea
               value={body}
               onChange={e => { setBody(e.target.value) }}
               required
               rows={5}
               placeholder="Describe your issue…"
-              className="w-full px-3 py-2 rounded-md border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none"
+              className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none transition-shadow"
+              style={{ background: 'rgba(0,0,0,0.05)' }}
             />
           </div>
           <Button type="submit" loading={loading}>{t(msg.Support.send)}</Button>

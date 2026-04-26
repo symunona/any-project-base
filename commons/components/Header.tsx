@@ -29,7 +29,7 @@ export function Header({ navItems = [], onNavigate, currentPath }: HeaderProps) 
   )
 
   return (
-    <header className="sticky top-0 z-40 bg-[var(--color-surface)] border-b border-[var(--color-border)]">
+    <header className="sticky top-0 z-40 bg-[var(--color-surface)]" style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
         <span className="font-bold text-[var(--color-primary)] tracking-tight">{config.projectName}</span>
 
@@ -84,7 +84,7 @@ export function Header({ navItems = [], onNavigate, currentPath }: HeaderProps) 
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[var(--color-surface)] border-t border-[var(--color-border)] px-4 py-3 flex flex-col gap-1">
+        <div className="md:hidden bg-[var(--color-surface)] px-4 py-3 flex flex-col gap-1" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
           {visibleItems.map(item => (
             <button
               key={item.href}

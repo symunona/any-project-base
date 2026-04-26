@@ -66,8 +66,8 @@ export function AppLayout() {
     <div className="min-h-screen flex" style={{ background: 'linear-gradient(160deg, #F1F5F9 0%, #F8FAFC 60%, #EEF2FF 100%)' }}>
 
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex flex-col w-64 min-h-screen bg-[var(--color-surface)] border-r border-[var(--color-border)] fixed top-0 left-0 z-30">
-        <div className="h-16 flex items-center gap-2 px-6 border-b border-[var(--color-border)]">
+      <aside className="hidden md:flex flex-col w-64 min-h-screen bg-[var(--color-surface)] fixed top-0 left-0 z-30" style={{ boxShadow: '1px 0 0 rgba(0,0,0,0.06)' }}>
+        <div className="h-16 flex items-center gap-2 px-6 border-b border-transparent">
           <span className="font-bold text-[var(--color-primary)] tracking-tight">{config.projectName}</span>
           <span className="text-xs px-1.5 py-0.5 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] font-medium">
             Admin
@@ -76,7 +76,7 @@ export function AppLayout() {
         <nav className="flex-1 p-3 flex flex-col gap-1">
           <NavLinks />
         </nav>
-        <div className="p-4 border-t border-[var(--color-border)]">
+        <div className="p-4 border-t border-transparent">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[var(--color-primary)]/15 flex items-center justify-center text-xs font-bold text-[var(--color-primary)] flex-shrink-0">
               {userInitial}
@@ -97,7 +97,7 @@ export function AppLayout() {
       </aside>
 
       {/* Mobile top bar */}
-      <header className="md:hidden fixed top-0 inset-x-0 z-40 h-14 bg-[var(--color-surface)] border-b border-[var(--color-border)] flex items-center justify-between px-4">
+      <header className="md:hidden fixed top-0 inset-x-0 z-40 h-14 bg-[var(--color-surface)] border-b border-transparent flex items-center justify-between px-4">
         <span className="font-bold text-[var(--color-primary)]">{config.projectName}</span>
         <button
           onClick={() => { setMobileOpen(v => !v) }}
@@ -113,13 +113,13 @@ export function AppLayout() {
         <div className="md:hidden fixed inset-0 z-50 flex">
           <div className="absolute inset-0 bg-black/40" onClick={() => { setMobileOpen(false) }} />
           <aside className="relative w-64 bg-[var(--color-surface)] flex flex-col">
-            <div className="h-14 flex items-center px-6 border-b border-[var(--color-border)]">
+            <div className="h-14 flex items-center px-6 border-b border-transparent">
               <span className="font-bold text-[var(--color-primary)]">{config.projectName}</span>
             </div>
             <nav className="flex-1 p-3 flex flex-col gap-1">
               <NavLinks onNav={() => { setMobileOpen(false) }} />
             </nav>
-            <div className="p-4 border-t border-[var(--color-border)]">
+            <div className="p-4 border-t border-transparent">
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"

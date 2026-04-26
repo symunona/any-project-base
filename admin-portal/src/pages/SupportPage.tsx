@@ -59,7 +59,7 @@ export function SupportPage() {
             <select
               value={statusFilter}
               onChange={e => { setStatusFilter(e.target.value) }}
-              className="w-full text-sm border border-[var(--color-border)] rounded-xl px-3 py-2 bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
+              className="w-full text-sm rounded-xl px-3 py-2 bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)]"
             >
               <option value="">All open</option>
               <option value="new">New</option>
@@ -143,7 +143,7 @@ export function SupportPage() {
                   onChange={e => { setReply(e.target.value) }}
                   rows={3}
                   placeholder="Write a reply…"
-                  className="w-full border border-[var(--color-border)] rounded-xl px-4 py-3 text-sm text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] resize-none"
+                  className="w-full rounded-xl px-4 py-3 text-sm text-[var(--color-text)] focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] resize-none"
                 />
                 <Button size="sm" onClick={() => { void sendReply() }} loading={sending}>Send</Button>
               </div>

@@ -178,7 +178,7 @@ function DeleteUser({ user, onNotify }: { user: User; onNotify: (n: { type: 'suc
           Type <strong>{user.name ?? user.email}</strong> to confirm deletion. This cannot be undone.
         </p>
         <input value={confirm} onChange={e => { setConfirm(e.target.value) }}
-          className="w-full px-3 py-2 rounded-md border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-danger)]" />
+          className="w-full px-3 py-2 rounded-md rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-danger)]" />
       </Modal>
     </>
   )
