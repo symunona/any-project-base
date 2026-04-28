@@ -1,0 +1,6 @@
+/* Admin portal theme — amber primary distinguishes it from client at a glance */
+:root {
+  --color-primary:   #b45309;
+  --color-secondary: #d97706;
+  --color-accent:    #92400e;
+}

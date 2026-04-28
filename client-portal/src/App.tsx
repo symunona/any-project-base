@@ -1,20 +1,24 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
+import { AuthLayoutRoute, LoginPage, CLIENT_DEV_USERS, CookieBanner, CommitWatermark } from '@any-project-base/commons'
 import { AppLayout } from './layouts/AppLayout'
-import { AuthLayout } from './layouts/AuthLayout'
-import { LoginPage } from './pages/LoginPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { ProfilePage } from './pages/settings/ProfilePage'
 import { BillingPage } from './pages/settings/BillingPage'
 import { SupportPage } from './pages/SupportPage'
 import { BuyCreditsPage } from './pages/BuyCreditsPage'
-import { CookieBanner, CommitWatermark } from '@any-project-base/commons'
 
 export function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<LoginPage />} />
+        <Route element={<AuthLayoutRoute />}>
+          <Route path="/login" element={
+            <LoginPage
+              redirectTo="/"
+              showForgotPassword
+              devUsers={CLIENT_DEV_USERS}
+            />
+          } />
         </Route>
         <Route element={<AppLayout />}>
           <Route index element={<DashboardPage />} />

@@ -6,17 +6,24 @@ import { config } from '../config'
 // GUARD — must be first check. Never renders in prod.
 // Dev login: shows seed users, calls dev-login edge function.
 
-const DEV_USERS = [
-  { label: 'Admin',                email: 'admin@dev.local' },
-  { label: 'Support',              email: 'support@dev.local' },
-  { label: 'User',                 email: 'user@dev.local' },
-  { label: 'User (no credits)',    email: 'user-nocredits@dev.local' },
-  { label: 'User (subscription)',  email: 'user-sub@dev.local' },
-] as const
+export type DevUser = { label: string; email: string }
+
+export const ADMIN_DEV_USERS: DevUser[] = [
+  { label: 'Admin',   email: 'admin@dev.local' },
+  { label: 'Support', email: 'support@dev.local' },
+]
+
+export const CLIENT_DEV_USERS: DevUser[] = [
+  { label: 'User',                email: 'user@dev.local' },
+  { label: 'User (no credits)',   email: 'user-nocredits@dev.local' },
+  { label: 'User (subscription)', email: 'user-sub@dev.local' },
+]
+
+const ALL_DEV_USERS: DevUser[] = [...ADMIN_DEV_USERS, ...CLIENT_DEV_USERS]
 
 const REGISTER_LOADING = '__register__'
 
-export function DevLogin() {
+export function DevLogin({ users = ALL_DEV_USERS }: { users?: DevUser[] }) {
   if (config.appEnv === 'prod') return null
 
   const [loading, setLoading] = useState<string | null>(null)
@@ -59,7 +66,7 @@ export function DevLogin() {
         Dev Login — {config.appEnv} only
       </p>
       <div className="grid grid-cols-2 gap-1.5">
-        {DEV_USERS.map(u => (
+        {users.map(u => (
           <button
             key={u.email}
             onClick={() => { void login(u.email) }}

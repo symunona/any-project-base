@@ -1,11 +1,26 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { supabase } from '@any-project-base/commons/lib/supabase'
-import { Button, DevLogin } from '@any-project-base/commons'
-import { t, msg } from '@any-project-base/commons/i18n'
-import { ShieldCheck } from 'lucide-react'
+import { supabase } from '../lib/supabase'
+import { Button } from './Button'
+import { DevLogin } from './DevLogin'
+import { t, msg } from '../i18n'
+import type { DevUser } from './DevLogin'
 
-export function LoginPage() {
+type LoginPageProps = {
+  title?: string
+  redirectTo?: string
+  requiredRoles?: string[]
+  showForgotPassword?: boolean
+  devUsers?: DevUser[]
+}
+
+export function LoginPage({
+  title,
+  redirectTo = '/',
+  requiredRoles,
+  showForgotPassword = false,
+  devUsers,
+}: LoginPageProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -16,36 +31,35 @@ export function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError(null)
+
     const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password })
     if (authError) { setError(authError.message); setLoading(false); return }
-    // Verify admin/support role before allowing in
-    const { data: userData } = await supabase.from('users').select('role').eq('id', data.user.id).single()
-    if (!userData || !['admin', 'support'].includes(userData.role)) {
-      await supabase.auth.signOut()
-      setError('Access denied. Admin or support role required.')
-      setLoading(false)
-      return
+
+    if (requiredRoles?.length) {
+      const { data: userData } = await supabase
+        .from('users').select('role').eq('id', data.user.id).single()
+      if (!userData || !requiredRoles.includes(userData.role)) {
+        await supabase.auth.signOut()
+        setError(`Access denied. Required: ${requiredRoles.join(' or ')}.`)
+        setLoading(false)
+        return
+      }
     }
-    void navigate('/users')
+
+    void navigate(redirectTo)
   }
 
   return (
     <form onSubmit={(e) => { void handleSubmit(e) }} className="flex flex-col gap-5">
-
-      {/* Header */}
-      <div className="flex flex-col items-center gap-3 mb-1">
-        <div className="w-12 h-12 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center">
-          <ShieldCheck size={24} className="text-[var(--color-primary)]" />
+      {title && (
+        <div className="text-center mb-1">
+          <h2 className="text-xl font-semibold text-[var(--color-text)]">{title}</h2>
         </div>
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-[var(--color-text)]">Admin Portal</h2>
-          <p className="text-sm text-[var(--color-text-muted)] mt-0.5">Sign in to manage your workspace</p>
-        </div>
-      </div>
+      )}
 
       <div className="relative">
         <input
-          id="adm-email"
+          id="login-email"
           type="email"
           placeholder=" "
           value={email}
@@ -56,7 +70,7 @@ export function LoginPage() {
           style={{ background: 'rgba(0,0,0,0.05)' }}
         />
         <label
-          htmlFor="adm-email"
+          htmlFor="login-email"
           className="absolute left-4 top-3.5 text-sm text-[var(--color-text-muted)]
                      transition-all duration-150 pointer-events-none
                      peer-focus:top-1.5 peer-focus:text-xs peer-focus:text-[var(--color-primary)]
@@ -68,7 +82,7 @@ export function LoginPage() {
 
       <div className="relative">
         <input
-          id="adm-password"
+          id="login-password"
           type="password"
           placeholder=" "
           value={password}
@@ -79,7 +93,7 @@ export function LoginPage() {
           style={{ background: 'rgba(0,0,0,0.05)' }}
         />
         <label
-          htmlFor="adm-password"
+          htmlFor="login-password"
           className="absolute left-4 top-3.5 text-sm text-[var(--color-text-muted)]
                      transition-all duration-150 pointer-events-none
                      peer-focus:top-1.5 peer-focus:text-xs peer-focus:text-[var(--color-primary)]
@@ -99,7 +113,13 @@ export function LoginPage() {
         {t(msg.Auth.signIn)}
       </Button>
 
-      <DevLogin />
+      {showForgotPassword && (
+        <a href="/forgot-password" className="text-sm text-center text-[var(--color-primary)] hover:underline">
+          {t(msg.Auth.forgotPassword)}
+        </a>
+      )}
+
+      <DevLogin users={devUsers} />
     </form>
   )
 }
