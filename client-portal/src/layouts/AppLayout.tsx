@@ -1,5 +1,5 @@
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router'
-import { useAuth, useCredits, Sidebar, PageLayout } from '@any-project-base/commons'
+import { useAuth, useCredits, useSystemSettings, Sidebar, PageLayout } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
 import { LayoutDashboard, MessageSquare, CreditCard, Settings, Zap } from 'lucide-react'
 import { supabase } from '@any-project-base/commons/lib/supabase'
@@ -37,6 +37,7 @@ export function AppLayout() {
   const { user, role, loading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
+  const { data: systemSettings } = useSystemSettings()
 
   if (loading) return (
     <div
@@ -74,6 +75,11 @@ export function AppLayout() {
         />
       }
     >
+      {systemSettings?.maintenance_mode && (
+        <div className="bg-yellow-50 border-b border-yellow-200 text-yellow-800 text-sm text-center py-2 px-4">
+          System maintenance in progress — some features may be temporarily unavailable.
+        </div>
+      )}
       <Outlet />
     </PageLayout>
   )
