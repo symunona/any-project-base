@@ -53,3 +53,12 @@ export const AdjustCreditsSchema = z.object({
 export const LlmChatSchema = z.object({
   message: z.string().min(1).max(4000),
 })
+
+// System settings — single-row config table
+export const SystemSettingsSchema = z.object({
+  registration_open: z.boolean(),
+  maintenance_mode:  z.boolean(),
+  invite_only:       z.boolean(),
+})
+
+export const UpdateSystemSettingsSchema = SystemSettingsSchema.partial()
