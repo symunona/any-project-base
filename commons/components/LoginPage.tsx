@@ -6,12 +6,16 @@ import { DevLogin } from './DevLogin'
 import { t, msg } from '../i18n'
 import type { DevUser } from './DevLogin'
 
+type RegistrationStatus = 'open' | 'invite_only' | 'closed'
+
 type LoginPageProps = {
   title?: string
   redirectTo?: string
   requiredRoles?: string[]
   showForgotPassword?: boolean
   devUsers?: DevUser[]
+  registrationStatus?: RegistrationStatus
+  registerHref?: string
 }
 
 export function LoginPage({
@@ -20,6 +24,8 @@ export function LoginPage({
   requiredRoles,
   showForgotPassword = false,
   devUsers,
+  registrationStatus,
+  registerHref = '/register',
 }: LoginPageProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -120,6 +126,21 @@ export function LoginPage({
       )}
 
       <DevLogin users={devUsers} />
+
+      {registrationStatus === 'open' && (
+        <p className="text-sm text-center text-[var(--color-text-muted)]">
+          No account?{' '}
+          <a href={registerHref} className="text-[var(--color-primary)] hover:underline font-medium">
+            Create one
+          </a>
+        </p>
+      )}
+
+      {registrationStatus === 'invite_only' && (
+        <p className="text-sm text-center text-[var(--color-text-muted)]">
+          Registration is invite-only.
+        </p>
+      )}
     </form>
   )
 }
