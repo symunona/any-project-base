@@ -303,6 +303,20 @@ if (Deno.env.get('APP_ENV') === 'prod') return c.json({ error: 'Forbidden' }, 40
 // generate magic link via adminClient, return URL
 ```
 
+## Email Confirmation on Registration
+
+By default, local dev has confirmations disabled so `signUp()` returns a session immediately.
+
+To require email confirmation (e.g. when testing the confirmation flow):
+
+1. `supabase/config.toml` → set `enable_confirmations = true` under `[auth.email]`
+2. `just start` (restart Supabase to pick up config change)
+3. Confirmation emails are captured by Inbucket — view at `http://localhost:54324`
+
+To disable again: set `enable_confirmations = false` and restart.
+
+In prod: set via Supabase dashboard → Authentication → Email → Confirm email. Not controlled by config.toml in cloud deployments.
+
 ## Local Dev Commands
 
 ```bash

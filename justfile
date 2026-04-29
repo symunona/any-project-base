@@ -141,6 +141,17 @@ start:
     pnpm --filter landing dev &
     wait
 
+# Reset DB then start everything — wipes all data, re-runs migrations + seed
+[group: 'All']
+start-fresh:
+    #!/bin/bash
+    set -e
+    source setup/lib/ui.sh
+    warn "start-fresh" "Resetting DB — all local data will be wiped and re-seeded"
+    supabase db reset
+    success "DB reset complete"
+    exec just start
+
 # Check all dev ports are free
 [group: 'All']
 port-check:
