@@ -1,5 +1,6 @@
 export * from './config'
 export * from './constants'
+export * from './constants/pricing'
 export * from './types/api.types'
 export * from './types/project.types'
 export * from './api/fetchApi'
