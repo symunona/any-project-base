@@ -1,4 +1,5 @@
 import { config } from '../config'
+import { Logo, LogoWrapper } from './Logo'
 
 type Variant = 'client' | 'admin'
 
@@ -25,10 +26,10 @@ export function AuthLayout({ children, variant = 'client' }: AuthLayoutProps) {
     >
       <div className="w-full" style={{ maxWidth: 420 }}>
         {/* Brand mark */}
-        <div className="flex flex-col items-center mb-8">
-          <img src="/logo-small.svg" alt={config.projectName} className="w-16 h-16 mb-3" />
+        <LogoWrapper className="mb-8">
+          <Logo size={128} className="mb-3" />
           <p className="text-sm text-[var(--color-text-muted)]">{config.projectName}</p>
-        </div>
+        </LogoWrapper>
 
         {/* Card */}
         <div
