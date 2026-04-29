@@ -84,8 +84,38 @@ export type Deployment = {
 
 export type NotificationSettings = UserSettings['notification_settings']
 
+export type CreditAdjustment = {
+  id: string
+  user_id: string
+  admin_id: string | null
+  delta: number
+  note: string | null
+  source: string
+  created_at: string
+}
+
 export type SystemSettings = {
-  registration_open: boolean
-  maintenance_mode:  boolean
-  invite_only:       boolean
+  registration_open:  boolean
+  maintenance_mode:   boolean
+  invite_only:        boolean
+  onboarding_enabled: boolean
+}
+
+export type TemplateVariable = {
+  name:        string
+  description: string
+  example:     string
+  supabase_go?: string  // auth templates only — the Go template equivalent
+}
+
+export type EmailTemplate = {
+  id:            string
+  type:          'app' | 'auth'
+  subject:       string
+  sender_name:   string
+  enabled:       boolean
+  custom_footer: string | null
+  body_html:     string | null
+  variables:     TemplateVariable[]
+  updated_at:    string
 }

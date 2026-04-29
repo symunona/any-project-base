@@ -1,29 +1,31 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useCredits, PageHeader, Card, CardBody, Button, useNotification, NotificationContainer } from '@any-project-base/commons'
-
-const PACKAGES = [
-  { credits: 100,  label: '100 credits',  price: '$5' },
-  { credits: 500,  label: '500 credits',  price: '$20' },
-  { credits: 1000, label: '1,000 credits', price: '$40' },
-  { credits: 5000, label: '5,000 credits', price: '$150' },
-]
+import { useCredits, PageHeader, Card, CardBody, Button, useNotification, NotificationContainer, fetchApi, config } from '@any-project-base/commons'
+import { CREDIT_PACKS } from '@any-project-base/commons'
 
 export function BuyCreditsPage() {
   const navigate = useNavigate()
-  const { balance, purchase } = useCredits()
+  const { balance } = useCredits()
   const { notifications, notify, dismiss } = useNotification()
   const [loading, setLoading] = useState<number | null>(null)
   const [custom, setCustom] = useState('')
 
-  const buy = async (credits: number) => {
+  const checkout = async (credits: number) => {
     setLoading(credits)
     try {
-      const result = await purchase(credits)
-      notify({ type: 'success', message: `${credits.toLocaleString()} credits added. New balance: ${result.balance.toLocaleString()}` })
-    } catch {
-      notify({ type: 'error', message: 'Purchase failed.' })
-    } finally {
+      const origin = window.location.origin
+      const { url } = await fetchApi<{ url: string }>(`${config.apiUrl}/users/me/credits/checkout`, {
+        method: 'POST',
+        body: JSON.stringify({
+          credits,
+          successUrl: `${origin}/buy-credits/success?credits=${credits}`,
+          cancelUrl:  `${origin}/buy-credits/cancel`,
+        }),
+      })
+      window.location.href = url
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Checkout failed.'
+      notify({ type: 'error', message: msg })
       setLoading(null)
     }
   }
@@ -37,20 +39,20 @@ export function BuyCreditsPage() {
       <Card>
         <CardBody>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {PACKAGES.map(pkg => (
+            {CREDIT_PACKS.map(pkg => (
               <div
                 key={pkg.credits}
                 className="flex items-center justify-between px-4 py-3 rounded-xl bg-[var(--color-surface-2)]"
               >
                 <div>
                   <p className="text-sm font-semibold text-[var(--color-text)]">{pkg.label}</p>
-                  <p className="text-xs text-[var(--color-text-muted)]">{pkg.price}</p>
+                  <p className="text-xs text-[var(--color-text-muted)]">{pkg.priceLabel}</p>
                 </div>
                 <Button
                   size="sm"
                   loading={loading === pkg.credits}
                   disabled={loading !== null}
-                  onClick={() => { void buy(pkg.credits) }}
+                  onClick={() => { void checkout(pkg.credits) }}
                 >
                   Buy
                 </Button>
@@ -73,16 +75,12 @@ export function BuyCreditsPage() {
                 size="sm"
                 disabled={!customCredits || customCredits < 1 || loading !== null}
                 loading={loading === customCredits}
-                onClick={() => { void buy(customCredits) }}
+                onClick={() => { void checkout(customCredits) }}
               >
                 Buy {customCredits > 0 ? customCredits.toLocaleString() : ''} credits
               </Button>
             </div>
           </div>
-
-          <p className="mt-5 text-xs text-[var(--color-text-muted)]">
-            ⚡ Stub mode — all purchases approved instantly, no payment required.
-          </p>
         </CardBody>
       </Card>
 

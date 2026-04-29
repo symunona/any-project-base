@@ -16,6 +16,8 @@ const errorBase =
   'focus:outline-none focus:border-[var(--color-danger)] focus:ring-1 focus:ring-[var(--color-danger)] ' +
   'disabled:opacity-50 disabled:cursor-not-allowed transition-colors resize-none'
 
-export function Textarea({ error, className, ...props }: TextareaProps) {
-  return <textarea className={`${error ? errorBase : base} ${className ?? ''}`} {...props} />
-}
+export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  function Textarea({ error, className, ...props }, ref) {
+    return <textarea ref={ref} className={`${error ? errorBase : base} ${className ?? ''}`} {...props} />
+  },
+)

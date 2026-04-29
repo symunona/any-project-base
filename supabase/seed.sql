@@ -82,16 +82,26 @@ and not exists (
   where ai.user_id = au.id and ai.provider = 'email'
 );
 
--- Set roles
-update public.users set role = 'admin',   name = 'Dev Admin'
+-- Set roles, names, and initial settings
+update public.users
+  set role = 'admin', name = 'Dev Admin',
+      settings = '{"onboarding_step":1,"dark_mode":false,"notification_settings":{"email":{"support_reply":true,"credit_depletion":true,"payment_failed":true},"push":{"support_reply":true}}}'::jsonb
   where email = 'admin@dev.local';
-update public.users set role = 'support', name = 'Dev Support'
+update public.users
+  set role = 'support', name = 'Dev Support',
+      settings = '{"onboarding_step":1,"dark_mode":false,"notification_settings":{"email":{"support_reply":true,"credit_depletion":true,"payment_failed":true},"push":{"support_reply":true}}}'::jsonb
   where email = 'support@dev.local';
-update public.users set name = 'Dev User'
+update public.users
+  set name = 'Dev User',
+      settings = '{"onboarding_step":1,"dark_mode":false,"notification_settings":{"email":{"support_reply":true,"credit_depletion":true,"payment_failed":false},"push":{"support_reply":true}}}'::jsonb
   where email = 'user@dev.local';
-update public.users set name = 'Dev User (no credits)'
+update public.users
+  set name = 'Dev User (no credits)',
+      settings = '{"onboarding_step":1,"dark_mode":false,"notification_settings":{"email":{"support_reply":true,"credit_depletion":true,"payment_failed":true},"push":{"support_reply":false}}}'::jsonb
   where email = 'user-nocredits@dev.local';
-update public.users set name = 'Dev User (subscription)'
+update public.users
+  set name = 'Dev User (subscription)',
+      settings = '{"onboarding_step":1,"dark_mode":true,"notification_settings":{"email":{"support_reply":true,"credit_depletion":false,"payment_failed":true},"push":{"support_reply":true}}}'::jsonb
   where email = 'user-sub@dev.local';
 
 -- Seed credits for pricing != none

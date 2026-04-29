@@ -4,7 +4,7 @@ export default defineConfig({
   clearScreen: false,
   root: '.',
   server: {
-    port: 5175,
+    port: 6175,
     host: true,
     allowedHosts: true,
   },

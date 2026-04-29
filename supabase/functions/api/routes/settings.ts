@@ -11,7 +11,7 @@ settings.get('/', async (c) => {
   const admin = getAdminClient()
   const { data, error } = await admin
     .from('system_settings')
-    .select('registration_open, maintenance_mode, invite_only')
+    .select('registration_open, maintenance_mode, invite_only, onboarding_enabled')
     .eq('id', 1)
     .single()
   if (error || !data) return c.json({ error: error?.message ?? 'Settings not found' }, 500)
@@ -28,7 +28,7 @@ settings.patch('/', zValidator('json', UpdateSystemSettingsSchema), async (c) =>
     .from('system_settings')
     .update({ ...body, updated_at: new Date().toISOString(), updated_by: authUser.id })
     .eq('id', 1)
-    .select('registration_open, maintenance_mode, invite_only')
+    .select('registration_open, maintenance_mode, invite_only, onboarding_enabled')
     .single()
 
   if (error || !data) return c.json({ error: error?.message ?? 'Update failed' }, 500)

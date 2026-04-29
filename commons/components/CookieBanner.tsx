@@ -1,19 +1,34 @@
-import { useState } from 'react'
+import { Component, useState } from 'react'
+import type { ReactNode } from 'react'
 import { config } from '../config'
 import { analytics } from '../lib/analytics'
 
+function safeLocalGet(key: string): string | null {
+  try { return localStorage.getItem(key) } catch { return null }
+}
+function safeLocalSet(key: string, value: string): void {
+  try { localStorage.setItem(key, value) } catch { /* blocked */ }
+}
+
+// Catches any render crash (e.g. uBlock Origin injecting JS that throws) — renders nothing.
+class CookieBannerBoundary extends Component<{ children: ReactNode }> {
+  state = { failed: false }
+  static getDerivedStateFromError() { return { failed: true } }
+  render() { return this.state.failed ? null : this.props.children }
+}
+
 // Only renders if: analytics enabled AND no consent stored.
 // On "Got it": stores consent and initializes analytics.
-export function CookieBanner() {
+function CookieBannerInner() {
   const [dismissed, setDismissed] = useState(
-    () => Boolean(localStorage.getItem('cookie_consent')),
+    () => Boolean(safeLocalGet('cookie_consent')),
   )
 
   if (config.analytics === 'none') return null
   if (dismissed) return null
 
   const handleAccept = () => {
-    localStorage.setItem('cookie_consent', 'true')
+    safeLocalSet('cookie_consent', 'true')
     analytics.initialize()
     setDismissed(true)
   }
@@ -34,5 +49,13 @@ export function CookieBanner() {
         </button>
       </div>
     </div>
+  )
+}
+
+export function CookieBanner() {
+  return (
+    <CookieBannerBoundary>
+      <CookieBannerInner />
+    </CookieBannerBoundary>
   )
 }

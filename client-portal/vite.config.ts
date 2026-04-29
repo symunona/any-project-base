@@ -43,7 +43,7 @@ export default defineConfig({
     'import.meta.env.VITE_COMMIT_DATE': JSON.stringify(commitDate),
   },
   server: {
-    port: 5173,
+    port: 6173,
     host: true,
     allowedHosts: true,
   },

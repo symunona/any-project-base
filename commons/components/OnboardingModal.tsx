@@ -1,66 +1,64 @@
 import { useState, useEffect } from 'react'
-import { Modal } from './Modal'
-import { Button } from './Button'
 import { fetchApi } from '../api/fetchApi'
 import { config } from '../config'
+import { Button } from './Button'
 import type { UserSettings } from '../types/project.types'
 
 type OnboardingModalProps = {
   settings: UserSettings
   onComplete: (updatedSettings: UserSettings) => void
-  steps: Array<{
-    title: string
-    content: React.ReactNode
-  }>
 }
 
-// Renders over the dashboard. Not blocking. Reads + writes onboarding_step.
-export function OnboardingModal({ settings, onComplete, steps }: OnboardingModalProps) {
-  const [currentSettings, setCurrentSettings] = useState(settings)
-  const step = currentSettings.onboarding_step ?? 0
+export function OnboardingModal({ settings, onComplete }: OnboardingModalProps) {
+  const [dismissed, setDismissed] = useState(false)
+  const isDone = dismissed || (settings.onboarding_step ?? 0) >= 1
 
-  const isDone = step >= steps.length
+  const dismiss = () => setDismissed(true)
 
-  const advance = async (nextStep: number) => {
-    const updated = { ...currentSettings, onboarding_step: nextStep }
-    setCurrentSettings(updated)
-    await fetchApi(`${config.apiUrl}/users/me/settings`, {
+  // Escape key
+  useEffect(() => {
+    if (isDone) return
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') dismiss() }
+    document.addEventListener('keydown', handler)
+    return () => { document.removeEventListener('keydown', handler) }
+  }, [isDone])
+
+  // Persist to API after dismiss (fire-and-forget, non-blocking)
+  useEffect(() => {
+    if (!dismissed) return
+    const updated = { ...settings, onboarding_step: 1 }
+    void fetchApi(`${config.apiUrl}/users/me/settings`, {
       method: 'PATCH',
-      body: JSON.stringify({ onboarding_step: nextStep }),
+      body: JSON.stringify({ onboarding_step: 1 }),
     })
-    if (nextStep >= steps.length) {
-      onComplete(updated)
-    }
-  }
+    onComplete(updated)
+  }, [dismissed]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isDone) return null
 
-  const current = steps[step]
-  if (!current) return null
-
   return (
-    <Modal
-      open={!isDone}
-      onClose={() => { void advance(steps.length) }}
-      title={current.title}
-      footer={
-        <div className="flex items-center gap-3 w-full">
-          <button
-            onClick={() => { void advance(steps.length) }}
-            className="text-sm text-[var(--color-text-muted)] hover:underline mr-auto"
-          >
-            Skip for now
-          </button>
-          <Button onClick={() => { void advance(step + 1) }}>
-            {step < steps.length - 1 ? 'Next' : 'Done'}
-          </Button>
-        </div>
-      }
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      onClick={(e) => { if (e.target === e.currentTarget) dismiss() }}
     >
-      <div className="mb-2 text-xs text-[var(--color-text-muted)]">
-        Step {step + 1} of {steps.length}
+      <div className="bg-[var(--color-surface)] rounded-2xl shadow-xl w-full max-w-2xl">
+        <div className="p-6">
+          <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">Welcome! See how it works</h2>
+          <div className="relative w-full rounded-xl overflow-hidden" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              src="https://www.youtube.com/embed/TJYOkZz6Dck"
+              title="Product intro"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+              style={{ border: 'none' }}
+            />
+          </div>
+        </div>
+        <div className="flex justify-end px-6 pb-6">
+          <Button onClick={dismiss}>Got it, don't show again</Button>
+        </div>
       </div>
-      {current.content}
-    </Modal>
+    </div>
   )
 }

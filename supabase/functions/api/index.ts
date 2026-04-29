@@ -6,6 +6,8 @@ import { deployments } from './routes/deployments.ts'
 import { magicLinks } from './routes/magic-links.ts'
 import { llm } from './routes/llm.ts'
 import { settings } from './routes/settings.ts'
+import { emailTemplates } from './routes/email-templates.ts'
+import { broadcasts } from './routes/broadcasts.ts'
 
 const app = new Hono().basePath('/api')
   .route('/users', users)
@@ -15,6 +17,8 @@ const app = new Hono().basePath('/api')
   .route('/magic-links', magicLinks)
   .route('/llm', llm)
   .route('/settings', settings)
+  .route('/email-templates', emailTemplates)
+  .route('/broadcasts', broadcasts)
 
 // Health check
 app.get('/health', (c) => c.json({ ok: true, ts: new Date().toISOString() }))

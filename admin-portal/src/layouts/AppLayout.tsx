@@ -2,14 +2,15 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router'
 import { useAuth, Sidebar, PageLayout } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
-import { Users, BarChart2, MessageSquare, Settings, CreditCard } from 'lucide-react'
+import { Users, BarChart2, MessageSquare, Settings, CreditCard, Megaphone } from 'lucide-react'
 import { supabase } from '@any-project-base/commons/lib/supabase'
 
 const NAV_ITEMS = [
-  { label: 'Users',   href: '/users',   icon: Users,         roles: ['admin', 'support'] },
-  { label: 'Usage',   href: '/usage',   icon: BarChart2,     roles: ['admin', 'support'] },
-  { label: 'Support', href: '/support', icon: MessageSquare, roles: ['admin', 'support'] },
-  { label: 'System',  href: '/system',  icon: Settings,      roles: ['admin'] },
+  { label: 'Users',     href: '/users',     icon: Users,         roles: ['admin', 'support'] },
+  { label: 'Usage',     href: '/usage',     icon: BarChart2,     roles: ['admin', 'support'] },
+  { label: 'Support',   href: '/support',   icon: MessageSquare, roles: ['admin', 'support'] },
+  { label: 'Broadcast', href: '/broadcast', icon: Megaphone,     roles: ['admin'] },
+  { label: 'System',    href: '/system',    icon: Settings,      roles: ['admin'] },
 ]
 
 const BILLING_ITEM = { label: 'Plans', href: '/plans', icon: CreditCard, roles: ['admin'] }
@@ -50,6 +51,7 @@ export function AppLayout() {
           onNavigate={(href) => { void navigate(href) }}
           projectName={config.projectName}
           projectBadge="Admin"
+          projectBadgeVariant="danger"
           user={user}
           role={role}
           onLogout={() => { void handleLogout() }}
