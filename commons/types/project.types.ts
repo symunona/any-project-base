@@ -83,3 +83,9 @@ export type Deployment = {
 }
 
 export type NotificationSettings = UserSettings['notification_settings']
+
+export type SystemSettings = {
+  registration_open: boolean
+  maintenance_mode:  boolean
+  invite_only:       boolean
+}
