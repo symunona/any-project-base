@@ -2,12 +2,12 @@
 # setup/dev/nginx_localdev.sh — Nginx proxy for Vite dev servers on a VPS
 #
 # Sets up PROXY mode: nginx forwards the public dev domain to the locally-running
-# Vite dev servers (ports 5173 / 5174 / 5175) and Supabase (54321).
+# Vite dev servers (ports 6173 / 6174 / 6175) and Supabase (54321).
 #
 # Domain pattern:  dev.{project}.{parent}
-#   Landing:       dev.{project}.{parent}        → :5175
-#   Client portal: portal.dev.{project}.{parent} → :5173  (HMR + WS)
-#   Admin portal:  admin.dev.{project}.{parent}  → :5174
+#   Landing:       dev.{project}.{parent}        → :6175
+#   Client portal: portal.dev.{project}.{parent} → :6173  (HMR + WS)
+#   Admin portal:  admin.dev.{project}.{parent}  → :6174
 #   Supabase API:  api.dev.{project}.{parent}    → :54321
 #
 # State saved to:  setup/dev/.vitedev-config
@@ -129,9 +129,9 @@ server {
 BLOCK
 }
 
-write_proxy_block "root"   5175
-write_proxy_block "portal" 5173
-write_proxy_block "admin"  5174
+write_proxy_block "root"   6175
+write_proxy_block "portal" 6173
+write_proxy_block "admin"  6174
 
 cat >> "$NGINX_CONF_TMP" <<NGINX
 server {

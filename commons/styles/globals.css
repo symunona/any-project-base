@@ -41,6 +41,10 @@
   box-sizing: border-box;
 }
 
+button, a, [role="button"], label[for], select {
+  cursor: pointer;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text);

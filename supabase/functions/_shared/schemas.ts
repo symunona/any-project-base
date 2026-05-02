@@ -47,9 +47,20 @@ export const UpdateConversationStatusSchema = z.object({
 // Credits adjustment — admin only
 export const AdjustCreditsSchema = z.object({
   delta: z.number().int().refine(n => n !== 0, { message: 'delta must be non-zero' }),
+  note:  z.string().max(500).optional(),
 })
 
 // LLM chat
 export const LlmChatSchema = z.object({
   message: z.string().min(1).max(4000),
 })
+
+// System settings — single-row config table
+export const SystemSettingsSchema = z.object({
+  registration_open:  z.boolean(),
+  maintenance_mode:   z.boolean(),
+  invite_only:        z.boolean(),
+  onboarding_enabled: z.boolean(),
+})
+
+export const UpdateSystemSettingsSchema = SystemSettingsSchema.partial()

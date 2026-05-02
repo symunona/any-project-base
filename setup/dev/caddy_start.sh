@@ -6,7 +6,7 @@
 #   • Cookie isolation — each subdomain has its own cookie jar, so auth sessions don't bleed
 #     between portal and admin during testing (they would on the same origin with different ports)
 #   • CORS behaves correctly — same as prod, so you catch CORS bugs locally
-#   • Readable — http://admin.myapp.localhost beats http://localhost:5174 for sharing with teammates
+#   • Readable — http://admin.myapp.localhost beats http://localhost:6174 for sharing with teammates
 #
 # WHY port 80?
 #   Without it, every URL needs ":2015" or similar — ugly and easy to forget.
@@ -43,17 +43,17 @@ cat > "$ROOT_DIR/Caddyfile" <<EOF
 
 # Landing
 ${BASE} {
-  reverse_proxy localhost:5175
+  reverse_proxy localhost:6175
 }
 
 # Client portal
 portal.${BASE} {
-  reverse_proxy localhost:5173
+  reverse_proxy localhost:6173
 }
 
 # Admin portal
 admin.${BASE} {
-  reverse_proxy localhost:5174
+  reverse_proxy localhost:6174
 }
 EOF
 

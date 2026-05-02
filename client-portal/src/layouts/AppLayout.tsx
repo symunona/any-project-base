@@ -1,16 +1,13 @@
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router'
-import { useAuth, useCredits, Sidebar, PageLayout } from '@any-project-base/commons'
+import { useAuth, useCredits, useSystemSettings, Sidebar, PageLayout } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
-import { LayoutDashboard, MessageSquare, CreditCard, Settings, Zap } from 'lucide-react'
+import { LayoutDashboard, Zap } from 'lucide-react'
 import { supabase } from '@any-project-base/commons/lib/supabase'
 
-const BASE_NAV = [
-  { label: 'Dashboard', href: '/',        icon: LayoutDashboard },
-  { label: 'Support',   href: '/support', icon: MessageSquare },
+const MAIN_NAV = [
+  { label: 'Dashboard', href: '/', icon: LayoutDashboard },
 ]
 
-const BILLING_ITEM  = { label: 'Billing',      href: '/settings/billing',  icon: CreditCard }
-const SETTINGS_ITEM = { label: 'Settings',     href: '/settings/profile',  icon: Settings }
 
 function CreditsWidget({ onBuy }: { onBuy: () => void }) {
   const { balance } = useCredits()
@@ -37,6 +34,7 @@ export function AppLayout() {
   const { user, role, loading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
+  const { data: systemSettings } = useSystemSettings()
 
   if (loading) return (
     <div
@@ -48,12 +46,6 @@ export function AppLayout() {
   )
   if (!user) return <Navigate to="/login" replace />
 
-  const navItems = [
-    ...BASE_NAV,
-    ...(config.pricingModel !== 'none' ? [BILLING_ITEM] : []),
-    SETTINGS_ITEM,
-  ]
-
   const handleLogout = async () => { await supabase.auth.signOut() }
 
   return (
@@ -61,9 +53,10 @@ export function AppLayout() {
       variant="client"
       sidebar={
         <Sidebar
-          navItems={navItems}
+          navItems={MAIN_NAV}
           currentPath={location.pathname}
           onNavigate={(href) => { void navigate(href) }}
+          onProfileClick={() => { void navigate('/settings') }}
           projectName={config.projectName}
           user={user}
           role={role}
@@ -74,6 +67,11 @@ export function AppLayout() {
         />
       }
     >
+      {systemSettings?.maintenance_mode && (
+        <div className="bg-yellow-50 border-b border-yellow-200 text-yellow-800 text-sm text-center py-2 px-4">
+          System maintenance in progress — some features may be temporarily unavailable.
+        </div>
+      )}
       <Outlet />
     </PageLayout>
   )

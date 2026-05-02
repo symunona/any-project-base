@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { fetchApi, Badge, Button, Modal, useNotification, NotificationContainer, Card, CardHeader, CardBody, PageHeader, Input } from '@any-project-base/commons'
 import { config } from '@any-project-base/commons'
-import type { User } from '@any-project-base/commons'
+import type { User, CreditAdjustment } from '@any-project-base/commons'
 
 export function UserDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -86,6 +86,7 @@ export function UserDetailPage() {
 
 function CreditsPanel({ userId, onNotify }: { userId: string; onNotify: (n: { type: 'success' | 'error'; message: string }) => void }) {
   const [delta, setDelta] = useState('')
+  const [note, setNote] = useState('')
   const [loading, setLoading] = useState(false)
 
   const { data, refetch } = useQuery<{ balance: number }>({
@@ -93,15 +94,22 @@ function CreditsPanel({ userId, onNotify }: { userId: string; onNotify: (n: { ty
     queryFn: () => fetchApi<{ balance: number }>(`${config.apiUrl}/users/${userId}/credits`),
   })
 
+  const adjustHistoryQuery = useQuery<{ data: CreditAdjustment[] }>({
+    queryKey: ['credit-adjustments', userId],
+    queryFn: () => fetchApi<{ data: CreditAdjustment[] }>(`${config.apiUrl}/users/${userId}/credits/adjustments`),
+  })
+
   const adjust = async (amount: number) => {
     setLoading(true)
     try {
       await fetchApi(`${config.apiUrl}/users/${userId}/credits`, {
         method: 'POST',
-        body: JSON.stringify({ delta: amount }),
+        body: JSON.stringify({ delta: amount, note: note.trim() || undefined }),
       })
       await refetch()
+      await adjustHistoryQuery.refetch()
       setDelta('')
+      setNote('')
       onNotify({ type: 'success', message: `${amount > 0 ? '+' : ''}${amount} credits applied.` })
     } catch {
       onNotify({ type: 'error', message: 'Failed to adjust credits.' })
@@ -114,36 +122,77 @@ function CreditsPanel({ userId, onNotify }: { userId: string; onNotify: (n: { ty
   const validDelta = !isNaN(parsed) && parsed !== 0
 
   return (
-    <div className="flex items-center gap-6 flex-wrap">
-      <div>
-        <p className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide mb-1">Balance</p>
-        <p className="text-3xl font-semibold text-[var(--color-text)]">{data?.balance ?? '—'}</p>
-      </div>
-      <div className="flex items-center gap-2 flex-wrap">
-        {[100, 500, 1000].map(n => (
-          <Button key={n} variant="secondary" size="sm" loading={loading} onClick={() => { void adjust(n) }}>
-            +{n}
-          </Button>
-        ))}
-        <div className="flex items-center gap-2 ml-2">
-          <Input
-            type="number"
-            value={delta}
-            onChange={e => { setDelta(e.target.value) }}
-            placeholder="Custom…"
-            className="w-28"
-          />
-          <Button size="sm" disabled={!validDelta} loading={loading} onClick={() => { void adjust(parsed) }}>
-            Apply
-          </Button>
+    <div className="space-y-4">
+      <div className="flex items-center gap-6 flex-wrap">
+        <div>
+          <p className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide mb-1">Balance</p>
+          <p className="text-3xl font-semibold text-[var(--color-text)]">{data?.balance ?? '—'}</p>
+        </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          {[100, 500, 1000].map(n => (
+            <Button key={n} variant="secondary" size="sm" loading={loading} onClick={() => { void adjust(n) }}>
+              +{n}
+            </Button>
+          ))}
+          <div className="flex items-center gap-2 ml-2">
+            <Input
+              type="number"
+              value={delta}
+              onChange={e => { setDelta(e.target.value) }}
+              placeholder="Custom…"
+              className="w-28"
+            />
+            <Button size="sm" disabled={!validDelta} loading={loading} onClick={() => { void adjust(parsed) }}>
+              Apply
+            </Button>
+          </div>
         </div>
       </div>
+      <Input
+        type="text"
+        value={note}
+        onChange={e => { setNote(e.target.value) }}
+        placeholder="Note (optional, saved with adjustment)"
+        className="max-w-sm"
+      />
+      <CreditAdjustmentHistory adjustments={adjustHistoryQuery.data?.data} />
     </div>
+  )
+}
+
+function CreditAdjustmentHistory({ adjustments }: { adjustments: CreditAdjustment[] | undefined }) {
+  if (!adjustments?.length) return (
+    <p className="text-sm text-[var(--color-text-muted)] mt-2">No adjustment history yet.</p>
+  )
+  return (
+    <table className="w-full text-sm mt-2">
+      <thead>
+        <tr className="text-left border-b border-[var(--color-border)]">
+          <th className="pb-2 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Date</th>
+          <th className="pb-2 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Delta</th>
+          <th className="pb-2 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Source</th>
+          <th className="pb-2 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {adjustments.map(a => (
+          <tr key={a.id} className="border-b border-[var(--color-border)] last:border-0">
+            <td className="py-2 text-[var(--color-text-muted)]">{new Date(a.created_at).toLocaleString()}</td>
+            <td className={`py-2 font-mono font-semibold ${a.delta > 0 ? 'text-green-600' : 'text-[var(--color-danger)]'}`}>
+              {a.delta > 0 ? '+' : ''}{a.delta}
+            </td>
+            <td className="py-2 text-[var(--color-text-muted)] capitalize">{a.source}</td>
+            <td className="py-2 text-[var(--color-text-muted)]">{a.note ?? '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
 
 function MagicLinkPanel({ userId, onNotify }: { userId: string; onNotify: (n: { type: 'success' | 'error'; message: string }) => void }) {
   const [generating, setGenerating] = useState(false)
+  const [resetting, setResetting] = useState(false)
 
   const generate = async () => {
     setGenerating(true)
@@ -161,10 +210,27 @@ function MagicLinkPanel({ userId, onNotify }: { userId: string; onNotify: (n: { 
     }
   }
 
+  const sendReset = async () => {
+    setResetting(true)
+    try {
+      await fetchApi(`${config.apiUrl}/users/${userId}/reset-password`, { method: 'POST' })
+      onNotify({ type: 'success', message: 'Password reset email sent.' })
+    } catch {
+      onNotify({ type: 'error', message: 'Failed to send reset email.' })
+    } finally {
+      setResetting(false)
+    }
+  }
+
   return (
-    <Button size="sm" onClick={() => { void generate() }} loading={generating}>
-      Generate login link
-    </Button>
+    <div className="flex items-center gap-3 flex-wrap">
+      <Button size="sm" onClick={() => { void generate() }} loading={generating}>
+        Generate login link
+      </Button>
+      <Button size="sm" variant="secondary" onClick={() => { void sendReset() }} loading={resetting}>
+        Send reset password link
+      </Button>
+    </div>
   )
 }
 

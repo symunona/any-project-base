@@ -21,7 +21,7 @@ theme_colors:
 static_host: cloudflare                # vercel | cloudflare | netlify
 
 # ── Features ──────────────────────────────────────────
-pricing_model: none                    # none | credits | subscription_credits | tiers
+pricing_model: credits                 # none | credits | subscription_credits | tiers
 analytics: none                        # none | posthog
 error_monitoring: none                 # none | sentry
 push_notifications: none               # none | firebase

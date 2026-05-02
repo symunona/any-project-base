@@ -7,6 +7,8 @@ import { PlansPage } from './pages/PlansPage'
 import { UsagePage } from './pages/UsagePage'
 import { SupportPage } from './pages/SupportPage'
 import { SystemPage } from './pages/SystemPage'
+import { EmailTemplateEditPage } from './pages/EmailTemplateEditPage'
+import { BroadcastPage } from './pages/BroadcastPage'
 
 export function App() {
   return (
@@ -30,6 +32,8 @@ export function App() {
           <Route path="/usage" element={<UsagePage />} />
           <Route path="/support" element={<SupportPage />} />
           <Route path="/system" element={<SystemPage />} />
+          <Route path="/system/templates/:id" element={<EmailTemplateEditPage />} />
+          <Route path="/broadcast" element={<BroadcastPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/users" replace />} />
       </Routes>

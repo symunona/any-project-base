@@ -9,9 +9,9 @@ PORTS=(
   "54322:Supabase DB"
   "54323:Supabase Studio"
   "54324:Supabase Inbucket"
-  "5173:client-portal"
-  "5174:admin-portal"
-  "5175:landing"
+  "6173:client-portal"
+  "6174:admin-portal"
+  "6175:landing"
 )
 
 ALL_FREE=1

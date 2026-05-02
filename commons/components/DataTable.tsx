@@ -18,6 +18,7 @@ type DataTableProps<T> = {
   onParamsChange: (p: PageParams) => void
   loading?: boolean
   searchable?: boolean
+  onRowClick?: (row: T) => void
 }
 
 const PAGE_SIZES = [10, 20, 50, 100] as const
@@ -29,6 +30,7 @@ export function DataTable<T extends Record<string, unknown>>({
   onParamsChange,
   loading = false,
   searchable = false,
+  onRowClick,
 }: DataTableProps<T>) {
   const [searchInput, setSearchInput] = useState(params.search ?? '')
   const debouncedSearch = useDebounce(searchInput)
@@ -125,7 +127,13 @@ export function DataTable<T extends Record<string, unknown>>({
               </tr>
             )}
             {!loading && rows.map((row, i) => (
-              <tr key={i} className="border-t border-[var(--color-border)] hover:bg-[var(--color-surface-2)]">
+              <tr key={i}
+                onClick={onRowClick ? () => { onRowClick(row) } : undefined}
+                className={[
+                  'border-t border-[var(--color-border)] hover:bg-[var(--color-surface-2)]',
+                  onRowClick ? 'cursor-pointer' : '',
+                ].join(' ')}
+              >
                 {columns.map(col => (
                   <td key={String(col.key)} className="px-4 py-3">
                     {col.render
@@ -140,22 +148,23 @@ export function DataTable<T extends Record<string, unknown>>({
       </div>
 
       {total > 0 && (
-        <div className="mt-4 flex items-center justify-between text-sm text-[var(--color-text-muted)]">
+        <div className="mt-3 px-4 py-3 flex items-center justify-between text-sm text-[var(--color-text-muted)]"
+             style={{ borderTop: '1px solid var(--color-border)' }}>
           <span>Showing {offset + 1}–{Math.min(offset + limit, total)} of {total}</span>
           <div className="flex gap-2">
             <button
               onClick={() => { setPage(page - 1) }}
               disabled={page <= 1}
-              className="px-3 py-1.5 rounded border border-[var(--color-border)]
-                         disabled:opacity-40 hover:bg-[var(--color-surface-2)]"
+              className="text-sm px-3 py-1.5 rounded-md border border-[var(--color-border)]
+                         disabled:opacity-40 hover:bg-[var(--color-surface-2)] transition-colors"
             >
               Prev
             </button>
             <button
               onClick={() => { setPage(page + 1) }}
               disabled={page >= totalPages}
-              className="px-3 py-1.5 rounded border border-[var(--color-border)]
-                         disabled:opacity-40 hover:bg-[var(--color-surface-2)]"
+              className="text-sm px-3 py-1.5 rounded-md border border-[var(--color-border)]
+                         disabled:opacity-40 hover:bg-[var(--color-surface-2)] transition-colors"
             >
               Next
             </button>

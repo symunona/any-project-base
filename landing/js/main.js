@@ -47,17 +47,17 @@ function markActiveLang(lang) {
   })
 }
 
-// localhost / 127.0.0.1 → http://localhost:5173, else portal.{hostname}
+// localhost / 127.0.0.1 → http://localhost:6173, else portal.{hostname}
 function resolvePortalUrl() {
   const { hostname, protocol } = window.location
-  if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:5173'
+  if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:6173'
   return `${protocol}//portal.${hostname}`
 }
 
-// localhost / 127.0.0.1 → http://localhost:5174, else admin.{hostname}
+// localhost / 127.0.0.1 → http://localhost:6174, else admin.{hostname}
 function resolveAdminUrl() {
   const { hostname, protocol } = window.location
-  if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:5174'
+  if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://localhost:6174'
   return `${protocol}//admin.${hostname}`
 }
 
