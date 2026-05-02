@@ -61,9 +61,28 @@ function resolveAdminUrl() {
   return `${protocol}//admin.${hostname}`
 }
 
+function startRotatingWord(el) {
+  const words = el.dataset.words.split(',')
+  let index = 0
+  setInterval(() => {
+    el.classList.add('fade-out')
+    setTimeout(() => {
+      index = (index + 1) % words.length
+      el.textContent = words[index]
+      el.classList.remove('fade-out')
+      el.classList.add('fade-in')
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        el.classList.remove('fade-in')
+      }))
+    }, 300)
+  }, 2800)
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const orbitEl = document.getElementById('orbit-logo-hero')
   if (orbitEl) startOrbitLogo(orbitEl)
+
+  document.querySelectorAll('.rotating-word').forEach(startRotatingWord)
 
   redirectToLocale()
 

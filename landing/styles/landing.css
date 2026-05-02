@@ -274,6 +274,22 @@ body {
   50% { transform: translateX(-50%) translateY(10px); opacity: 0.7; }
 }
 
+/* ── Rotating word ─────────────────────────────────────── */
+.rotating-word {
+  display: inline-block;
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  color: #a78bfa;
+}
+.rotating-word.fade-out {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.rotating-word.fade-in {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
 /* ── Buttons ───────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
