@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -17,26 +17,32 @@ const commitDate = (() => {
   try { return execSync('git log -1 --format=%ci').toString().trim() } catch { return '' }
 })()
 
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, root, '')
+  const apiUrl = env['VITE_API_URL'] ?? ''
+  if (!apiUrl.endsWith('/api')) {
+    throw new Error(`VITE_API_URL must end with /api — got: "${apiUrl}"`)
+  }
+  return {
   clearScreen: false,
   envDir: root,
   plugins: [
     react(),
     tailwindcss(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      manifest: false, // managed by apply-branding
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https?:\/\/.*\/api\/.*/,
-            handler: 'NetworkFirst',
-            options: { cacheName: 'api-cache' },
-          },
-        ],
-      },
-    }),
+    // VitePWA({
+    //   registerType: 'autoUpdate',
+    //   manifest: false, // managed by apply-branding
+    //   workbox: {
+    //     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+    //     runtimeCaching: [
+    //       {
+    //         urlPattern: /^https?:\/\/.*\/api\/.*/,
+    //         handler: 'NetworkFirst',
+    //         options: { cacheName: 'api-cache' },
+    //       },
+    //     ],
+    //   },
+    // }),
   ],
   define: {
     'import.meta.env.VITE_COMMIT_SHA': JSON.stringify(commitSha),
@@ -46,6 +52,9 @@ export default defineConfig({
     port: 6173,
     host: true,
     allowedHosts: true,
+    proxy: {
+      '/functions': 'http://localhost:54321',
+    },
   },
   resolve: {
     alias: [
@@ -54,4 +63,5 @@ export default defineConfig({
       { find: /^@any-project-base\/commons\/(.*)$/, replacement: `${commons}/$1` },
     ],
   },
+  }
 })
