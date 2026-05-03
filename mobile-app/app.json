@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "any-project-base",
+    "name": "App",
     "slug": "any-project-base",
     "version": "0.0.1",
     "scheme": "anyprojectbase",
     "orientation": "portrait",
-    "primaryColor": "#6366f1",
+    "primaryColor": "#2563EB",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
       "resizeMode": "contain",
-      "backgroundColor": "#6366f1"
+      "backgroundColor": "#2563EB"
     },
     "ios": {
       "supportsTablet": true,
@@ -21,7 +21,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#6366f1"
       },
-      "navigationBarColor": "#6366f1",
+      "navigationBarColor": "#2563EB",
       "package": "com.example.anyprojectbase"
     },
     "web": {
