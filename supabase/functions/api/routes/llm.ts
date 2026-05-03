@@ -27,7 +27,10 @@ llm.post('/chat', zValidator('json', LlmChatSchema), async (c) => {
   }
 
   const apiKey = Deno.env.get('ANTHROPIC_API_KEY')
-  if (!apiKey) return c.json({ error: 'LLM not configured' }, 503)
+  if (!apiKey) {
+    console.error('[llm] ANTHROPIC_API_KEY not set — set it in supabase/functions/.env')
+    return c.json({ error: 'LLM not configured' }, 503)
+  }
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -58,7 +61,7 @@ llm.post('/chat', zValidator('json', LlmChatSchema), async (c) => {
     .join('')
 
   const costUsd     = calcCostUsd(DEFAULT_MODEL, llmData.usage.input_tokens, llmData.usage.output_tokens)
-  const creditsUsed = calcCreditsUsed(costUsd)
+  const creditsUsed = calcCreditsUsed(llmData.usage.input_tokens + llmData.usage.output_tokens)
 
   // Atomic deduct — if balance < creditsUsed, reject
   const newBalance = credits.balance - creditsUsed

@@ -36,8 +36,8 @@ export function calcCostUsd(model: string, inputTokens: number, outputTokens: nu
   return (inputTokens / 1_000_000) * p.inputPerMtok + (outputTokens / 1_000_000) * p.outputPerMtok
 }
 
-export function calcCreditsUsed(costUsd: number): number {
-  return Math.max(1, Math.ceil(costUsd * CREDITS_PER_USD * CREDIT_MARKUP))
+export function calcCreditsUsed(totalTokens: number): number {
+  return Math.max(1, Math.ceil(totalTokens / 100))
 }
 
 export function calcCreditsPriceUsd(credits: number): number {
