@@ -125,7 +125,7 @@ export function LoginPage({
         </a>
       )}
 
-      <DevLogin users={devUsers} />
+      <DevLogin {...(devUsers !== undefined ? { users: devUsers } : {})} />
 
       {registrationStatus === 'open' && (
         <p className="text-sm text-center text-[var(--color-text-muted)]">

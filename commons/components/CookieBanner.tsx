@@ -12,9 +12,9 @@ function safeLocalSet(key: string, value: string): void {
 
 // Catches any render crash (e.g. uBlock Origin injecting JS that throws) — renders nothing.
 class CookieBannerBoundary extends Component<{ children: ReactNode }> {
-  state = { failed: false }
+  override state = { failed: false }
   static getDerivedStateFromError() { return { failed: true } }
-  render() { return this.state.failed ? null : this.props.children }
+  override render() { return this.state.failed ? null : this.props.children }
 }
 
 // Only renders if: analytics enabled AND no consent stored.
