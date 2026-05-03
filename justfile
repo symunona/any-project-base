@@ -240,7 +240,7 @@ kill:
     echo "→ Stopping Caddy..."
     caddy stop 2>/dev/null || true
     echo "→ Killing frontend servers..."
-    for port in 6173 6174 6175; do
+    for port in 5173 5174 5175 6173 6174 6175; do
       lsof -ti:"$port" 2>/dev/null | xargs kill -9 2>/dev/null || true
     done
     echo "Done."
@@ -551,6 +551,16 @@ setup-caddy:
 [group: 'Setup']
 setup-nginx-localdev:
     bash setup/dev/nginx_localdev.sh
+
+# [VPS] Patch nginx config in-place: update proxy ports from 517x → 617x and reload
+[group: 'Setup']
+fix-nginx-ports:
+    #!/bin/bash
+    PROJECT=$(grep '^name:' project.yaml | awk '{print $2}')
+    CONF="/etc/nginx/sites-available/${PROJECT}"
+    echo "→ Patching ${CONF}: 5173→6173, 5174→6174, 5175→6175"
+    sudo sed -i 's/:5173/:6173/g; s/:5174/:6174/g; s/:5175/:6175/g' "$CONF"
+    sudo nginx -t && sudo nginx -s reload && echo "✓ Nginx reloaded"
 
 # [VPS] Nginx service: public domain → built dist/ + systemd. Domain: portal.{project}.{domain}. Then: just deploy-local-service
 [group: 'Setup']

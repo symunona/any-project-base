@@ -11,11 +11,11 @@
 
 :root {
   /* Color palette — edit branding/colors.yaml, then run: just setup-apply-branding */
-  --color-primary:   #2563EB;
+  --color-primary: #2563EB;
   --color-secondary: #475569;
-  --color-accent:    #0891B2;
-  --color-success:   #16A34A;
-  --color-danger:    #DC2626;
+  --color-accent: #0891B2;
+  --color-success: #16A34A;
+  --color-danger: #DC2626;
   --color-warning:   #D97706;
 
   /* Semantic surface + text */
