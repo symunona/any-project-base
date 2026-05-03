@@ -8,25 +8,24 @@ source "$SETUP_DIR/lib/ui.sh"
 source "$SETUP_DIR/lib/yaml.sh"
 
 BRANDING_DIR="$ROOT_DIR/branding"
-PALETTE_FILE="$BRANDING_DIR/palette.js"
+COLORS_FILE="$BRANDING_DIR/colors.yaml"
 
 header "APPLY BRANDING"
 
-if [ ! -f "$PALETTE_FILE" ]; then
-  fail "branding/palette.js not found. Run: just setup branding"
+if [ ! -f "$COLORS_FILE" ]; then
+  fail "branding/colors.yaml not found. Run: just setup-branding"
   exit 1
 fi
 
-# Read palette values from palette.js (JS object → parse with node)
-read_palette() {
-  node -e "const p = require('$PALETTE_FILE'); console.log(p.$1 || '');" 2>/dev/null || echo ""
+read_color() {
+  grep "^$1:" "$COLORS_FILE" | head -1 | sed 's/^[^:]*:[[:space:]]*//' | tr -d '"' | tr -d "'" | tr -d '[:space:]'
 }
 
-PRIMARY=$(read_palette "primary")
-SECONDARY=$(read_palette "secondary")
-ACCENT=$(read_palette "accent")
-SUCCESS_COLOR=$(read_palette "success")
-DANGER=$(read_palette "danger")
+PRIMARY=$(read_color "primary")
+SECONDARY=$(read_color "secondary")
+ACCENT=$(read_color "accent")
+SUCCESS_COLOR=$(read_color "success")
+DANGER=$(read_color "danger")
 APP_NAME=$(read_yaml "display_name")
 APP_NAME=${APP_NAME:-"App"}
 

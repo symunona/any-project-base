@@ -37,6 +37,7 @@ CHECKS=(
   "tsc_check.sh"
 
   # ── Config / environment ──────────────────────────────
+  "api_url_check.sh"
   "env_parity_check.sh"
   "workspace_check.sh"
   "project_yaml_check.sh"

@@ -10,7 +10,7 @@ read_yaml() {
     echo ""
     return
   fi
-  grep "^${key}:" "$PROJECT_YAML" | head -1 | sed "s/^${key}:[[:space:]]*//" | sed 's/[[:space:]]*#.*//' | tr -d '"' | tr -d "'" | tr -d '[:space:]'
+  { grep "^${key}:" "$PROJECT_YAML" || true; } | head -1 | sed "s/^${key}:[[:space:]]*//" | sed 's/[[:space:]]*#.*//' | tr -d '"' | tr -d "'" | tr -d '[:space:]'
 }
 
 write_yaml() {
