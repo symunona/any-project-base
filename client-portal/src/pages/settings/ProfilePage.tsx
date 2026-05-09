@@ -11,11 +11,12 @@ const DEFAULT_NOTIF: NotificationSettings = {
 }
 
 export function ProfilePage() {
-  const { user } = useAuth()
+  const { user, loading: userLoading } = useAuth()
   const navigate = useNavigate()
   const { notifications, notify, dismiss } = useNotification()
   const [name, setName] = useState(user?.name ?? '')
   const [loading, setLoading] = useState(false)
+  const disabled = userLoading || loading
   const [notifSettings, setNotifSettings] = useState<NotificationSettings>(
     user?.settings?.notification_settings ?? DEFAULT_NOTIF,
   )
@@ -61,12 +62,13 @@ export function ProfilePage() {
             type="text"
             value={name}
             onChange={e => { setName(e.target.value) }}
+            disabled={disabled}
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium mb-1">{t(msg.Profile.email)}</label>
-          <Input type="email" value={user?.email ?? ''} disabled />
+          <Input type="email" value={user?.email ?? ''} disabled={disabled} />
         </div>
 
         <div>
@@ -80,6 +82,7 @@ export function ProfilePage() {
               <input
                 type="checkbox"
                 checked={notifSettings.email[key]}
+                disabled={disabled}
                 onChange={e => {
                   setNotifSettings(prev => ({
                     ...prev,
@@ -93,7 +96,7 @@ export function ProfilePage() {
           ))}
         </div>
 
-        <Button onClick={() => { void save() }} loading={loading}>
+        <Button onClick={() => { void save() }} loading={loading} disabled={disabled}>
           {t(msg.Common.save)}
         </Button>
       </Card>
