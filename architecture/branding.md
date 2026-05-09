@@ -133,6 +133,8 @@ Reads `branding/colors.yaml` + SVG files. No questions. Propagates everywhere.
 | `logo-favicon.svg` | `client-portal/public/favicon.svg` |
 | `logo-favicon.svg` | `admin-portal/public/favicon.svg` |
 | `logo-favicon.svg` | `landing/assets/favicon.svg` |
+| `colors.yaml` | `supabase/migrations/20260429000001_email_templates_v2.sql` — inline hex in `body_html` strings |
+| `colors.yaml` | DB `public.email_templates.body_html` — live hex replacement (if Supabase running) |
 
 ### Output
 
@@ -144,6 +146,8 @@ Reads `branding/colors.yaml` + SVG files. No questions. Propagates everywhere.
   ✓  PWA manifests updated  client-portal, admin-portal
   ✓  Mobile theme updated   app.json
   ✓  Logos copied           3 variants → 4 destinations
+  ✓  Email migration SQL    colors updated in body_html
+  ✓  Email templates in DB  live hex replaced (if Supabase running)
   ✓  project.yaml updated
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Run: just dev  to see changes

@@ -35,6 +35,16 @@ for dir in client-portal/public admin-portal/public; do
   done
 done
 
+# Email migration SQL must not still have seed primary if brand primary differs
+EMAIL_SQL="$ROOT_DIR/supabase/migrations/20260429000001_email_templates_v2.sql"
+SEED_PRIMARY="#4f46e5"
+if [ -f "$EMAIL_SQL" ] && [ -n "$PRIMARY" ] && [ "$PRIMARY" != "$SEED_PRIMARY" ]; then
+  if grep -q "$SEED_PRIMARY" "$EMAIL_SQL"; then
+    echo "FAIL email migration has stale seed primary $SEED_PRIMARY (expected $PRIMARY) — run: just setup-apply-branding"
+    FAIL=1
+  fi
+fi
+
 if [ "$FAIL" -eq 1 ]; then
   exit 1
 fi

@@ -58,6 +58,8 @@ danger:    "#ef4444"
 | `colors.yaml` → primary | `admin-portal/public/manifest.json` → theme_color |
 | `colors.yaml` | `mobile-app/app.json` → primaryColor, splash, navigationBarColor |
 | `colors.yaml` | `project.yaml` → theme_colors block |
+| `colors.yaml` | `supabase/migrations/…email_templates_v2.sql` → inline hex in body_html |
+| `colors.yaml` | DB `public.email_templates.body_html` → live hex replacement (if Supabase running) |
 | `logo-large.svg` | `client-portal/public/logo.svg` |
 | `logo-large.svg` | `admin-portal/public/logo.svg` |
 | `logo-large.svg` | `landing/assets/logo.svg` |

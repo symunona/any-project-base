@@ -1,6 +1,6 @@
 #!/bin/bash
 # setup/branding/apply-branding.sh
-# Propagates branding/ → all targets (CSS vars, manifests, app.json, logos)
+# Propagates branding/ → all targets (CSS vars, manifests, app.json, logos, email templates)
 set -euo pipefail
 SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ROOT_DIR="$(cd "$SETUP_DIR/.." && pwd)"
@@ -30,6 +30,15 @@ APP_NAME=$(read_yaml "display_name")
 APP_NAME=${APP_NAME:-"App"}
 
 [ -z "$PRIMARY" ] && { fail "palette.js missing 'primary'. Regenerate: just setup branding"; exit 1; }
+
+# Read previous brand colors from project.yaml before overwriting them
+PREV_PRIMARY=$(grep '^ *primary:' "$ROOT_DIR/project.yaml" 2>/dev/null | grep -oE '#[0-9a-fA-F]{6}' | head -1 || true)
+PREV_DANGER=$(grep '^ *danger:' "$ROOT_DIR/project.yaml" 2>/dev/null | grep -oE '#[0-9a-fA-F]{6}' | head -1 || true)
+PREV_PRIMARY="${PREV_PRIMARY:-#4f46e5}"
+PREV_DANGER="${PREV_DANGER:-#dc2626}"
+# Original hex values baked into the seeding migration
+EMAIL_SEED_PRIMARY="#4f46e5"
+EMAIL_SEED_DANGER="#dc2626"
 
 info "Primary:   $PRIMARY"
 info "Secondary: $SECONDARY"
@@ -130,6 +139,49 @@ if (a.expo.android) a.expo.android.navigationBarColor = '$PRIMARY';
 fs.writeFileSync('$APP_JSON', JSON.stringify(a, null, 2));
 "
   success "mobile-app/app.json branding fields updated"
+fi
+
+# ── Update email template migration SQL ────────────────────────────────────
+EMAIL_SQL="$ROOT_DIR/supabase/migrations/20260429000001_email_templates_v2.sql"
+if [ -f "$EMAIL_SQL" ]; then
+  [ "$PREV_PRIMARY" != "$PRIMARY" ] && sed -i "s/${PREV_PRIMARY}/${PRIMARY}/g" "$EMAIL_SQL"
+  [ "$EMAIL_SEED_PRIMARY" != "$PRIMARY" ] && sed -i "s/${EMAIL_SEED_PRIMARY}/${PRIMARY}/g" "$EMAIL_SQL"
+  [ "$PREV_DANGER" != "$DANGER" ] && sed -i "s/${PREV_DANGER}/${DANGER}/g" "$EMAIL_SQL"
+  [ "$EMAIL_SEED_DANGER" != "$DANGER" ] && sed -i "s/${EMAIL_SEED_DANGER}/${DANGER}/g" "$EMAIL_SQL"
+  success "Email template migration SQL updated"
+fi
+
+# ── Update email templates in DB (if Supabase running) ─────────────────────
+DB_URL=$(supabase status 2>/dev/null | grep "DB URL" | awk '{print $NF}' || true)
+if [ -n "$DB_URL" ]; then
+  if psql "$DB_URL" -q 2>/dev/null <<SQL
+UPDATE public.email_templates
+  SET body_html = replace(replace(body_html, '${PREV_PRIMARY}', '${PRIMARY}'), '${EMAIL_SEED_PRIMARY}', '${PRIMARY}')
+  WHERE body_html IS NOT NULL;
+UPDATE public.email_templates
+  SET body_html = replace(replace(body_html, '${PREV_DANGER}', '${DANGER}'), '${EMAIL_SEED_DANGER}', '${DANGER}')
+  WHERE body_html IS NOT NULL;
+SQL
+  then
+    success "Email templates updated in DB"
+  else
+    warn "DB update failed — re-run after fixing DB connection"
+  fi
+else
+  warn "Supabase not running — email templates NOT updated in DB. Re-run after: just start"
+fi
+
+# ── Update project.yaml theme_colors ───────────────────────────────────────
+PROJ_YAML="$ROOT_DIR/project.yaml"
+if [ -f "$PROJ_YAML" ]; then
+  sed -i \
+    -e "s|^  primary:.*|  primary:   \"$PRIMARY\"|" \
+    -e "s|^  secondary:.*|  secondary: \"$SECONDARY\"|" \
+    -e "s|^  accent:.*|  accent:    \"$ACCENT\"|" \
+    -e "s|^  success:.*|  success:   \"$SUCCESS_COLOR\"|" \
+    -e "s|^  danger:.*|  danger:    \"$DANGER\"|" \
+    "$PROJ_YAML"
+  success "project.yaml theme_colors updated"
 fi
 
 # ── Update branding/colors.yaml ────────────────────────────────────────────
