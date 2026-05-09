@@ -572,6 +572,11 @@ setup-service-localdev:
 deploy-local-service:
     bash setup/dev/deploy_local_service.sh
 
+# Tail logs for the local systemd service (Ctrl+C to stop)
+[group: 'Deploy & Release']
+service-logs:
+    PROJECT=$(grep '^name:' project.yaml | awk '{print $2}'); journalctl -u "${PROJECT}-dev" -f
+
 # Apply branding everywhere (from branding/colors.yaml + SVGs)
 [group: 'Setup: Branding']
 setup-apply-branding:
