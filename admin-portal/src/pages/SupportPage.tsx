@@ -81,6 +81,9 @@ export function SupportPage() {
                   <StatusBadge status={c.status} />
                 </div>
                 <p className="text-xs text-[var(--color-text-muted)] mt-1 truncate">
+                  {c.user?.email ?? c.user_id}
+                </p>
+                <p className="text-xs text-[var(--color-text-muted)] truncate">
                   {new Date(c.updated_at).toLocaleDateString()}
                 </p>
               </button>
@@ -95,15 +98,14 @@ export function SupportPage() {
           {selected ? (
             <>
               <CardHeader actions={
-                <CloseButton convId={selected.id} onDone={() => {
+                <StatusSelect conv={selected} onUpdate={() => {
                   void qc.invalidateQueries({ queryKey: ['support'] })
-                  setSelectedId(null)
                 }} />
               }>
                 <div>
                   <div>{selected.subject ?? 'No subject'}</div>
-                  <div className="mt-1 font-normal">
-                    <StatusBadge status={selected.status} />
+                  <div className="text-xs text-[var(--color-text-muted)] mt-0.5 font-normal">
+                    {selected.user?.email ?? selected.user_id}
                   </div>
                 </div>
               </CardHeader>
@@ -164,15 +166,30 @@ function StatusBadge({ status }: { status: string }) {
   return <Badge variant={map[status] ?? 'neutral'}>{status.replace(/_/g, ' ')}</Badge>
 }
 
-function CloseButton({ convId, onDone }: { convId: string; onDone: () => void }) {
+function StatusSelect({ conv, onUpdate }: { conv: SupportConversation; onUpdate: () => void }) {
   const [loading, setLoading] = useState(false)
-  const close = async () => {
+  const change = async (status: string) => {
     setLoading(true)
-    await fetchApi(`${config.apiUrl}/support/${convId}/status`, {
-      method: 'PATCH', body: JSON.stringify({ status: 'closed' }),
-    })
-    setLoading(false)
-    onDone()
+    try {
+      await fetchApi(`${config.apiUrl}/support/${conv.id}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status }),
+      })
+      onUpdate()
+    } finally {
+      setLoading(false)
+    }
   }
-  return <Button variant="ghost" size="sm" loading={loading} onClick={() => { void close() }}>Close</Button>
+  return (
+    <Select
+      value={conv.status}
+      onChange={e => { void change(e.target.value) }}
+      disabled={loading}
+    >
+      <option value="new">New</option>
+      <option value="open">Open</option>
+      <option value="waiting_on_customer">Waiting on customer</option>
+      <option value="closed">Closed</option>
+    </Select>
+  )
 }

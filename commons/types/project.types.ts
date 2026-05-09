@@ -51,6 +51,7 @@ export type SupportConversation = {
   subject: string | null
   created_at: string
   updated_at: string
+  user?: { email: string; name: string | null }
 }
 
 export type SupportMessage = {

@@ -21,7 +21,7 @@ support.get('/', async (c) => {
   const isStaff = ['admin', 'support'].includes(authUser.role)
   let q = admin
     .from('support_conversations')
-    .select('*', { count: 'exact' })
+    .select(isStaff ? '*, user:user_id(email, name)' : '*', { count: 'exact' })
 
   if (!isStaff) q = q.eq('user_id', authUser.id)
 
@@ -78,12 +78,16 @@ support.get('/:id/messages', async (c) => {
 
   const { data, error } = await admin
     .from('support_messages')
-    .select('*')
+    .select('*, sender:sender_id(role)')
     .eq('conversation_id', convId)
     .order('created_at', { ascending: true })
 
   if (error) return c.json({ error: error.message }, 500)
-  return c.json(data)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return c.json((data ?? []).map(({ sender, ...m }: any) => ({
+    ...m,
+    sender_role: (sender as { role: string } | null)?.role ?? null,
+  })))
 })
 
 // POST /api/support/:id/messages
