@@ -80,3 +80,12 @@ Email-client layout:
 
 Same pattern as client-portal — config check, hide not remove.
 Plans page + user credits + transaction history hidden if `pricing_model: none`.
+
+## After every change
+
+```bash
+just check         # tsc + eslint + custom checks
+just build-admin   # full Vite build — catches import errors tsc --noEmit misses
+```
+
+Both must pass before committing.

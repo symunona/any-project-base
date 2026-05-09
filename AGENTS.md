@@ -90,12 +90,26 @@ git status                # start with clean worktree — handle uncommitted fil
 
 Read the AGENTS.md in the subfolder you're working in.
 
+## UI loading policy
+
+When a page depends on an async data fetch (auth state, API call, etc.), disable all interactive elements (inputs, checkboxes, buttons) while loading. Never let the user interact with a partially-loaded form.
+
+Pattern: derive a single `disabled` flag from all relevant loading states and pass it to every control on the page.
+
+```tsx
+const disabled = userLoading || loading
+<Input ... disabled={disabled} />
+<input type="checkbox" disabled={disabled} ... />
+<Button disabled={disabled} ... />
+```
+
 ## Coding rules
 
 - Anonymous contributor — no AI attribution anywhere
 - No "Co-Authored-By" in commits
 - Never edit GENERATED files — see generated files table in `Any Project Base.md`
 - Always run checkers after changes: `just check`
+- After any frontend change: also run `just build-client` (client portal), `just build-admin` (admin portal), or `just build` (all) to catch build-time errors that tsc --noEmit misses
 - If complexity ≥ 8: create/update `@docs:` file before committing
 
 ## Planning rules
