@@ -70,6 +70,15 @@ for logo in logo-large.svg logo-small.svg logo-favicon.svg; do
     fi
   done
 done
+
+# Copy favicon.svg (referenced by index.html in each portal)
+if [ -f "$BRANDING_DIR/logo-favicon.svg" ]; then
+  for dir in client-portal/public admin-portal/public; do
+    [ -d "$ROOT_DIR/$dir" ] && cp "$BRANDING_DIR/logo-favicon.svg" "$ROOT_DIR/$dir/favicon.svg"
+  done
+  # Landing uses assets/favicon.svg directly (no public/ dir)
+  [ -f "$ROOT_DIR/landing/assets/favicon.svg" ] && cp "$BRANDING_DIR/logo-favicon.svg" "$ROOT_DIR/landing/assets/favicon.svg"
+fi
 success "Logos copied to portal public/ dirs"
 
 # ── Inline logo-mark in landing/index.html ──────────────────────────────────
