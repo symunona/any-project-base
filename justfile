@@ -575,7 +575,18 @@ deploy-local-service:
 # Tail logs for the local systemd service (Ctrl+C to stop)
 [group: 'Deploy & Release']
 service-logs:
-    PROJECT=$(grep '^name:' project.yaml | awk '{print $2}'); journalctl -u "${PROJECT}-dev" -f
+    #!/usr/bin/env bash
+    PROJECT=$(grep '^name:' project.yaml | awk '{print $2}')
+    echo ""
+    echo "=== Log commands for: ${PROJECT}-dev ==="
+    echo "  Tail live:    journalctl -u ${PROJECT}-dev -f"
+    echo "  Today:        journalctl -u ${PROJECT}-dev --since today"
+    echo "  Last 200:     journalctl -u ${PROJECT}-dev -n 200"
+    echo "  Errors only:  journalctl -u ${PROJECT}-dev -p err -f"
+    echo "  Status:       systemctl status ${PROJECT}-dev"
+    echo "========================================"
+    echo ""
+    journalctl -u "${PROJECT}-dev" -f
 
 # Apply branding everywhere (from branding/colors.yaml + SVGs)
 [group: 'Setup: Branding']
