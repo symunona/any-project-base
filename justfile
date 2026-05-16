@@ -615,16 +615,6 @@ setup-env-check:
 
 # ── Setup: Platforms ──────────────────────────────────────────────────────────
 
-# Configure Stripe (payments)
-[group: 'Setup: Platforms']
-setup-stripe:
-    bash setup/platform/stripe_setup.sh
-
-# Check Stripe config
-[group: 'Setup: Platforms']
-setup-stripe-check:
-    bash setup/platform/stripe_check.sh
-
 # Configure Firebase (auth/storage)
 [group: 'Setup: Platforms']
 setup-firebase:
@@ -664,6 +654,29 @@ setup-supabase:
 [group: 'Setup: Platforms']
 setup-supabase-check:
     bash setup/platform/supabase_check.sh
+
+# ── Setup: Payments ───────────────────────────────────────────────────────────
+# Off by default — run manually after setting payment_provider in project.yaml
+
+# Configure Stripe (payment_provider: stripe)
+[group: 'Setup: Payments']
+setup-stripe:
+    bash setup/platform/stripe_setup.sh
+
+# Check Stripe config
+[group: 'Setup: Payments']
+setup-stripe-check:
+    bash setup/platform/stripe_check.sh
+
+# Configure Toss Payments (payment_provider: toss)
+[group: 'Setup: Payments']
+setup-toss:
+    bash setup/platform/toss_setup.sh
+
+# Check Toss config
+[group: 'Setup: Payments']
+setup-toss-check:
+    bash setup/platform/toss_check.sh
 
 # ── Deploy & Release ──────────────────────────────────────────────────────────
 

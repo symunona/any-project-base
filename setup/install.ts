@@ -12,6 +12,7 @@ import * as envGenerate from './steps/env-generate'
 import * as tooling     from './steps/tooling'
 import * as supabase    from './steps/supabase'
 import * as stripe      from './steps/stripe'
+import * as toss        from './steps/toss'
 import * as firebase    from './steps/firebase'
 import * as posthog     from './steps/posthog'
 import * as dns         from './steps/dns'
@@ -38,7 +39,9 @@ const STEPS: StepDef[] = [
   { key: 'static',       name: 'Static hosting',      run: staticHost.run,  skippable: true },
   { key: 'supabase',     name: 'Supabase cloud',      run: supabase.run,    skippable: true },
   { key: 'stripe',       name: 'Stripe billing',      run: stripe.run,      skippable: true,
-    condition: () => readYaml('pricing_model') !== 'none' },
+    condition: () => readYaml('pricing_model') !== 'none' && readYaml('payment_provider') === 'stripe' },
+  { key: 'toss',         name: 'Toss Payments',       run: toss.run,        skippable: true,
+    condition: () => readYaml('pricing_model') !== 'none' && readYaml('payment_provider') === 'toss' },
   { key: 'firebase',     name: 'Firebase / FCM',      run: firebase.run,    skippable: true,
     condition: () => readYaml('push_notifications') === 'firebase' },
   { key: 'posthog',      name: 'PostHog analytics',   run: posthog.run,     skippable: true,

@@ -2,6 +2,7 @@ import { password, text, note, isCancel, log } from '@clack/prompts'
 import { readYaml } from '../lib/yaml'
 import { setEnv } from '../lib/env'
 import { writeState, type StepResult } from '../lib/state'
+import { getStripeWebhookUrl, warnIfNoPublicUrl } from '../lib/project_url'
 
 export async function run(): Promise<StepResult> {
   const pricing = readYaml('pricing_model')
@@ -35,7 +36,14 @@ export async function run(): Promise<StepResult> {
   const pub = await text({ message: 'Stripe Publishable key (pk_…)' })
   if (isCancel(pub)) { writeState('stripe', 'skipped'); return { status: 'skipped' } }
 
-  note('Stripe Dashboard → Developers → Webhooks → Add endpoint\nEvents: customer.subscription.*, invoice.*, payment_intent.*\nFor local dev: run `just db-stripe-listen` to get the secret automatically.', 'Webhook')
+  warnIfNoPublicUrl()
+  note(
+    `Stripe Dashboard → Developers → Webhooks → Add destination\n` +
+    `Endpoint URL: ${getStripeWebhookUrl()}\n` +
+    `Events: checkout.session.completed, customer.subscription.*, invoice.*, payment_intent.*\n` +
+    `For local dev: run \`just db-stripe-listen\` to get the secret automatically.`,
+    'Webhook',
+  )
 
   const webhook = await text({ message: 'Webhook Signing Secret (whsec_…) — press Enter to skip for now' })
   if (isCancel(webhook)) { writeState('stripe', 'skipped'); return { status: 'skipped' } }

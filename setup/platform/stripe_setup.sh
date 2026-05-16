@@ -4,6 +4,7 @@ set -euo pipefail
 SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SETUP_DIR/lib/ui.sh"
 source "$SETUP_DIR/lib/yaml.sh"
+source "$SETUP_DIR/lib/project_url.sh"
 
 PRICING=$(read_yaml "pricing_model")
 if [ "$PRICING" = "none" ] || [ -z "$PRICING" ]; then
@@ -47,9 +48,10 @@ prompt_input "Paste Stripe Publishable key (pk_…)" STRIPE_PK || STRIPE_PK=""
 # Webhook setup
 echo ""
 info "Webhook setup:"
-arrow "Stripe Dashboard → Developers → Webhooks → Add endpoint"
-arrow "Endpoint URL: https://api.[domain]/stripe-webhook"
-arrow "Events: customer.subscription.*, invoice.*, payment_intent.*"
+arrow "Stripe Dashboard → Developers → Webhooks → Add destination"
+warn_if_no_public_url || true
+arrow "Endpoint URL: $(get_stripe_webhook_url)"
+arrow "Events: checkout.session.completed, customer.subscription.*, invoice.*, payment_intent.*"
 arrow "Copy Webhook Signing Secret (whsec_…)"
 echo ""
 prompt_input "Paste Webhook Signing Secret (whsec_…)" STRIPE_WEBHOOK_SECRET || STRIPE_WEBHOOK_SECRET=""
