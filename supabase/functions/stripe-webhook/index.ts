@@ -21,13 +21,27 @@ app.post('/', async (c) => {
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object
-      await admin.from('stripe_transactions').insert({
-        user_id: session['client_reference_id'],
+      const userId = session['client_reference_id'] as string
+      const credits = session['metadata'] ? Number((session['metadata'] as Record<string, string>)['credits']) : 0
+      const amountUsd = (session['amount_total'] as number) / 100
+
+      const { error: txErr } = await admin.from('stripe_transactions').insert({
+        user_id: userId,
         stripe_event_id: event.id,
         type: 'credit_purchase',
-        amount_usd: (session['amount_total'] as number) / 100,
-        credits_delta: session['metadata'] ? (session['metadata'] as Record<string, number>)['credits'] : 0,
+        amount_usd: amountUsd,
+        credits_delta: credits,
       }).onConflict('stripe_event_id').ignore()
+
+      // onConflict().ignore() means duplicate event — skip crediting
+      if (txErr) { console.error('[stripe-webhook] tx insert error:', txErr.message); break }
+
+      if (credits > 0 && userId) {
+        const { data: current } = await admin.from('credits').select('balance').eq('user_id', userId).single()
+        const newBalance = (current?.balance ?? 0) + credits
+        await admin.from('credits').upsert({ user_id: userId, balance: newBalance, updated_at: new Date().toISOString() })
+        await admin.from('credit_adjustments').insert({ user_id: userId, delta: credits, source: 'stripe' })
+      }
       break
     }
     case 'customer.subscription.updated':

@@ -97,9 +97,50 @@ users.post('/me/credits/checkout', async (c) => {
     return c.json({ url: checkoutUrl })
   }
 
-  // Real Stripe checkout (for production)
-  // TODO: implement full Stripe checkout session
-  return c.json({ error: 'Stripe not configured — set STRIPE_SECRET_KEY' }, 503)
+  // Real Stripe checkout
+  const priceEnvMap: Record<number, string> = {
+    100:  Deno.env.get('STRIPE_PRICE_100')  ?? '',
+    500:  Deno.env.get('STRIPE_PRICE_500')  ?? '',
+    1000: Deno.env.get('STRIPE_PRICE_1000') ?? '',
+    5000: Deno.env.get('STRIPE_PRICE_5000') ?? '',
+  }
+
+  const knownPriceId = priceEnvMap[credits]
+
+  const lineItem = knownPriceId
+    ? `line_items[0][price]=${encodeURIComponent(knownPriceId)}&line_items[0][quantity]=1`
+    : [
+        `line_items[0][price_data][currency]=usd`,
+        `line_items[0][price_data][unit_amount]=${Math.round(priceUsd * 100)}`,
+        `line_items[0][price_data][product_data][name]=${encodeURIComponent(`${credits} Credits`)}`,
+        `line_items[0][quantity]=1`,
+      ].join('&')
+
+  const params = [
+    `mode=payment`,
+    lineItem,
+    `client_reference_id=${authUser.id}`,
+    `metadata[credits]=${credits}`,
+    `success_url=${encodeURIComponent(successUrl)}`,
+    `cancel_url=${encodeURIComponent(cancelUrl)}`,
+  ].join('&')
+
+  const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${btoa(stripeKey + ':')}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: params,
+  })
+
+  if (!stripeRes.ok) {
+    const err = await stripeRes.json() as { error?: { message?: string } }
+    return c.json({ error: err.error?.message ?? 'Stripe error' }, 502)
+  }
+
+  const session = await stripeRes.json() as { url: string }
+  return c.json({ url: session.url })
 })
 
 // POST /api/users/me/credits/mock-complete — dev-only, called by mock payment server on approve
