@@ -1,19 +1,16 @@
-import { Hono } from 'https://deno.land/x/hono@v4.7.7/mod.ts'
 import { getAdminClient } from '../_shared/db.ts'
 
-const app = new Hono()
+Deno.serve(async (req) => {
+  if (req.method !== 'POST') return new Response('Method not allowed', { status: 405 })
 
-app.post('/', async (c) => {
   const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET')
-  if (!webhookSecret) return c.json({ error: 'Stripe not configured' }, 503)
+  if (!webhookSecret) return new Response(JSON.stringify({ error: 'Stripe not configured' }), { status: 503 })
 
-  const body = await c.req.text()
-  const signature = c.req.header('stripe-signature') ?? ''
+  const body = await req.text()
+  const signature = req.headers.get('stripe-signature') ?? ''
 
-  // Verify Stripe signature — reject if invalid
-  // NOTE: Stripe SDK not available in Deno — use manual HMAC verification
   const isValid = await verifyStripeSignature(body, signature, webhookSecret)
-  if (!isValid) return c.json({ error: 'Invalid signature' }, 400)
+  if (!isValid) return new Response(JSON.stringify({ error: 'Invalid signature' }), { status: 400 })
 
   const event = JSON.parse(body) as { type: string; id: string; data: { object: Record<string, unknown> } }
   const admin = getAdminClient()
@@ -25,16 +22,17 @@ app.post('/', async (c) => {
       const credits = session['metadata'] ? Number((session['metadata'] as Record<string, string>)['credits']) : 0
       const amountUsd = (session['amount_total'] as number) / 100
 
-      const { error: txErr } = await admin.from('stripe_transactions').insert({
+      const { error: txErr, count } = await admin.from('stripe_transactions').upsert({
         user_id: userId,
         stripe_event_id: event.id,
         type: 'credit_purchase',
         amount_usd: amountUsd,
         credits_delta: credits,
-      }).onConflict('stripe_event_id').ignore()
+      }, { onConflict: 'stripe_event_id', ignoreDuplicates: true, count: 'exact' })
 
-      // onConflict().ignore() means duplicate event — skip crediting
       if (txErr) { console.error('[stripe-webhook] tx insert error:', txErr.message); break }
+      // count=0 means duplicate event already processed — skip crediting
+      if (count === 0) break
 
       if (credits > 0 && userId) {
         const { data: current } = await admin.from('credits').select('balance').eq('user_id', userId).single()
@@ -54,21 +52,20 @@ app.post('/', async (c) => {
     }
     case 'invoice.paid': {
       const invoice = event.data.object
-      await admin.from('stripe_transactions').insert({
+      await admin.from('stripe_transactions').upsert({
         stripe_event_id: event.id,
         type: 'subscription_payment',
         amount_usd: (invoice['amount_paid'] as number) / 100,
-      }).onConflict('stripe_event_id').ignore()
+      }, { onConflict: 'stripe_event_id', ignoreDuplicates: true })
       break
     }
     case 'invoice.payment_failed': {
-      // TODO: email user
       console.log('[stripe-webhook] Payment failed:', event.id)
       break
     }
   }
 
-  return c.json({ received: true })
+  return new Response(JSON.stringify({ received: true }), { status: 200 })
 })
 
 async function verifyStripeSignature(
@@ -97,5 +94,3 @@ async function verifyStripeSignature(
     return false
   }
 }
-
-Deno.serve(app.fetch)

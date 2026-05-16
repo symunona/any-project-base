@@ -120,6 +120,7 @@ users.post('/me/credits/checkout', async (c) => {
     `mode=payment`,
     lineItem,
     `client_reference_id=${authUser.id}`,
+    `customer_email=${encodeURIComponent(authUser.email)}`,
     `metadata[credits]=${credits}`,
     `success_url=${encodeURIComponent(successUrl)}`,
     `cancel_url=${encodeURIComponent(cancelUrl)}`,
