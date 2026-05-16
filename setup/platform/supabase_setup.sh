@@ -10,20 +10,41 @@ info "Supabase hosts your database, auth, and edge functions."
 warn "Without this: app runs on local Docker only."
 echo ""
 
-arrow "Go to https://supabase.com → New Project"
-arrow "Copy: Project URL, anon key, service_role key"
+info "In your Supabase dashboard:"
+arrow "1. Go to https://supabase.com/dashboard → select your project"
+arrow "2. Left sidebar → Settings → API"
+arrow "3. Copy 'Project URL' (https://xxxx.supabase.co)"
 echo ""
 
-prompt_input "Supabase Project URL (https://xxx.supabase.co)" SUPABASE_URL || {
+prompt_input "Supabase Project URL (https://xxxx.supabase.co)" SUPABASE_URL || {
   skip "Skipping Supabase cloud. Local dev still works."
   write_state "supabase" "skipped" "local dev only"
   exit 0
 }
 
-prompt_input "Supabase anon key (starts with eyJ…)" SUPABASE_ANON_KEY || { skip "Skipping."; write_state "supabase" "skipped"; exit 0; }
-prompt_input "Supabase service_role key (keep secret)" SUPABASE_SERVICE_KEY || { skip "Skipping."; write_state "supabase" "skipped"; exit 0; }
+echo ""
+info "Still in Settings → API → 'Project API keys':"
+arrow "Copy the 'Publishable' key  (new UI)  — or 'anon public' (legacy UI)"
+echo ""
 
-# Validate — hit /rest/v1/ with anon key
+prompt_input "Publishable / anon key (starts with eyJ… or sb_publishable_…)" SUPABASE_ANON_KEY || {
+  skip "Skipping."
+  write_state "supabase" "skipped"
+  exit 0
+}
+
+echo ""
+arrow "Copy the 'Secret' key  (new UI)  — or 'service_role' (legacy UI)"
+warn "Keep this secret — never commit it or expose it client-side."
+echo ""
+
+prompt_input "Secret / service_role key" SUPABASE_SERVICE_KEY || {
+  skip "Skipping."
+  write_state "supabase" "skipped"
+  exit 0
+}
+
+# Validate — hit /rest/v1/ with publishable key
 if ! curl -sf -H "apikey: $SUPABASE_ANON_KEY" "$SUPABASE_URL/rest/v1/" > /dev/null 2>&1; then
   fail "Cannot reach Supabase project. Check URL and keys."
   write_state "supabase" "fail" "connection failed"
@@ -42,5 +63,8 @@ ENV_FILE="$(cd "$SETUP_DIR/.." && pwd)/.env.local"
 } >> "$ENV_FILE"
 
 success "Supabase cloud configured."
-info "Next: run migrations → just db-types to generate types."
+info "Next steps:"
+arrow "just db-push        — push migrations to cloud DB"
+arrow "just deploy-secrets — push env vars to edge functions"
+arrow "just deploy-functions — deploy edge functions"
 write_state "supabase" "ok" "$SUPABASE_URL"
