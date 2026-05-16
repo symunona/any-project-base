@@ -43,11 +43,19 @@ Caddyfile
 .DS_Store
 Thumbs.db
 
-# Editor
+# Editor / IDE
 .vscode/
 .idea/
+.windsurf/
 *.swp
 *.swo
+
+# Agent / AI tooling
+.agents/
+.claude/
+.factory/
+skills/
+skills-lock.json
 
 # Logs
 *.log
