@@ -180,4 +180,7 @@ To add more: `claude plugin install <name>` or `claude plugin search`.
 | `spec/` | module specs |
 
 ## Misc
-For temporary images like screenshots and agent-browser outputs, use tmp/ folder. 
+For temporary images like screenshots and agent-browser outputs, use tmp/ folder.
+
+## Finishing work
+When work is done, commit all changes. 
